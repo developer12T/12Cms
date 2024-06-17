@@ -19,7 +19,7 @@ export const useAuthStore = defineStore('auth', {
         // const hashedPassword = bcrypt.hashSync(passwordLogin, 10)
         const response = await axios.post(
           import.meta.env.VITE_API_BASE_URL + 
-          '/cms/authen/login',
+          '/cmsapi/authen/login',
           { userName: userLogin, passWord: passwordLogin },
         );
         const result = response.data
