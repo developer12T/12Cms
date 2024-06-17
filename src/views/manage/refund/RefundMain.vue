@@ -3,8 +3,8 @@
         <template v-slot>
             <div class="flex flex-col h-full">
                 <Alert v-if="showAlert" :title="'ลบข้อมูล' + selectedName" :content="'ยืนยันการลบข้อมูล'"
-                    @confirm="deleteItem" @dismiss="dismissAlert" :color="'text-gray-600 border border-red-300 bg-red-100'"
-                    :product="'55s'" />
+                    @confirm="deleteItem" @dismiss="dismissAlert"
+                    :color="'text-gray-600 border border-red-300 bg-red-100'" :product="'55s'" />
                 <div class="flex flex-row items-center">
                     <div class="mt-2">
                         <ButtonBack />
@@ -109,113 +109,87 @@
     </LayoutSub>
 </template>
 
-<script>
+<script setup>
 import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { Icon } from '@iconify/vue'
 import { useRefundStore } from '../../../stores'
 import LayoutSub from '../../LayoutSub.vue'
-import ButtonBack from '../../../components/IconBack.vue'
+import ButtonBack from '../../../components/ButtonBack.vue'
 import Table from '../../../components/Table.vue'
 import Alert from '../../../components/Alert.vue'
 
-export default {
-    components: {
-        Icon,
-        LayoutSub,
-        ButtonBack,
-        Table,
-        Alert,
-    },
-    setup() {
-        const router = useRouter()
-        const storeId = localStorage.getItem('routeStoreId')
-        const storeName = localStorage.getItem('routeStoreName')
 
-        const store = useRefundStore();
-        const refundCart = computed(() => {
-            return store.refundCart;
-        });
-        const listReturn = computed(() => {
-            return store.refundCart.returnList;
-        });
-        const listChange = computed(() => {
-            return store.refundCart.changeLsit;
-        });
-        onMounted(() => {
-            store.getRefundCart();
-        });
+const router = useRouter()
+const storeId = localStorage.getItem('routeStoreId')
+const storeName = localStorage.getItem('routeStoreName')
 
-        const refundColumns = computed(() => {
-            return [
-                { id: 'name', title: 'สินค้า' },
-                { id: 'qty', title: 'จำนวน' },
-                { id: '', title: '*' },
-            ];
-        });
+const store = useRefundStore();
+const refundCart = computed(() => {
+    return store.refundCart;
+});
+const listReturn = computed(() => {
+    return store.refundCart.returnList;
+});
+const listChange = computed(() => {
+    return store.refundCart.changeLsit;
+});
+onMounted(() => {
+    store.getRefundCart();
+});
 
-        const changeColumns = computed(() => {
-            return [
-                { id: 'name', title: 'ชื่อสินค้า' },
-                { id: 'qty', title: 'จำนวน' },
-                { id: '', title: '*' },
-            ];
-        });
+const refundColumns = computed(() => {
+    return [
+        { id: 'name', title: 'สินค้า' },
+        { id: 'qty', title: 'จำนวน' },
+        { id: '', title: '*' },
+    ];
+});
 
-        const showAlert = ref(false)
+const changeColumns = computed(() => {
+    return [
+        { id: 'name', title: 'ชื่อสินค้า' },
+        { id: 'qty', title: 'จำนวน' },
+        { id: '', title: '*' },
+    ];
+});
 
-        const selectedId = ref(null);
-        const selectedUnitId = ref(null);
-        const selectedName = ref(null);
+const showAlert = ref(false)
 
-        const handleClick = (id, unitId, name) => {
-            // console.log(`item: ${id}`);
-            // console.log(`unit: ${unitId}`);
-            // console.log(`unit: ${name}`);
-            selectedId.value = id;
-            selectedUnitId.value = unitId;
-            selectedName.value = name;
-            showAlert.value = true;
-            // console.log(showAlert.value);
-            // store.deleteItemCart(id, unitId);
-        };
+const selectedId = ref(null);
+const selectedUnitId = ref(null);
+const selectedName = ref(null);
 
-        const deleteItem = () => {
-            const id = selectedId.value;
-            const unitId = selectedUnitId.value;
+const handleClick = (id, unitId, name) => {
+    // console.log(`item: ${id}`);
+    // console.log(`unit: ${unitId}`);
+    // console.log(`unit: ${name}`);
+    selectedId.value = id;
+    selectedUnitId.value = unitId;
+    selectedName.value = name;
+    showAlert.value = true;
+    // console.log(showAlert.value);
+    // store.deleteItemCart(id, unitId);
+};
 
-            store.deleteItemCart(id, unitId);
-            store.getOrderCart();
-            dismissAlert();
-        };
+const deleteItem = () => {
+    const id = selectedId.value;
+    const unitId = selectedUnitId.value;
 
-        const dismissAlert = () => {
-            showAlert.value = false;
-            console.log(showAlert.value);
-        };
+    store.deleteItemCart(id, unitId);
+    store.getOrderCart();
+    dismissAlert();
+};
 
-        const handleCreate = () => {
-            router.push('/cms/order/promotion')
-        };
+const dismissAlert = () => {
+    showAlert.value = false;
+    console.log(showAlert.value);
+};
 
-        const productId = localStorage.getItem('orderProductId')
+const handleCreate = () => {
+    router.push('/cms/order/promotion')
+};
 
-        return {
-            storeId,
-            storeName,
-            productId,
-            refundCart,
-            listReturn,
-            listChange,
-            refundColumns,
-            changeColumns,
-            handleClick,
-            showAlert,
-            deleteItem,
-            dismissAlert,
-            selectedName,
-            handleCreate,
-        }
-    }
-}
+const productId = localStorage.getItem('orderProductId')
+
 </script>

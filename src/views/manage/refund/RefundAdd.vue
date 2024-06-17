@@ -23,24 +23,12 @@
     </LayoutSub>
 </template>
 
-<script>
+<script setup>
 import { computed, onMounted, ref } from 'vue'
 import { Icon } from '@iconify/vue'
 import LayoutSub from '../../LayoutSub.vue'
-import ButtonBack from '../../../components/IconBack.vue'
-import TableProduct from '../../../components/TableProduct.vue'
+import ButtonBack from '../../../components/ButtonBack.vue'
+import TableProduct from '../../../components/tablet/TableProduct.vue'
 import ButtonCart from '../../../components/ButtonCircle.vue'
 
-export default {
-    components: {
-        Icon,
-        LayoutSub,
-        ButtonBack,
-        TableProduct,
-        ButtonCart,
-    },
-    setup() {
-
-    }
-}
 </script>
