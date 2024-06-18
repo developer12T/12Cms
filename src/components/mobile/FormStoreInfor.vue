@@ -1,7 +1,4 @@
 <template>
-    <div>
-        <h2>ข้อมูลร้านค้า</h2>
-    </div>
     <div class="flex justify-center">
         <div class="bg-white h-[550px] w-[350px] shadow-md rounded-lg mt-1 overflow-auto">
             <div class=" flex flex-col items-center mt-5">

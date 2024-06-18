@@ -5,6 +5,7 @@ export const useStoresStore = defineStore('stores', {
     state: () => ({
       storeAll: [],
       storeNew: [],
+      policies: [],
       provice: [],
       district: [],
       subdistrict: [],
@@ -15,10 +16,6 @@ export const useStoresStore = defineStore('stores', {
         storeName: ''
       },
     }),
-    getter: {
-      // getCustomerAll: (state) => state.storeAll,
-      // getCustomerNew: (state) => state.storeNew,
-    },
     actions: {
       async getCustomerAll() {
         try {
@@ -77,13 +74,31 @@ export const useStoresStore = defineStore('stores', {
           );
           const result = response.data
           console.log('addStore', result)
-          console.log('188',result)
           this.addedStoreInfo = {
             storeId: result.additionalData.storeId,
             storeName: result.additionalData.storeName
           }
         } catch (error) {
           console.error(error)
+        }
+      },
+      async getPolicies() {
+        try {
+        //   const token = JSON.parse(localStorage.getItem('token'));
+          const response = await axios.post(
+            import.meta.env.VITE_API_BASE_URL +
+              '/cms/manage/Policy/getPolicy',
+              {
+                "id": 1
+              }
+            // {
+            //   headers: { Authorization: `Bearer ${token}` },
+            // }
+          );
+          this.policies = response.data
+          console.log('policy', this.policies);
+        } catch (error) {
+          console.error(error);
         }
       },
       async getProvince() {

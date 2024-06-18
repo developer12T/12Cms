@@ -238,12 +238,14 @@ const sendData = async () => {
       zoneNumberSeries: 'BE'
     }
     try {
-      const response = await store.addCustomerNew(dataStore)
-      console.log('response', response)
+      // const response = await store.addCustomerNew(dataStore)
+      // console.log('response', response)
 
       //showAlert.value = true
       isLoading.value = false
       console.log('dataStore', dataStore)
+      console.log('lat', location.latitude.value)
+      console.log('long', location.longitude.value)
 
     } catch (error) {
       console.error('Error while sending data:', error)

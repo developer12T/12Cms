@@ -1,84 +1,101 @@
 <template>
     <LayoutSub>
         <template v-slot>
-            <div class="flex flex-col md:h-full">
-                <div class="flex flex-row items-center">
-                    <div class="mt-2">
-                        <ButtonBack />
-                    </div>
-                    <div class="mt-2 ml-2 flex items-center">
-                        <span class="ml-2 md:text-3xl">รายละเอียดรายการ</span>
-                    </div>
+            <div class="flex flex-col md:h-full space-y-4 p-4">
+                <div class="flex items-center space-x-4">
+                    <ButtonBack />
+                    <span class="ml-2 text-xl font-bold">รายละเอียด</span>
                 </div>
-                <div class="flex flex-col mt-4">
-                    <div class="ml-12 md:text-xl">
-                        พนักงาน : {{ detail.saleMan }}
-                    </div>
-                    <div class="ml-12 md:text-xl">
-                        ร้านค้า : {{ detail.storeName }}
-                    </div>
-                    <div class="ml-12 md:text-xl">
-                        ที่อยู่ : {{ detail.address }}
-                    </div>
-                    <div class="ml-12 md:text-xl">
-                        เบอร์โทรศัพท์ : {{ detail.tel }}
-                    </div>
-                    <div class="ml-12 md:text-xl">
-                        เลขที่ผู้เสียภาษี : {{ detail.taxID }}
-                    </div>
-                    <div class="ml-12 md:text-xl">
-                        ที่อยู่จัดส่ง : {{ detail.address }}
-                    </div>
-                </div>
-                <div class="flex flex-col items-center mt-5">
-                    <Table :columns="tableColumns" :data="detailList" :thClass="'px-10 py-3 text-center sm:text-sm md:text-lg'" :tdClass="'px-10 py-2 sm:text-sm md:text-lg text-start'"
-                        :hTable="'sm:h-[250px] md:h-[440px]'" @row-click="handleClick">
-                    </Table>
-                </div>
-                <div class="flex-grow z-40">
-                    <div class="bg-white h-full rounded-md shadow ">
-                        <div class="flex flex-row justify-between">
-                            <div class="md:text-xl ml-7">
-                                ยอดรวม
-                            </div>
-                            <div class="md:text-xl mr-7">
-                                {{ detail.totalPrice }}
-                            </div>
+                <div class="bg-white p-4 shadow-md rounded-md">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="border p-3 rounded-md">
+                            <div class="text-lg font-semibold">พนักงาน</div>
+                            <div>{{ detail.saleMan }}</div>
                         </div>
-                        <div class="flex flex-row justify-between">
-                            <div class="md:text-xl ml-7">
-                                ส่วนลดท้ายบิล
-                            </div>
-                            <div class="md:text-xl mr-7">
-                                {{ detail.totalDiscount }}
-                            </div>
+                        <div class="border p-3 rounded-md">
+                            <div class="text-lg font-semibold">ร้านค้า</div>
+                            <div>{{ detail.name }}</div>
                         </div>
-                        <div class="flex flex-row justify-between">
-                            <div class="md:text-xl ml-7">
-                                ราคาไม่รวมภาษี(Vat)
-                            </div>
-                            <div class="md:text-xl mr-7">
-                                {{ detail.totalExVat }}
-                            </div>
+                        <div class="border p-3 rounded-md">
+                            <div class="text-lg font-semibold">ที่อยู่</div>
+                            <div>{{ detail.address }}</div>
                         </div>
-                        <div class="flex flex-row justify-between">
-                            <div class="md:text-xl ml-7">
-                                ภาษี(Vat)
-                            </div>
-                            <div class="md:text-xl mr-7">
-                                <!-- {{ detail.vat }} -->
-                            </div>
+                        <div class="border p-3 rounded-md">
+                            <div class="text-lg font-semibold">เบอร์โทรศัพท์</div>
+                            <div>{{ detail.tel }}</div>
                         </div>
-                        <div class="flex flex-row justify-between">
-                            <div class="md:text-xl ml-7">
-                                มูลค่ารวม
-                            </div>
-                            <div class="md:text-xl mr-7">
-                                {{ detail.totalPrice }}
-                            </div>
+                        <div class="border p-3 rounded-md">
+                            <div class="text-lg font-semibold">เลขที่ผู้เสียภาษี</div>
+                            <div>{{ detail.tax }}</div>
                         </div>
                     </div>
                 </div>
+                <div class="flex flex-col items-center">
+                    <div class="bg-white px-4 py-2 shadow-md rounded-lg overflow-auto w-full max-w-2xl">
+                        <div class="flex flex-col space-y-4">
+                            <div v-for="list in detailList" :key="list.id" class="border-b pb-2">
+                                <div class="flex justify-between">
+                                    <h2 class="text-lg font-semibold tracking-tight overflow-hidden whitespace-nowrap truncate">
+                                    {{ list.name }}
+                                    </h2>
+                                </div>
+                                <div class="flex justify-between">
+                                    <p class="font-normal text-gray-700">
+                                       ฿{{ list.summaryPrice }}
+                                    </p>
+                                    <p class="font-normal text-gray-700">
+                                        {{ list.qtyText }}
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- <div v-for="free in checkoutFree" :key="free.id" class="border-b pb-2">
+                                <div class="flex justify-between">
+                                    <h2 class="text-lg font-semibold tracking-tight overflow-hidden whitespace-nowrap truncate">
+                                    {{ free.name }}
+                                    </h2>
+                                </div>
+                                <div class="flex justify-between">
+                                    <p class="font-normal text-gray-700">
+                                       <span class="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded">โปรโมชัน</span>
+                                    </p>
+                                    <p class="font-normal text-gray-700">
+                                        {{ free.qtyText }}
+                                    </p>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-grow">
+                    <div class="bg-white p-4 rounded-md shadow-md space-y-2">
+                        <div class="flex justify-between text-lg">
+                            <span>ยอดรวม</span>
+                            <span>{{ detail.totalPrice }}</span>
+                        </div>
+                        <div class="flex justify-between text-lg">
+                            <span>ส่วนลดท้ายบิล</span>
+                            <span>{{ detail.totalDiscount }}</span>
+                        </div>
+                        <div class="flex justify-between text-lg">
+                            <span>ราคาไม่รวมภาษี(Vat)</span>
+                            <span>{{ detail.totalExVat }}</span>
+                        </div>
+                        <div class="flex justify-between text-lg">
+                            <span>ภาษี(Vat)</span>
+                            <span>{{ detail.totalPrice - detail.totalExVat }}</span>
+                        </div>
+                        <div class="flex justify-between text-lg font-bold">
+                            <span>มูลค่ารวม</span>
+                            <span>{{ detail.totalPrice }}</span>
+                        </div>
+                    </div>
+                </div>
+                    <div class="flex gap-4 text-white text-xl">
+                        <button class="p-4 w-full rounded-lg flex items-center justify-center bg-blue-500 shadow-lg"
+                            @click="handleClick">
+                            พิมพ์ใบเสร็จ
+                        </button>
+                    </div>
             </div>
         </template>
     </LayoutSub>
@@ -90,8 +107,6 @@ import { useRouter } from 'vue-router'
 import { useOrderStore } from '../../stores'
 import LayoutSub from '../LayoutSub.vue'
 import ButtonBack from '../../components/ButtonBack.vue'
-import Table from '../../components/Table.vue'
-
 const router = useRouter();
 
 const store = useOrderStore();
@@ -101,15 +116,5 @@ const detailList = computed(() => store.orderDetailList)
 onMounted(() => {
     store.getOrderDetail();
 });
-
-const tableColumns = computed(() => {
-    return [
-        { id: 'name', title: 'สินค้า' },
-        { id: 'qtyText', title: 'จำนวน' },
-        { id: 'pricePerQty', title: 'ราคา' },
-        { id: 'itemDiscount', title: 'ส่วนลด' },
-        { id: 'summaryPrice', title: 'รวม' },
-    ]
-})
 
 </script>

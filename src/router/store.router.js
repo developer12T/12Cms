@@ -20,9 +20,13 @@ const storeRoutes = [
         path: 'detail',
         component: () => import('../views/store/StoreDetail.vue'),
       },
+      // {
+      //   path: 'add',
+      //   component: () => import('../views/store/StoreAdd.vue'),
+      // },
       {
         path: 'add',
-        component: () => import('../views/store/StoreAdd.vue'),
+        component: () => import('../components/mobile/FormStore.vue'),
       },
     ],
   },

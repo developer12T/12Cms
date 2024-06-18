@@ -8,7 +8,7 @@ import ReportRouter from './report.router'
 import CnRouter from './cn.router'
 
 const routes = [
-  { path: '/cms/login', component: () => import('../views/authentication/Login.vue') },
+  { path: '/', component: () => import('../views/authentication/Login.vue') },
   {
     path: '/cms',
     component: LayoutMain,
@@ -19,10 +19,6 @@ const routes = [
       },
     ],
   },
-  // { path: '/cms/test', component: () => import('../components/mobile/FormStore.vue') },
-  { path: '/cms/test', component: () => import('../components/TestPrint.vue') },
-  { path: '/cms/test1', component: () => import('../components/ConnectBluetooth.vue') },
-  { path: '/cms/test2', component: () => import('../components/TestBluetooth.vue') },
   ...StoreRouter,
   ...RouteRouter,
   ...OrderRouter,

@@ -24,8 +24,7 @@
         <div v-if="btSelected === 'all'">
           <CustomerAll />
           <div class="flex justify-end mt-3">
-            <!-- <router-link to="/cms/store/add"> -->
-            <router-link to="/cms/test">
+            <router-link to="/cms/store/add">
               <ButtonAdd :icon="'ph:plus-light'" />
             </router-link>
           </div>
@@ -46,7 +45,6 @@ import { ref, computed } from 'vue'
 import { useDisplaySize } from '../../composable/DisplaySize'
 import LayoutMain from '../LayoutMain.vue'
 import SearchBar from '../../components/SearchBar.vue'
-import ButtonTab from '../../components/tablet/ButtonTab.vue'
 import CustomerAll from '../../components/tablet/CustomerAll.vue'
 import CustomerNew from '../../components/tablet/CustomerNew.vue'
 import ButtonAdd from '../../components/ButtonCircle.vue'
@@ -54,10 +52,8 @@ import TabletButtonNav from '../../components/tablet/ButtonNav.vue'
 import MobileButtonNav from '../../components/mobile/ButtonNav.vue'
 
 const { isMobile } = useDisplaySize()
-// const btStoreAll = ref('ร้านค้าทั้งหมด')
-// const btStoreNew = ref('ร้านค้าใหม่')
-const btSelected = ref('all')
 
+const btSelected = ref('all')
 const btStore = computed(() => {
   return [
     { id: 'all', title: 'ร้านค้าทั้งหมด' },

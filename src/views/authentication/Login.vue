@@ -51,7 +51,7 @@ export default {
       if (store.isLoggedIn) {
         loginValidation.value = false
         console.log('เข้าสู่ระบบสำเร็จ')
-        router.push('store')
+        router.push('cms/store')
       } else {
         console.log('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง')
         loginValidation.value = true

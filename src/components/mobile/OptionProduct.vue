@@ -12,15 +12,6 @@
                             </option>
                         </select>
                     </form>
-                    <!-- <form class="max-w-sm mx-auto">
-                        <select v-model="selectedBrand" @change="emitData"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-220 p-2.5">
-                            <option value="" disabled selected class="text-center">แบรนด์</option>
-                            <option v-for="brand in dataProduct.brand" :key="brand" :value="brand">
-                                {{ brand }}
-                            </option>
-                        </select>
-                    </form> -->
                 </div>
                 <div class="mb-1 ml-3">
                     <form class="max-w-sm mx-auto">
@@ -45,15 +36,6 @@
                             </option>
                         </select>
                     </form>
-                    <!-- <form class="max-w-sm mx-auto">
-                        <select v-model="selectedFlavour" @change="emitData"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-220 p-2.5">
-                            <option value="" disabled selected class="text-center">รสชาติ</option>
-                            <option v-for="flavour in dataProduct.flavour" :key="flavour" :value="flavour">
-                                {{ flavour }}
-                            </option>
-                        </select>
-                    </form> -->
                 </div>
                 <div class="mb-1 ml-3">
                     <form class="max-w-sm mx-auto">

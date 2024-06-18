@@ -1,4 +1,4 @@
-import { onMounted, onUnmounted, reactive, toRefs } from "vue";
+import { onMounted, onUnmounted, reactive, toRefs } from 'vue'
 
 export function useDisplaySize() {
     const sizes = reactive({

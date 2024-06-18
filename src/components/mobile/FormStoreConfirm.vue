@@ -1,5 +1,4 @@
 <template>
-
     <div class="flex justify-center p-4">
         <div class="bg-white shadow-lg rounded-lg w-[350px] h-[550px] overflow-y-auto p-6">
             <div class="flex text-xl mb-4 items-center">
@@ -36,13 +35,5 @@ import { Icon } from '@iconify/vue'
 import { useUtilityStore } from '../../stores'
 
 const utility = useUtilityStore()
-
-// const vStoreName = ref(utility.storeName)
-// const vStoreTax = ref(utility.storeTax)
-// const vStorePhone = ref(utility.storePhone)
-// const vStoreRoute = ref(utility.storeRoute)
-// const vStoreType = ref(utility.storeType)
-// const vStoreLine = ref(utility.storeLine)
-// const vStoreNote = ref(utility.storeNote)
 
 </script>

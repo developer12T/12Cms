@@ -12,6 +12,7 @@ export const useOrderStore = defineStore('orders', {
     orderCheckout: [],
     orderCheckoutList: [],
     orderCheckoutFree: [],
+    orderMain: [],
     orderDetail: [],
     orderDetailList: [],
     productUnitDetail: {
@@ -229,6 +230,25 @@ export const useOrderStore = defineStore('orders', {
         console.error(error);
       }
     },
+    async getOrderMain() {
+      try {
+        //   const token = JSON.parse(localStorage.getItem('token'));
+        const area = localStorage.getItem('area');
+        const response = await axios.post(
+          import.meta.env.VITE_API_BASE_URL + '/cms/order/getMain',
+          {
+            area: area
+          }
+          // {
+          //   headers: { Authorization: `Bearer ${token}` },
+          // }
+        );
+        this.orderMain = response.data;
+        console.log('orderDetail', this.orderMain);
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async getOrderDetail(orderNo) {
       try {
         //   const token = JSON.parse(localStorage.getItem('token'));
@@ -241,10 +261,8 @@ export const useOrderStore = defineStore('orders', {
           //   headers: { Authorization: `Bearer ${token}` },
           // }
         );
-        const result = response.data;
-        const resultList = response.data.list;
-        this.orderDetail = result;
-        this.orderDetailList = resultList;
+        this.orderDetail = response.data;
+        this.orderDetailList = response.data.list;
         console.log('orderDetail', this.orderDetailList);
       } catch (error) {
         console.error(error);

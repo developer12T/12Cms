@@ -1,7 +1,4 @@
 <template>
-    <div>
-        <h2>ที่อยู่</h2>
-    </div>
     <div class="flex justify-center">
         <div class="bg-white h-[550px] w-[350px] shadow-md rounded-lg mt-2 overflow-auto">
             <div class=" flex flex-col items-center mt-3">
@@ -13,7 +10,7 @@
                 <div class="mb-1 mt-1">
                     <form class="max-w-sm mx-auto">
                         <label for="provinces" class="block mb-2 text-sm font-medium text-gray-900">จังหวัด</label>
-                        <select v-model="vStoreProvince" id="provinces" 
+                        <select v-model="vStoreProvince" id="provinces"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[300px] p-2.5">
                             <option disabled value="">เลือกจังหวัด</option>
                             <option v-for="province in dataProvince" :key="province.province"
@@ -26,7 +23,7 @@
                 <div class="mb-1 mt-1">
                     <form class="max-w-sm mx-auto">
                         <label for="districts" class="block mb-2 text-sm font-medium text-gray-900">อำเภอ</label>
-                        <select v-model="vStoreDistrict" id="districts" 
+                        <select v-model="vStoreDistrict" id="districts"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[300px] p-2.5">
                             <option disabled value="">เลือกอำเภอ</option>
                             <option v-for="district in dataDistrict" :key="district.amphoe" :value="district.amphoe">
@@ -38,7 +35,7 @@
                 <div class="mb-1 mt-1">
                     <form class="max-w-sm mx-auto">
                         <label for="subdistrics" class="block mb-2 text-sm font-medium text-gray-900">ตำบล</label>
-                        <select v-model="vStoreSubdistrict" id="subdistrics" 
+                        <select v-model="vStoreSubdistrict" id="subdistrics"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[300px] p-2.5">
                             <option disabled value="">เลือกตำบล</option>
                             <option v-for="subdistrict in dataSubDistrict" :key="subdistrict.district"
@@ -51,7 +48,7 @@
                 <div class="mb-1 mt-1">
                     <form class="max-w-sm mx-auto">
                         <label for="zipcode" class="block mb-2 text-sm font-medium text-gray-900">รหัสไปรษณีย์</label>
-                        <select v-model="vStoreZipcode" id="zipcode" 
+                        <select v-model="vStoreZipcode" id="zipcode"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[300px] p-2.5">
                             <option disabled value="">เลือกรหัสไปรษณีย์</option>
                             <option v-for="zipcode in dataZipcode" :key="zipcode.zipcode" :value="zipcode.zipcode">
