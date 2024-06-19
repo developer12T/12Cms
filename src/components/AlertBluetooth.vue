@@ -3,9 +3,12 @@
         <div class="flex items-center">
             <h3 class="sm:text-lg md:text-2xl font-medium">{{ title }}</h3>
         </div>
-        <div class="mt-2 mb-4 md:text-xl">
-            {{ content }}
-        </div>
+        <div class="mt-2 mb-4 md:text-xl" v-if="connectedPrinter">
+            กำลังเชื่อมต่อกับ: {{ connectedPrinter }}
+          </div>
+          <div class="mt-2 mb-4 md:text-xl" v-else>
+            ไม่ได้เชื่อมต่อกับเครื่องพิมพ์
+          </div>
         <div class="relative rounded-t-xl overflow-auto p-4">
             <div class="flex flex-nowrap gap-4 font-mono text-white text-base md:text-lg rounded-lg">
                 <button type="button"
@@ -15,7 +18,7 @@
                 </button>
                 <button type="button"
                     class="text-white bg-green-500 px-4 py-2 w-full rounded-lg flex items-center justify-center"
-                    @click="onConnect" aria-label="Connect">
+                    @click="onConnect" aria-label="print">
                     {{ connectText }}
                 </button>
             </div>
@@ -31,21 +34,19 @@ import { useBluetoothStore } from '../stores';
 const props = defineProps({
     alertId: String,
     title: String,
-    content: String,
     color: String,
     scanText: { type: String, default: 'ค้นหา' },
-    connectText: { type: String, default: 'เชื่อมต่อ' },
+    connectText: { type: String, default: 'พิมพ์' },
     show: { type: Boolean, default: true }
 });
 
-const emit = defineEmits(['scan', 'connect', 'dismiss']);
+const emit = defineEmits(['connect', 'dismiss']);
 
 const bluetooth = useBluetoothStore();
 
 const onScan = async () => {
   try {
     await bluetooth.scanDevices();
-    emit('scan');
   } catch (error) {
     console.error('Failed to scan devices:', error);
   }
@@ -68,6 +69,9 @@ const onConnect = async () => {
   }
 };
 
+const connectedPrinter = computed(() => {
+  return bluetooth.printer ? bluetooth.printer.name : null;
+});
 
 const alertClasses = computed(() => {
     return [

@@ -19,13 +19,13 @@ import { useRouter } from 'vue-router'
 import { useOrderStore } from '../../stores'
 
 const router = useRouter()
-const store = useOrderStore();
-const orderList = computed(() => store.orderMain);
+const store = useOrderStore()
+const orderList = computed(() => store.orderMain)
 
 const viewOrderDetail = (orderNo) => {
-    console.log(orderNo);
-    router.push('order/detail');
-    store.getOrderDetail(orderNo);
+    console.log(orderNo)
+    router.push('order/detail')
+    localStorage.setItem('orderNo', orderNo)
 };
 
 onMounted(() => {

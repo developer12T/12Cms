@@ -68,9 +68,8 @@
             </div>
         </template>
     </LayoutSub>
-    <AlertBluetooth v-if="showAlert" :title="'Bluetooth Printer'" :content="'ค้นหาและเชื่อมต่อเครื่องพิมพ์'"
-        @scan="handleScan" @connect="handleConnect" @dismiss="showAlert = false" 
-        :color="'text-gray-600 border border-green-300 bg-green-100'"/>
+    <AlertBluetooth v-if="showAlert" :title="'เชื่อมต่อบลูทูธ'" @connect="handleConnect" @dismiss="showAlert = false"
+        :color="'text-gray-600 border border-green-300 bg-green-100'" />
 </template>
 
 <script setup>
@@ -90,9 +89,6 @@ const detail = computed(() => orderStore.orderDetail);
 const detailList = computed(() => orderStore.orderDetailList);
 const showAlert = ref(false);
 
-const handleScan = async () => {
-    await bluetooth.scanDevices();
-};
 
 const handleConnect = async () => {
     if (bluetooth.isConnected) {
@@ -105,6 +101,7 @@ const handleConnect = async () => {
 };
 
 onMounted(() => {
-    orderStore.getOrderDetail();
+    const orderNo = localStorage.getItem('orderNo')
+    orderStore.getOrderDetail(orderNo)
 });
 </script>
