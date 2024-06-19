@@ -25,7 +25,7 @@ const tableColumns = computed(() => {
 
 const handleRowClick = (row) => {
     console.log(row.orderNo)
-    router.push('detail')
+    router.push('order/detail')
     store.getOrderDetail(row.orderNo)
 };
 
