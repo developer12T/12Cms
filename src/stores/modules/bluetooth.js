@@ -1,94 +1,58 @@
-// import { defineStore } from 'pinia';
+import { defineStore } from 'pinia'
+import * as cptable from 'codepage'
 
-// export const useBluetoothStore = defineStore('bluetooth', {
-//   state: () => ({
-//     devices: [],
-//     connectedDevice: null,
-//   }),
-//   actions: {
-//     async requestDevice() {
-//       try {
-//         const device = await navigator.bluetooth.requestDevice({
-//           acceptAllDevices: true,
-//           optionalServices: ['battery_service'],
-//         });
-//         this.devices.push(device);
-//       } catch (error) {
-//         console.error('Error: ', error);
-//       }
-//     },
-//     async connectDevice(device) {
-//       try {
-//         const server = await device.gatt.connect();
-//         this.connectedDevice = device;
-//         console.log('Connected to', device.name);
-//       } catch (error) {
-//         console.error('Connection failed!', error);
-//       }
-//     },
-//   },
-// });
-// import { defineStore } from 'pinia';
-
-// export const useBluetoothStore = defineStore('bluetooth', {
-//   state: () => ({
-//     devices: [],
-//     connectedDevice: null,
-//     batteryLevel: null,
-//   }),
-//   actions: {
-//     addDevice(device) {
-//       this.devices.push(device);
-//     },
-//     setConnectedDevice(device) {
-//       this.connectedDevice = device;
-//     },
-//     setBatteryLevel(level) {
-//       this.batteryLevel = level;
-//     }
-//   }
-// });
-
-import { defineStore } from 'pinia';
+const CHUNK_SIZE = 512
 
 export const useBluetoothStore = defineStore('bluetooth', {
   state: () => ({
-    devices: [], 
-    connectedDevice: null, 
-    isScanning: false, 
-    error: null, 
+    devices: [],
+    isConnected: false,
+    printer: null,
+    characteristic: null
   }),
   actions: {
     async scanDevices() {
-      this.isScanning = true;
-      this.devices = [];
-      this.error = null;
-
       try {
-        const devices = await navigator.bluetooth.requestDevice({
-          filters: [{ services: ['battery_service'] }],
+        const device = await navigator.bluetooth.requestDevice({
+          filters: [{ name: 'SPP-R410' }],
+          optionalServices: ['00005500-d102-11e1-9b23-74f07d000000']
         });
-        this.devices = devices;
+        this.devices.push(device);
+        console.log('Found device:', device);
       } catch (error) {
-        this.error = error;
-      } finally {
-        this.isScanning = false;
+        console.error('Failed to scan devices:', error);
       }
     },
-    async connectDevice(device) {
+    async connectPrinter(device) {
       try {
         const server = await device.gatt.connect();
-        this.connectedDevice = device;
-        // ... จัดการการเชื่อมต่อ GATT เพิ่มเติม
+        const service = await server.getPrimaryService('00005500-d102-11e1-9b23-74f07d000000');
+        this.characteristic = await service.getCharacteristic('00005501-d102-11e1-9b23-74f07d000000');
+        this.isConnected = true;
+        this.printer = device;
       } catch (error) {
-        this.error = error;
+        console.error('Failed to connect to printer:', error);
       }
     },
-    disconnectDevice() {
-      if (this.connectedDevice) {
-        this.connectedDevice.gatt.disconnect();
-        this.connectedDevice = null;
+    async print(data) {
+      if (!this.characteristic) {
+        console.error('Printer not connected');
+        return;
       }
-    },
-  },
+
+      const encodedData = cptable.utils.encode(874, data + '\n');
+
+      const escPosCommands = new Uint8Array([
+        0x1B, 0x40,
+        0x1B, 0x74, 14,
+        ...encodedData,
+        0x0A
+      ]);
+
+      for (let i = 0; i < escPosCommands.length; i += CHUNK_SIZE) {
+        const chunk = escPosCommands.slice(i, i + CHUNK_SIZE);
+        await this.characteristic.writeValue(chunk);
+      }
+    }
+  }
 });

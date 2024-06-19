@@ -1,27 +1,25 @@
 <template>
   <LayoutSub>
     <template v-slot>
-      <div class="flex flex-col h-full">
+      <div class="flex flex-col md:h-full space-y-4 p-4">
         <div class="flex flex-row items-center">
-          <div class="mt-2">
-            <ButtonBack />
-          </div>
-          <div class="mt-2 ml-2 flex items-center">
+          <ButtonBack />
+          <div class=" ml-2 flex items-center">
             <Icon icon="tdesign:store" width="40" />
-            <span class="ml-2 md:text-3xl">การเข้าเยี่ยม</span>
+            <span class="ml-2 md:text-3xl">การเข้าเยี่ยม {{ routeDetail.day }}</span>
           </div>
         </div>
-        <div class="flex justify-center mt-2">
+        <div class="flex justify-center">
           <SearchBar />
         </div>
-        <div class="flex flex-row justify-between">
-          <div class="mt-4 ml-12 md:text-xl">
+        <!-- <div class="flex flex-row justify-between">
+          <div class="md:text-xl">
             {{ routeDetail.day }}
           </div>
-          <div class="mt-4 mr-12 md:text-xl">
+          <div class="md:text-xl">
             {{ routeDetail.route }}
           </div>
-        </div>
+        </div> -->
         <div class="flex justify-center">
           <Table :columns="tableColumns" :data="filteredData"
             :thClass="'py-3 px-10 sm:text-center sm:text-sm md:text-lg'"
@@ -43,13 +41,13 @@
             </template>
           </Table>
         </div>
-        <div class="flex-grow z-40">
-          <div class="bg-white h-full shadow-slate-800 shadow-md">
+        <div class="sticky bottom-0 flex-grow">
+          <div class="bg-white p-4 rounded-md shadow-md space-y">
             <div class="flex justify-between">
-              <div class="mt-5 ml-5 md:text-2xl">
+              <div class="ml-5 md:text-2xl">
                 ร้านค้าเป้าหมาย
               </div>
-              <div class="mt-5 mr-5 md:text-2xl">
+              <div class="mr-5 md:text-2xl">
                 {{ routeDetail.targetGroup }}
               </div>
             </div>
@@ -145,7 +143,7 @@ watchEffect(() => {
 })
 
 onMounted(() => {
-    search.setSearchData(routeDetailList)
+  search.setSearchData(routeDetailList)
 });
 
 </script>

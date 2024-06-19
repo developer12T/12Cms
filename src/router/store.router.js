@@ -9,6 +9,7 @@ const storeRoutes = [
       {
         path: 'store',
         component: () => import('../views/store/StoreMain.vue'),
+        meta: { mainRoute: true }
       },
     ],
   },
@@ -27,6 +28,7 @@ const storeRoutes = [
       {
         path: 'add',
         component: () => import('../components/mobile/FormStore.vue'),
+        meta: { disallowedRoute: true }
       },
     ],
   },

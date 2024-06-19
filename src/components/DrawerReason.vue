@@ -1,4 +1,7 @@
 <template>
+    <Alert v-if="showAlert" :title="'บันทึกการเข้าเยี่ยม'" :content="'ยืนยันบันทึกการเข้าเยี่ยม'"
+        @confirm="handleSave" @dismiss="dismissAlert"
+        :color="'text-gray-600 border border-green-300 bg-green-100'" />
     <div class="text-center">
         <button type="button" @click="toggleBottomDrawer"
             class="text-white bg-red-500 font-medium rounded-lg sm:text-xs md:text-lg px-6 py-3 inline-flex flex-col items-center justify-center">
@@ -22,10 +25,10 @@
                 ระบุสาเหตุที่ร้านค้าไม่ซื้อ
             </div>
             <div class="mt-5 md:text-2xl">
-                รหัสร้านค้า {{ storeID }}
+                รหัส {{ storeID }}
             </div>
             <div class="md:text-2xl">
-                ชื่อร้านค้า {{ storeName }}
+                ร้าน {{ storeName }}
             </div>
             <div class="mt-5">
                 <form class="max-w-sm mx-auto">
@@ -45,22 +48,18 @@
                 </textarea>
             </div>
             <div class="mt-5">
-                <div v-if="!selectedReason || (selectedReason === 'อื่นๆ' && !reasonMessage)">
-                    <button type="button" disabled
-                        class="w-full focus:outline-none text-white bg-gray-500 font-medium rounded-lg md:text-xl px-5 py-2.5 me-2 mb-2">บันทึก</button>
-                </div>
-                <div v-else>
-                    <button @click="saveReason" type="button"
-                        class="w-full focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg md:text-xl px-5 py-2.5 me-2 mb-2">
-                        <span v-if="isLoading" class="inline-flex items-center">
-                            กำลังบันทึก
-                            <Icon icon="svg-spinners:3-dots-scale" />
-                        </span>
-                        <span v-else>
-                            บันทึก
-                        </span>
-                    </button>
-                </div>
+                <button @click="showConfirmationAlert" type="button" :disabled="!selectedReason || (selectedReason === 'อื่นๆ' && !reasonMessage)"
+                    :class="{'w-full focus:outline-none text-white font-medium rounded-lg md:text-xl px-5 py-2.5 me-2 mb-2': true, 
+                             'bg-gray-500': !selectedReason || (selectedReason === 'อื่นๆ' && !reasonMessage), 
+                             'bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300': selectedReason && (selectedReason !== 'อื่นๆ' || reasonMessage)}">
+                    <span v-if="isLoading" class="inline-flex items-center">
+                        กำลังบันทึก
+                        <Icon icon="svg-spinners:3-dots-scale" />
+                    </span>
+                    <span v-else>
+                        บันทึก
+                    </span>
+                </button>
             </div>
         </div>
     </div>
@@ -70,11 +69,25 @@
 import { ref, computed, onMounted } from 'vue'
 import { Icon } from '@iconify/vue'
 import { useOptionStore, useRouteStore, useGeolocation } from '../stores'
+import Alert from '../components/Alert.vue'
 
 const props = defineProps({
     storeID: String,
     storeName: String,
 })
+
+const showAlert = ref(false)
+
+const showConfirmationAlert = () => {
+    showAlert.value = true;
+    showDrawer.value = false
+    showBackdrop.value = false
+};
+
+const dismissAlert = () => {
+    showAlert.value = false;
+    console.log(showAlert.value);
+};
 
 const option = useOptionStore()
 const route = useRouteStore()
@@ -103,7 +116,7 @@ const emitData = () => {
     emit('update:data', { selectedReason: selectedReason.value, reasonMessage: reasonMessage.value })
 }
 
-const saveReason = async () => {
+const handleSave = async () => {
     isLoading.value = true
     const reason = selectedReason.value === 'อื่นๆ' ? reasonMessage.value : selectedReason.value
     const data = {
@@ -111,15 +124,14 @@ const saveReason = async () => {
         idRoute: localStorage.getItem('routeId'),
         area: localStorage.getItem('area'),
         storeId: localStorage.getItem('routeStoreId'),
-        latitude: location.latitude.value.toString(),
-        longtitude: location.longitude.value.toString(),
+        latitude: location.latitude.value,
+        longtitude: location.longitude.value,
         note: reason,
     }
     try {
-        const response = await route.addVisitStore(data)
-        //showAlert.value = true
+        await route.addVisitStore(data)
+        showAlert.value = false
         isLoading.value = false
-        console.log('response', response)
         console.log('checkin', data)
     } catch (error) {
         console.error('Error while sending data:', error)

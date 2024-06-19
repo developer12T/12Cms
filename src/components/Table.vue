@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="bg-white px-2 shadow-slate-300 shadow-md rounded-lg overflow-auto md:w-card sm:w-[360px]" :style="sTable" :class="hTable">
+    <div class="bg-white px-2 shadow-slate-300 shadow-md rounded-lg overflow-auto md:w-card sm:w-[355px] sm:h-[430px]" :style="sTable" :class="hTable">
       <table class="w-full text-md text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 sticky top-0">
           <tr>

@@ -9,6 +9,7 @@ const orderRoutes = [
       {
         path: 'order',
         component: () => import('../views/order/OrderMain.vue'),
+        meta: { mainRoute: true }
       },
     ],
   },
@@ -35,6 +36,7 @@ const orderRoutes = [
       {
         path: 'checkout',
         component: () => import('../views/order/OrderCheckout.vue'),
+        meta: { disallowedRoute: true }
       },
       {
         path: 'detail',

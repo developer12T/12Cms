@@ -13,6 +13,7 @@
     "apexcharts": "^3.46.0",
     "axios": "^1.6.1",
     "bcryptjs": "^2.4.3",
+    "codepage": "^1.15.0",
     "flowbite": "^1.8.1",
     "flowbite-datepicker": "^1.2.4",
     "pinia": "^2.1.6",
