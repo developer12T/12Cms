@@ -68,7 +68,7 @@
             </div>
         </template>
     </LayoutSub>
-    <AlertBluetooth v-if="showAlert" :title="'เชื่อมต่อบลูทูธ'" @connect="handleConnect" @dismiss="showAlert = false"
+    <AlertBluetooth v-if="showAlert" :title="'เชื่อมต่อบลูทูธ'" @print="handleConnect" @dismiss="showAlert = false"
         :color="'text-gray-600 border border-green-300 bg-green-100'" />
 </template>
 
@@ -91,13 +91,13 @@ const showAlert = ref(false);
 
 
 const handleConnect = async () => {
-    if (bluetooth.isConnected) {
+    // if (bluetooth.isConnected) {
         const formattedData = receipt.formatReceiptData(detail.value);
         await bluetooth.print(formattedData);
         showAlert.value = false;
-    } else {
-        console.error('Failed to connect to printer');
-    }
+    // } else {
+    //     console.error('Failed to connect to printer');
+    // }
 };
 
 onMounted(() => {
