@@ -34,11 +34,10 @@
         </div>
     </div>
 </template>
-
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue';
-import { defineProps, defineEmits } from 'vue';
-import { useBluetoothStore } from '../stores';
+import { ref, computed, watch, onMounted } from 'vue'
+import { defineProps, defineEmits } from 'vue'
+import { useBluetoothStore } from '../stores'
 
 const props = defineProps({
     alertId: String,
@@ -52,17 +51,17 @@ const props = defineProps({
 
 const emit = defineEmits(['print', 'dismiss']);
 
-const bluetoothPrinterStore = useBluetoothStore();
+const bluetooth = useBluetoothStore();
 
 const isPaired = ref(false);
 const isConnected = ref(false);
 
 const onScan = async () => {
     try {
-        await bluetoothPrinterStore.scanDevices();
-        if (bluetoothPrinterStore.devices.length > 0) {
+        await bluetooth.scanDevices();
+        if (bluetooth.devices.length > 0) {
             isPaired.value = true;
-            localStorage.setItem('bluetoothDeviceId', bluetoothPrinterStore.devices[0].id);
+            localStorage.setItem('bluetoothDeviceId', bluetooth.devices[0].id);
         }
     } catch (error) {
         console.error('Failed to scan devices:', error);
@@ -72,12 +71,12 @@ const onScan = async () => {
 const onConnect = async () => {
     try {
         const storedDeviceId = localStorage.getItem('bluetoothDeviceId');
-        // await bluetoothPrinterStore.scanDevices(); // Scan again to get the device list
-        const device = bluetoothPrinterStore.devices.find(d => d.id === storedDeviceId);
+        // await bluetooth.scanDevices()
+        const device = bluetooth.devices.find(d => d.id === storedDeviceId);
 
         if (device) {
-            await bluetoothPrinterStore.connectPrinter(device);
-            if (bluetoothPrinterStore.isConnected) {
+            await bluetooth.connectPrinter(device);
+            if (bluetooth.isConnected) {
                 isConnected.value = true;
             } else {
                 console.error('Failed to connect to printer');
@@ -93,33 +92,26 @@ const onConnect = async () => {
 const onPrint = async () => {
     try {
         if (isConnected.value) {
-            emit('print');
+            emit('print')
         } else {
-            console.error('Printer is not connected');
+            console.error('Printer is not connected')
         }
     } catch (error) {
-        console.error('Failed to print:', error);
+        console.error('Failed to print:', error)
     }
 };
 
 const connectedPrinter = computed(() => {
-    return bluetoothPrinterStore.printer ? bluetoothPrinterStore.printer.name : null;
+    return bluetooth.printer ? bluetooth.printer.name : null
 });
 
-watch(() => bluetoothPrinterStore.printer, (newPrinter) => {
+watch(() => bluetooth.printer, (newPrinter) => {
     if (newPrinter) {
-        console.log('Connected to printer:', newPrinter.name);
+        console.log('Connected to printer:', newPrinter.name)
     } else {
-        console.log('Disconnected from printer');
-        isConnected.value = false;
-        isPaired.value = false;
-    }
-});
-
-onMounted(async () => {
-    const storedDeviceId = localStorage.getItem('bluetoothDeviceId');
-    if (storedDeviceId) {
-        await onConnect();
+        console.log('Disconnected from printer')
+        isConnected.value = false
+        isPaired.value = false
     }
 });
 
@@ -128,5 +120,12 @@ const alertClasses = computed(() => {
         'p-4 mb-4 fixed top-0 left-0 right-0 z-50 w-full h-44 overflow-x-hidden overflow-y-auto rounded-lg',
         props.color,
     ];
+});
+
+onMounted(async () => {
+    const storedDeviceId = localStorage.getItem('bluetoothDeviceId');
+    if (storedDeviceId) {
+        await onConnect();
+    }
 });
 </script>
