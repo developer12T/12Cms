@@ -92,11 +92,8 @@ const showAlert = ref(false);
 
 const handlePrint = async () => {
     // if (bluetooth.isConnected) {
-        const formattedData = receipt.formatReceiptData3(detail.value);
+        const formattedData = receipt.formatReceiptData(detail.value);
         await bluetooth.print(formattedData);
-        // const receiptData = 'ทดสอบการพิมพ์จ้าาา test printing 0529';
-        // bluetooth.print(receiptData);
-
         showAlert.value = false;
     // } else {
     //     console.error('Failed to connect to printer');

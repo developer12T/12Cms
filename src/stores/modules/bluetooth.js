@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import * as cptable from 'codepage'
+
 export const useBluetoothStore = defineStore('bluetooth', {
   state: () => ({
     devices: [],
@@ -38,71 +39,35 @@ export const useBluetoothStore = defineStore('bluetooth', {
         alert('Failed to connect to printer: ' + error.message);
       }
     },
-    // async print(data) {
-    //   if (!this.characteristic) {
-    //     console.error('Printer not connected');
-    //     return;
-    //   }
-    
-    //   try {
-    //     const encodedData = cptable.utils.encode(874, data + '\n');
-    //     const escPosCommands = new Uint8Array([
-    //       0x1B, 0x40,
-    //       0x1B, 0x74, 14,
-    //       ...encodedData,
-    //       0x0A
-    //     ]);
-
-    //     console.log('Starting print process...');
-    //     const CHUNK_SIZE = 64
-    //     for (let i = 0; i < escPosCommands.length; i += CHUNK_SIZE) {
-    //       const chunk = escPosCommands.slice(i, i + CHUNK_SIZE);
-    //       await this.characteristic.writeValue(chunk);
-    //     }
-    //     console.log('Print successful');
-    //   } catch (error) {
-    //     console.error('Failed to print:', error);
-    //     alert('Failed to print: ' + error.message);
-    //   }
-    // }
     async print(data) {
       if (!this.characteristic) {
         console.error('Printer not connected');
         return;
       }
-    
       try {
-        const lines = data.split('\n');
-        console.log('Total lines to print:', lines.length);
-    
+        const encodedData = cptable.utils.encode(874, data + '\n');
+        const escPosCommands = new Uint8Array([
+          0x1B, 0x40,
+          0x1B, 0x74, 14,
+          ...encodedData,
+          0x0A
+        ]);
+
         console.log('Starting print process...');
-        for (const [index, line] of lines.entries()) {
-          if (!this.printer.gatt.connected) {
-            throw new Error('Printer disconnected during print');
-          }
-    
-          for (let i = 0; i < line.length; i += 20) {
-            const part = line.slice(i, i + 20);
-            const encodedPart = cptable.utils.encode(874, part + '\n');
-            const partArray = new Uint8Array([
-              0x1B, 0x74, 14,  
-              ...encodedPart,
-              0x0A
-            ]);
-    
-            console.log(`Writing part ${i / 20 + 1} of line ${index + 1}/${lines.length}...`);
-            await this.characteristic.writeValueWithoutResponse(partArray);
-    
-            await new Promise(resolve => setTimeout(resolve, 500));
-          }
+        const CHUNK_SIZE = 20;
+
+        for (let i = 0; i < escPosCommands.length; i += CHUNK_SIZE) {
+          const chunk = escPosCommands.slice(i, i + CHUNK_SIZE);
+          console.log(`Writing chunk ${i / CHUNK_SIZE + 1}/${Math.ceil(escPosCommands.length / CHUNK_SIZE)}...`);
+          
+          await this.characteristic.writeValue(chunk);
+          // await new Promise(resolve => setTimeout(resolve, 100));
         }
         console.log('Print successful');
       } catch (error) {
         console.error('Failed to print:', error);
         alert('Failed to print: ' + error.message);
       }
-    }    
-    
-    
+    }
   }
 });
