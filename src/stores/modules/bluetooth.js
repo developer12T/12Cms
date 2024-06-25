@@ -55,11 +55,9 @@ export const useBluetoothStore = defineStore('bluetooth', {
 
         console.log('Starting print process...');
         const CHUNK_SIZE = 20;
-
         for (let i = 0; i < escPosCommands.length; i += CHUNK_SIZE) {
           const chunk = escPosCommands.slice(i, i + CHUNK_SIZE);
-          console.log(`Writing chunk ${i / CHUNK_SIZE + 1}/${Math.ceil(escPosCommands.length / CHUNK_SIZE)}...`);
-          
+          // console.log(`Writing chunk ${i / CHUNK_SIZE + 1}/${Math.ceil(escPosCommands.length / CHUNK_SIZE)}...`);
           await this.characteristic.writeValue(chunk);
           // await new Promise(resolve => setTimeout(resolve, 100));
         }
