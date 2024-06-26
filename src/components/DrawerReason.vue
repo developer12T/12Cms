@@ -95,6 +95,7 @@ const location = useGeolocation()
 const dataReason = computed(() => option.reason)
 
 const selectedReason = ref('')
+const reasonType = ('NoBuy')
 const reasonMessage = ref('')
 const isLoading = ref(false)
 const showDrawer = ref(false)
@@ -140,7 +141,7 @@ const handleSave = async () => {
 }
 
 onMounted(() => {
-    option.getReason()
-});
+    option.getReason(reasonType)
+})
 
 </script>

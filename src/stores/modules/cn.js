@@ -6,18 +6,20 @@ export const useCnStore = defineStore('cn', {
     reason: [],
   }),
   actions: {
-    async getReason() {
+    async getReasonCN() {
         try {
         //   const token = JSON.parse(localStorage.getItem('token'));
           const response = await axios.post(
             import.meta.env.VITE_API_BASE_URL +
               '/cms/manage/Reason/getDetail',
+              {
+                type: 'CN'
+              }
             // {
             //   headers: { Authorization: `Bearer ${token}` },
             // }
           );
-          const result = response.data;
-          this.reason = result;
+          this.reason = response.data
           console.log('reason', this.reason);
         } catch (error) {
           console.error(error);

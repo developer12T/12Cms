@@ -17,7 +17,31 @@ export const useUtilityStore = defineStore('utility', {
     storeZipcode: '',
     searchText: '',
     searchData: [],
+    area: localStorage.getItem('area') || '',
+    storeId: localStorage.getItem('routeStoreId') || '',
+    latitude: localStorage.getItem('latitude') || '',
+    longitude: localStorage.getItem('longitude') || '',
+    routeId: localStorage.getItem('routeId') || '',
   }),
+  getters: {
+    // getArea: () => localStorage.getItem('area'),
+    // getStoreId: () => localStorage.getItem('routeStoreId'),
+    // getLat: () => localStorage.getItem('latitude'),
+    // getLong: () => localStorage.getItem('longitude'),
+    // getRouteId: () => localStorage.getItem('routeId'),
+    filteredData(state) {
+      const search = state.searchText.toLowerCase();
+      if (!search) {
+        return state.searchData
+      }
+      return state.searchData.filter(item =>
+        Object.values(item)
+          .join(' ')
+          .toLowerCase()
+          .includes(search)
+      );
+    },
+  },
   actions: {
     validateInput(value) {
       const isValid = !!value; 
@@ -43,19 +67,11 @@ export const useUtilityStore = defineStore('utility', {
     setSearchData(data) {
       this.searchData = data
     },
-  },
-  getters: {
-    filteredData(state) {
-      const search = state.searchText.toLowerCase();
-      if (!search) {
-        return state.searchData
-      }
-      return state.searchData.filter(item =>
-        Object.values(item)
-          .join(' ')
-          .toLowerCase()
-          .includes(search)
-      );
+    updateLocation(lat, long) {
+      this.latitude = lat;
+      this.longitude = long;
+      localStorage.setItem('latitude', lat);
+      localStorage.setItem('longitude', long);
     },
   },
 });

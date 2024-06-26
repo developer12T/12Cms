@@ -60,6 +60,10 @@
                     </div>
                 </div>
                 <div class="flex gap-4 text-white text-xl">
+                    <button class="p-4 w-full rounded-lg flex items-center justify-center bg-red-500 shadow-lg"
+                        @click="handleCN(detail.orderNo)">
+                        คืนสินค้า
+                    </button>
                     <button class="p-4 w-full rounded-lg flex items-center justify-center bg-blue-500 shadow-lg"
                         @click="showAlert = true">
                         พิมพ์ใบเสร็จ
@@ -91,14 +95,16 @@ const showAlert = ref(false);
 
 
 const handlePrint = async () => {
-    // if (bluetooth.isConnected) {
-        const formattedData = receipt.formatReceiptData(detail.value);
-        console.log('print',formattedData)
-        await bluetooth.print(formattedData)
-        showAlert.value = false;
-    // } else {
-    //     console.error('Failed to connect to printer');
-    // }
+    const formattedData = receipt.formatReceiptData(detail.value);
+    console.log('print', formattedData)
+    await bluetooth.print(formattedData)
+    showAlert.value = false;
+};
+
+const handleCN = (orderNo) => {
+    console.log(orderNo)
+    router.push('/cms/cn/addFromOrder')
+    localStorage.setItem('orderCN', orderNo)
 };
 
 onMounted(() => {

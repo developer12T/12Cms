@@ -38,24 +38,33 @@ export const useOrderStore = defineStore('orders', {
       flavour: [],
     },
     option: [],
-    cartCheckout: {
-      area: localStorage.getItem('saleCode'),
-      storeId: localStorage.getItem('routeStoreId'),
-      saleCode: localStorage.getItem('saleCode'),
-    },
-    addOrder: {
-      area: '',
-      storeId: '',
-      idRoute: '',
-      latitude: '',
-      longitude: '',
-    },
   }),
   getter: {
     getProductDetail: (state) => state.productDetail,
     getProductUnitDetail: (state) => state.productUnitDetail,
   },
   actions: {
+    resetProduct() {
+      (this.productUnitDetail.unitId = ''), (this.productUnitDetail.qty = 1);
+    },
+    setProduct(id) {
+      localStorage.setItem('productId', id);
+      this.productId = id;
+      this.productUnitDetail.id = id;
+    },
+    async updateProductData(data) {
+      this.productUnitDetail = data;
+      await this.getSaleProductDetailUnit();
+    },
+    async addProductData(data) {
+      this.productData = data;
+      await this.addProductToCart();
+    },
+    // async addOrderData(data) {
+    //   this.addOrder = data;
+    //   console.log('add', this.addOrder);
+    //   await this.addNewOrder();
+    // },
     async getDataOpion() {
       try {
         const response = await axios.get(
@@ -67,33 +76,9 @@ export const useOrderStore = defineStore('orders', {
         this.productOption.size = result.size
         this.productOption.flavour = result.flavour
         this.option = result
-        // console.log('option', this.productOption);
       } catch (error) {
         console.error(error)
       }
-    },
-    resetProduct() {
-      (this.productUnitDetail.unitId = ''), (this.productUnitDetail.qty = 1);
-    },
-    setProduct(id) {
-      localStorage.setItem('productId', id);
-      this.productId = id;
-      this.productUnitDetail.id = id;
-    },
-    async updateProductData(data) {
-      this.productUnitDetail = data;
-      // console.log('update',this.productUnitDetail);
-      await this.getSaleProductDetailUnit();
-    },
-    async addProductData(data) {
-      this.productData = data;
-      // console.log('add',this.productData);
-      await this.addProductToCart();
-    },
-    async addOrderData(data) {
-      this.addOrder = data;
-      console.log('add', this.addOrder);
-      await this.addNewOrder();
     },
     async getSaleProductDetailUnit() {
       try {
@@ -102,8 +87,7 @@ export const useOrderStore = defineStore('orders', {
         if (!localProductId) return;
         this.productUnitDetail.id = localProductId;
         const response = await axios.post(
-          import.meta.env.VITE_API_BASE_URL +
-          '/cms/saleProduct/getProductDetailUnit',
+          import.meta.env.VITE_API_BASE_URL + '/cms/saleProduct/getProductDetailUnit',
           this.productUnitDetail
 
           // {
@@ -123,9 +107,8 @@ export const useOrderStore = defineStore('orders', {
       try {
         //   const token = JSON.parse(localStorage.getItem('token'));
         const response = await axios.post(
-          import.meta.env.VITE_API_BASE_URL +
-          '/cms/saleProduct/addProductToCart', this.productData,
-
+          import.meta.env.VITE_API_BASE_URL + '/cms/saleProduct/addProductToCart', 
+          this.productData,
           // {
           //   headers: { Authorization: `Bearer ${token}` },
           // }
@@ -136,13 +119,12 @@ export const useOrderStore = defineStore('orders', {
         console.error(error);
       }
     },
-    async addNewOrder() {
+    async addNewOrder(orderData) {
       try {
         //   const token = JSON.parse(localStorage.getItem('token'));
         const response = await axios.post(
           import.meta.env.VITE_API_BASE_URL + '/cms/order/newOrder',
-          this.addOrder
-
+          orderData
           // {
           //   headers: { Authorization: `Bearer ${token}` },
           // }
@@ -263,7 +245,8 @@ export const useOrderStore = defineStore('orders', {
         );
         this.orderDetail = response.data;
         this.orderDetailList = response.data.list;
-        console.log('orderDetail', this.orderDetailList);
+        console.log('detail', this.orderDetail);
+        console.log('detailList', this.orderDetailList);
       } catch (error) {
         console.error(error);
       }

@@ -12,11 +12,11 @@
                     </div>
                 </div>
                 <div class="flex flex-col mt-4">
-                    <!-- <div class="ml-12 text-xl">
-                        รหัส : {{ storeId }}
-                    </div> -->
                     <div class="ml-12 text-xl">
-                        ร้าน : {{ storeName }}
+                        รหัส : {{ storeId }}
+                    </div>
+                    <div class="ml-12 text-xl">
+                        ชื่อ : {{ storeName }}
                     </div>
                 </div>
                 <div>

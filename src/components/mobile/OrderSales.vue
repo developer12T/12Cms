@@ -32,7 +32,7 @@ const viewOrderDetail = (orderNo) => {
     console.log(orderNo)
     router.push('order/detail')
     localStorage.setItem('orderNo', orderNo)
-};
+}
 
 const formatDate = (date) => {
     if (!date) return 'Invalid date';

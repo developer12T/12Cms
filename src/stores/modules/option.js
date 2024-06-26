@@ -6,12 +6,15 @@ export const useOptionStore = defineStore('option', {
     reason: [],
   }),
   actions: {
-    async getReason() {
+    async getReason(type) {
         try {
         //   const token = JSON.parse(localStorage.getItem('token'));
           const response = await axios.post(
             import.meta.env.VITE_API_BASE_URL +
               '/cms/manage/Reason/getDetail',
+              {
+                type: type
+              }
             // {
             //   headers: { Authorization: `Bearer ${token}` },
             // }

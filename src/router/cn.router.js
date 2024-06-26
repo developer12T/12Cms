@@ -7,19 +7,11 @@ const reportRoutes = [
     children: [
       {
         path: 'add',
-        component: () => import('../views/order/cn/CnAdd.vue'),
+        component: () => import('../views/cn/CnAdd.vue'),
       },
       {
-        path: 'month',
-        component: () => import('../views/report/ReportMonth.vue'),
-      },
-      {
-        path: 'group',
-        component: () => import('../views/report/ReportGroup.vue'),
-      },
-      {
-        path: 'sku',
-        component: () => import('../views/report/ReportSku.vue'),
+        path: 'addFromOrder',
+        component: () => import('../views/cn/CnAddFromOrder.vue'),
       },
     ],
   },

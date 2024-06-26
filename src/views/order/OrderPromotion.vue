@@ -1,7 +1,7 @@
 <template>
     <LayoutSub>
         <template v-slot>
-            <div class="flex flex-col h-full">
+            <div class="flex flex-col md:h-full space-y-4 p-4">
                 <div class="flex flex-row items-center">
                     <div class="mt-2">
                         <ButtonBack />
@@ -16,27 +16,28 @@
                         ของแถม
                     </div>
                     <div
-                    class="bg-white px-2 sha shadow-slate-300 shadow-md rounded-lg overflow-auto md:w-card sm:w-[360px] sm:h-[275px] md:h-[600px]">
-                    <div class="flex flex-col p-4" v-for="free in listFree" :key="free.proId">
-                        <div class="flex justify-between">
-                            <h2 class="mb-2 sm:text-lg font-semibold tracking-tight overflow-hidden whitespace-nowrap truncate">
-                            {{ free.proId }}
-                            </h2>
-                            <button type="button" @click="handleClick()"
-                                class="text-white bg-red-500 w-6 h-6 font-medium rounded-md sm:text-sm md:text-lg inline-flex flex-col items-center justify-center">
-                                <Icon class="icon w-4 h-4" icon="ph:x-bold" />
-                            </button>
-                        </div>
-                        <div class="flex justify-between">
-                            <p class="mb-3 justify-end font-normal text-gray-700">
-                               {{ free.summaryQty }}
-                            </p>
-                            <p class="mb-3 justify-end font-normal text-gray-700">
-                                {{ free.listProduct[0].productName }}
-                            </p>
+                        class="bg-white px-2 sha shadow-slate-300 shadow-md rounded-lg overflow-auto md:w-card sm:w-[360px] sm:h-[275px] md:h-[600px]">
+                        <div class="flex flex-col p-4" v-for="free in listFree" :key="free.proId">
+                            <div class="flex justify-between">
+                                <h2
+                                    class="mb-2 sm:text-lg font-semibold tracking-tight overflow-hidden whitespace-nowrap truncate">
+                                    {{ free.proId }}
+                                </h2>
+                                <button type="button" @click="handleClick()"
+                                    class="text-white bg-red-500 w-6 h-6 font-medium rounded-md sm:text-sm md:text-lg inline-flex flex-col items-center justify-center">
+                                    <Icon class="icon w-4 h-4" icon="ph:x-bold" />
+                                </button>
+                            </div>
+                            <div class="flex justify-between">
+                                <p class="mb-3 justify-end font-normal text-gray-700">
+                                    {{ free.summaryQty }}
+                                </p>
+                                <p class="mb-3 justify-end font-normal text-gray-700">
+                                    {{ free.listProduct[0].productName }}
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
                 </div>
                 <div class="flex flex-col items-center mt-5">
                     <div>
@@ -54,13 +55,11 @@
                         </template> -->
                     </Table>
                 </div>
-                <div class="relative rounded-t-xl overflow-auto p-4">
-                    <div class="flex flex-nowrap gap-4 font-mono text-white md:text-2xl rounded-lg">
-                        <button class="p-4 w-full rounded-lg flex items-center justify-center bg-green-500 shadow-lg"
-                            @click="handleCheckout">
-                            ถัดไป
-                        </button>
-                    </div>
+                <div class="flex gap-4 text-white text-xl">
+                    <button class="p-4 w-full rounded-lg flex items-center justify-center bg-green-500 shadow-lg"
+                        @click="handleCheckout">
+                        ถัดไป
+                    </button>
                 </div>
             </div>
         </template>
