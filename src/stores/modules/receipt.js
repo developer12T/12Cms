@@ -10,8 +10,8 @@ export const useReceiptStore = defineStore('receipt', {
       const lineSeparator = '---------------------------------------------------------------------';
 
       const centerText = (text) => {
-        const width = 65;
-        const leftPadding = Math.floor((width - text.length) / 2);
+        const width = 57;
+        const leftPadding = Math.floor((width - text.length) / 1.5);
         return ' '.repeat(leftPadding) + text;
       };
 
