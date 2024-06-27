@@ -21,7 +21,7 @@
                             <div class="flex justify-between">
                                 <h2
                                     class="mb-2 sm:text-lg font-semibold tracking-tight overflow-hidden whitespace-nowrap truncate">
-                                    {{ free.proId }}
+                                    {{ free.listProduct[0].productName }}
                                 </h2>
                                 <button type="button" @click="handleClick()"
                                     class="text-white bg-red-500 w-6 h-6 font-medium rounded-md sm:text-sm md:text-lg inline-flex flex-col items-center justify-center">
