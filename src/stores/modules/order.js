@@ -226,7 +226,7 @@ export const useOrderStore = defineStore('orders', {
           // }
         );
         this.orderMain = response.data;
-        console.log('orderDetail', this.orderMain);
+        console.log('orderMain', this.orderMain);
       } catch (error) {
         console.error(error);
       }

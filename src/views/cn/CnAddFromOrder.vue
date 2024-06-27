@@ -11,7 +11,7 @@
                 </div>
                 <div class="bg-white p-3 shadow-md rounded-md">
                     <form class="max-w-sm mx-auto">
-                        <select v-model="selectedReason" @change="emitData"
+                        <select v-model="selectedReason"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                             <option value="" disabled selected>กรุณาเลือกสาเหตุ</option>
                             <option v-for="reason in dataReason" :key="reason.id" :value="reason.name">
@@ -22,8 +22,14 @@
                 </div>
                 <div class="bg-white p-3 shadow-md rounded-md">
                     <div class="text-sm">
-                        <div>{{ detail.orderDate }}</div>
-                        <div>{{ detail.orderNo }}</div>
+                        <div class="flex flex-row justify-between">
+                            <div class="flex justify-start">
+                                {{ detail.orderDate }}
+                            </div>
+                            <div class="flex justify-end">
+                                รายการ: {{ detail.orderNo }}
+                            </div>
+                        </div>
                         <div>{{ detail.name }} | {{ detail.tel }}</div>
                     </div>
                 </div>
@@ -65,7 +71,7 @@
                     </div>
                 </div>
                 <div class="flex-grow">
-                    <div class="bg-white p-4 rounded-md shadow-md space-y-2">
+                    <div class="bg-white p-3 rounded-md shadow-md">
                         <div class="flex justify-between text-lg">
                             <span>ยอดรวม</span>
                             <span>{{ detail.totalPrice }}</span>
@@ -75,12 +81,12 @@
                             <span>{{ detail.totalDiscount }}</span>
                         </div>
                         <div class="flex justify-between text-lg">
-                            <span>ราคาไม่รวมภาษี(Vat)</span>
+                            <span>ราคาไม่รวมภาษี (Vat)</span>
                             <span>{{ detail.totalExVat }}</span>
                         </div>
                         <div class="flex justify-between text-lg">
-                            <span>ภาษี(Vat)</span>
-                            <span>{{ detail.totalPrice - detail.totalExVat }}</span>
+                            <span>ภาษี (Vat)</span>
+                            <span>{{ detail.totalVat }}</span>
                         </div>
                         <div class="flex justify-between text-lg font-bold">
                             <span>มูลค่ารวม</span>
@@ -102,15 +108,14 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useCnStore, useOrderStore, useGeolocation, useOptionStore } from '../../stores'
+import { useCnStore, useOrderStore, useGeolocation, useOptionStore, useUtilityStore } from '../../stores'
 import LayoutSub from '../LayoutSub.vue'
 import ButtonBack from '../../components/ButtonBack.vue'
 import Alert from '../../components/Alert.vue'
 
-const router = useRouter();
-const storeId = localStorage.getItem('routeStoreId')
-const storeName = localStorage.getItem('routeStoreName')
-const orderCN = localStorage.getItem('orderCN')
+const router = useRouter()
+const util = useUtilityStore()
+const cn = useCnStore()
 const store = useOrderStore()
 const option = useOptionStore()
 const detail = computed(() => store.orderDetail)
@@ -124,7 +129,13 @@ const selectedReason = ref('')
 const reasonType = ('CN')
 
 const handleClick = () => {
-    showAlert.value = true;
+    if (!selectedReason.value) {
+            alert('กรุณาเลือกสาเหตุการคืนสินค้า');
+            return;
+        } else {
+            showAlert.value = true;
+        }
+    console.log(selectedReason.value)
 };
 
 const dismissAlert = () => {
@@ -134,24 +145,25 @@ const dismissAlert = () => {
 
 const handleSave = async () => {
     try {
-        var lat = latitude.value.toString()
-        var long = longitude.value.toString()
-        await store.addOrderData({
-            area: localStorage.getItem('area'),
-            storeId: localStorage.getItem('routeStoreId'),
-            idRoute: localStorage.getItem('routeId'),
-            latitude: lat,
-            longitude: long,
-        });
-        showAlert.value = false;
-        await router.push('/cms/route/store');
+        console.log(util.orderCN)
+        console.log(util.saleCode)
+        console.log(util.zone)
+        console.log(selectedReason.value)
+        await cn.addFromOrder({
+            orderNo: util.orderCN,
+            saleCode: util.saleCode,
+            zone: util.zone,
+            noteCnOrder: selectedReason.value
+        })
+        showAlert.value = false
+        await router.push('/cms/order')
     } catch (error) {
-        console.error(error);
+        console.error(error)
     }
 }
 
 onMounted(() => {
-    store.getOrderDetail(orderCN)
+    store.getOrderDetail(util.orderCN)
     option.getReason(reasonType)
 });
 

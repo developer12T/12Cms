@@ -51,7 +51,7 @@
                         </div>
                         <div class="flex justify-between text-lg">
                             <span>ภาษี (Vat)</span>
-                            <span>{{ detail.totalPrice - detail.totalExVat }}</span>
+                            <span>{{ detail.totalVat }}</span>
                         </div>
                         <div class="flex justify-between text-lg font-bold">
                             <span>มูลค่ารวม</span>
@@ -60,11 +60,17 @@
                     </div>
                 </div>
                 <div class="flex gap-4 text-white text-xl">
-                    <button class="p-4 w-full rounded-lg flex items-center justify-center bg-red-500 shadow-lg"
+                    <button 
+                        :disabled="detail.status === '99'" 
+                        :class="detail.status === '99' ? 'bg-gray-300 cursor-not-allowed' : 'bg-red-500'" 
+                        class="p-4 w-full rounded-lg flex items-center justify-center shadow-lg"
                         @click="handleCN(detail.orderNo)">
                         คืนสินค้า
                     </button>
-                    <button class="p-4 w-full rounded-lg flex items-center justify-center bg-blue-500 shadow-lg"
+                    <button 
+                        :disabled="detail.status === '99'" 
+                        :class="detail.status === '99' ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-500'" 
+                        class="p-4 w-full rounded-lg flex items-center justify-center shadow-lg"
                         @click="showAlert = true">
                         พิมพ์ใบเสร็จ
                     </button>

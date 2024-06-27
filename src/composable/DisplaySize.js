@@ -3,6 +3,7 @@ import { onMounted, onUnmounted, reactive, toRefs } from 'vue'
 export function useDisplaySize() {
     const sizes = reactive({
         browserWidth: window.innerWidth,
+        browserHeight: window.innerHeight,
         deviceWidth: screen.width,
         deviceHeight: screen.height,
         isMobile: false
@@ -10,6 +11,7 @@ export function useDisplaySize() {
 
     const browserResized = () => {
         sizes.browserWidth = window.innerWidth
+        sizes.browserHeight = window.innerHeight,
         sizes.deviceWidth = screen.width
         sizes.deviceHeight = screen.height
         sizes.isMobile = isMobile()

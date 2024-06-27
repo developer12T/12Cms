@@ -30,10 +30,10 @@
                             </div>
                             <div class="flex justify-between">
                                 <p class="mb-3 justify-end font-normal text-gray-700">
-                                    {{ free.summaryQty }}
+                                    {{ free.proName }}
                                 </p>
                                 <p class="mb-3 justify-end font-normal text-gray-700">
-                                    {{ free.listProduct[0].productName }}
+                                    {{ free.listProduct[0].qtyText }}
                                 </p>
                             </div>
                         </div>
@@ -43,17 +43,29 @@
                     <div>
                         ส่วนลด
                     </div>
-                    <Table :columns="tableFree" :data="listDiscount"
-                        :thClass="'px-10 py-3 text-center sm:text-sm md:text-lg'"
-                        :tdClass="'px-10 py-2 sm:text-sm md:text-lg text-start'" :hTable="'sm:h-[275px] md:h-[350px]'">
-                        <!-- <template v-slot:button="{ rowData }">
-                            <button type="button"
-                                class="text-white bg-red-500 w-6 h-6 font-medium rounded-md text-md inline-flex flex-col items-center justify-center"
-                                @click="handleClick(rowData.id, rowData.unitId)">
-                                <Icon class="icon w-4 h-4" icon="ph:x-bold" />
-                            </button>
-                        </template> -->
-                    </Table>
+                    <div
+                        class="bg-white px-2 sha shadow-slate-300 shadow-md rounded-lg overflow-auto md:w-card sm:w-[360px] sm:h-[275px] md:h-[600px]">
+                        <div class="flex flex-col p-4" v-for="free in listFree" :key="free.proId">
+                            <!-- <div class="flex justify-between">
+                                <h2
+                                    class="mb-2 sm:text-lg font-semibold tracking-tight overflow-hidden whitespace-nowrap truncate">
+                                    {{ free.listProduct[0].productName }}
+                                </h2>
+                                <button type="button" @click="handleClick()"
+                                    class="text-white bg-red-500 w-6 h-6 font-medium rounded-md sm:text-sm md:text-lg inline-flex flex-col items-center justify-center">
+                                    <Icon class="icon w-4 h-4" icon="ph:x-bold" />
+                                </button>
+                            </div>
+                            <div class="flex justify-between">
+                                <p class="mb-3 justify-end font-normal text-gray-700">
+                                    {{ free.proName }}
+                                </p>
+                                <p class="mb-3 justify-end font-normal text-gray-700">
+                                    {{ free.listProduct[0].qtyText }}
+                                </p>
+                            </div> -->
+                        </div>
+                    </div>
                 </div>
                 <div class="flex gap-4 text-white text-xl">
                     <button class="p-4 w-full rounded-lg flex items-center justify-center bg-green-500 shadow-lg"
@@ -101,34 +113,11 @@ onMounted(() => {
     reward.getPromotionReward();
 });
 
-const dataReward = computed(() => {
-    return {
-        listFree: reward.freeList.map(item => ({
-            proId: item.proId,
-            summaryQty: item.summaryQty,
-            listProduct: item.listProduct.map(product => ({
-                productId: product.productId,
-                productName: product.productName,
-                qty: `${product.qty} ${product.unitQty}`,
-            })),
-        })),
-    }
-});
-
 const dataDiscount = computed(() => {
     return store.orderCartList.map(item => ({
         ...item,
         qty: `${item.qty} ${item.unitTypeThai}`
     }));
-});
-
-const tableReward = computed(() => {
-    return [
-        { id: 'proId', title: 'โปร' },
-        { id: 'productName', title: 'สินค้า' },
-        { id: 'qty', title: 'จำนวน' },
-        { id: '', title: '*' },
-    ];
 });
 
 const tableFree = computed(() => {

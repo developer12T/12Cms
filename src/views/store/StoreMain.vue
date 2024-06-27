@@ -12,10 +12,8 @@
       </div>
       <div class="relative rounded-t-xl overflow-auto p-5">
         <div class="flex flex-nowrap gap-4 font-mono text-black md:text-2xl rounded-lg">
-          <button class="p-4 w-full rounded-lg flex items-center justify-center bg-white shadow-lg"
-            v-for="item in btStore" :key="item.id" @click="handleClick(item.id)">
-            {{ item.title }}
-          </button>
+          <ToggleButton v-for="item in btType" :key="item.id" :id="item.id" :title="item.title"
+            :isActive="btSelected === item.id" @toggle="handleClick" />
         </div>
       </div>
     </template>
@@ -23,14 +21,14 @@
       <div class="flex justify-center">
         <div v-if="btSelected === 'all'">
           <CustomerAll />
-          <div class="flex justify-end mt-3">
+        </div>
+        <div v-else-if="btSelected === 'new'">
+          <CustomerNew />
+          <div class="flex justify-end mt-2">
             <router-link to="/cms/store/add">
               <ButtonAdd :icon="'ph:plus-light'" />
             </router-link>
           </div>
-        </div>
-        <div v-else-if="btSelected === 'new'">
-          <CustomerNew />
         </div>
       </div>
     </template>
@@ -45,6 +43,7 @@ import { ref, computed } from 'vue'
 import { useDisplaySize } from '../../composable/DisplaySize'
 import LayoutMain from '../LayoutMain.vue'
 import SearchBar from '../../components/SearchBar.vue'
+import ToggleButton from '../../components/ToggleButton.vue'
 import CustomerAll from '../../components/tablet/CustomerAll.vue'
 import CustomerNew from '../../components/tablet/CustomerNew.vue'
 import ButtonAdd from '../../components/ButtonCircle.vue'
@@ -54,7 +53,7 @@ import MobileButtonNav from '../../components/mobile/ButtonNav.vue'
 const { isMobile } = useDisplaySize()
 
 const btSelected = ref('all')
-const btStore = computed(() => {
+const btType = computed(() => {
   return [
     { id: 'all', title: 'ร้านค้าทั้งหมด' },
     { id: 'new', title: 'ร้านค้าใหม่' },
