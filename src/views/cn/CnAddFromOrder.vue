@@ -145,12 +145,12 @@ const dismissAlert = () => {
 
 const handleSave = async () => {
     try {
-        console.log(util.orderCN)
+        console.log(util.orderNo)
         console.log(util.saleCode)
         console.log(util.zone)
         console.log(selectedReason.value)
         await cn.addFromOrder({
-            orderNo: util.orderCN,
+            orderNo: util.orderNo,
             saleCode: util.saleCode,
             zone: util.zone,
             noteCnOrder: selectedReason.value
@@ -163,7 +163,7 @@ const handleSave = async () => {
 }
 
 onMounted(() => {
-    store.getOrderDetail(util.orderCN)
+    store.getOrderDetail(util.orderNo)
     option.getReason(reasonType)
 });
 
