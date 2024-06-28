@@ -5,6 +5,8 @@ export const useCnStore = defineStore('cn', {
   state: () => ({
     reason: [],
     orderCnMain: [],
+    orderCnDetail: [],
+    orderCnDetailList: [],
   }),
   actions: {
     async addFromOrder(orderData) {
@@ -38,6 +40,26 @@ export const useCnStore = defineStore('cn', {
         );
         this.orderCnMain = response.data;
         console.log('orderCnMain', this.orderCnMain);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getCnOrderDetail(orderNo) {
+      try {
+        //   const token = JSON.parse(localStorage.getItem('token'));
+        const response = await axios.post(
+          import.meta.env.VITE_API_BASE_URL + '/cms/cnOrder/getDetail',
+          {
+            orderNo: orderNo
+          }
+          // {
+          //   headers: { Authorization: `Bearer ${token}` },
+          // }
+        );
+        this.orderCnDetail = response.data;
+        this.orderCnDetailList = response.data.list;
+        console.log('Cndetail', this.orderCnDetail);
+        console.log('CndetailList', this.orderCnDetailList);
       } catch (error) {
         console.error(error);
       }

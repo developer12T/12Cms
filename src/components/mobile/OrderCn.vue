@@ -29,6 +29,12 @@ const cn = useCnStore()
 const util = useUtilityStore()
 const CnList = computed(() => cn.orderCnMain)
 
+const viewOrderDetail = (orderNo) => {
+    console.log(orderNo)
+    // router.push('cn/detail')
+    // localStorage.setItem('orderNo', orderNo)
+}
+
 const statusClass = (status) => {
     switch(status) {
         case '99': return 'text-red-500';

@@ -16,7 +16,7 @@
                         ของแถม
                     </div>
                     <div
-                        class="bg-white px-2 sha shadow-slate-300 shadow-md rounded-lg overflow-auto md:w-card sm:w-[360px] sm:h-[275px] md:h-[600px]">
+                        class="bg-white px-2 sha shadow-slate-300 shadow-md rounded-lg overflow-auto md:w-card sm:w-[360px] sm:h-[250px] md:h-[600px]">
                         <div class="flex flex-col p-4" v-for="free in listFree" :key="free.proId">
                             <div class="flex justify-between">
                                 <h2
@@ -44,7 +44,7 @@
                         ส่วนลด
                     </div>
                     <div
-                        class="bg-white px-2 sha shadow-slate-300 shadow-md rounded-lg overflow-auto md:w-card sm:w-[360px] sm:h-[275px] md:h-[600px]">
+                        class="bg-white px-2 sha shadow-slate-300 shadow-md rounded-lg overflow-auto md:w-card sm:w-[360px] sm:h-[250px] md:h-[600px]">
                         <div class="flex flex-col p-4" v-for="free in listFree" :key="free.proId">
                             <!-- <div class="flex justify-between">
                                 <h2
@@ -89,35 +89,32 @@ import Table from '../../components/Table.vue'
 import Alert from '../../components/Alert.vue'
 
 const router = useRouter()
-const storeId = localStorage.getItem('routeStoreId')
-const storeName = localStorage.getItem('routeStoreName')
-
-const store = useOrderStore();
-const reward = usePromotionStore();
+const order = useOrderStore()
+const reward = usePromotionStore()
 const orderCart = computed(() => {
-    return store.orderCart;
+    return order.orderCart
 });
 const orderCartList = computed(() => {
-    return store.orderCartList;
+    return order.orderCartList
 });
 const listFree = computed(() => {
-    return reward.freeList;
+    return reward.freeList
 });
 const listDiscount = computed(() => {
-    return reward.discountList;
+    return reward.discountList
 });
 onMounted(() => {
-    store.getOrderCart();
+    order.getOrderCart()
 });
 onMounted(() => {
-    reward.getPromotionReward();
+    reward.getPromotionReward()
 });
 
 const dataDiscount = computed(() => {
     return store.orderCartList.map(item => ({
         ...item,
         qty: `${item.qty} ${item.unitTypeThai}`
-    }));
+    }))
 });
 
 const tableFree = computed(() => {
@@ -130,31 +127,27 @@ const tableFree = computed(() => {
 });
 
 const showAlert = ref(false)
-const alertTitle = 'Confirmation';
-const alertContent = 'Are you sure you want to delete this item?'
 
-const selectedId = ref(null);
-const selectedUnitId = ref(null);
+const selectedId = ref(null)
+const selectedUnitId = ref(null)
 
 const handleClick = (id, unitId) => {
-    console.log(`item: ${id}`);
-    console.log(`unit: ${unitId}`);
-    selectedId.value = id;
-    selectedUnitId.value = unitId;
-    showAlert.value = true;
+    console.log(`item: ${id}`)
+    console.log(`unit: ${unitId}`)
+    selectedId.value = id
+    selectedUnitId.value = unitId
+    showAlert.value = true
     // console.log(showAlert.value);
     // store.deleteItemCart(id, unitId);
-};
+}
 
 const dismissAlert = () => {
-    showAlert.value = false;
-    console.log(showAlert.value);
-};
+    showAlert.value = false
+    console.log(showAlert.value)
+}
 
 const handleCheckout = () => {
     router.push('/cms/order/checkout')
-};
-
-const productId = localStorage.getItem('orderProductId')
+}
 
 </script>
