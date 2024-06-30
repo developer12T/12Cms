@@ -60,13 +60,6 @@
                     </div>
                 </div>
                 <div class="flex gap-4 text-white text-xl">
-                    <!-- <button 
-                        :disabled="detail.status === '99'" 
-                        :class="detail.status === '99' ? 'bg-gray-300 cursor-not-allowed' : 'bg-red-500'" 
-                        class="p-4 w-full rounded-lg flex items-center justify-center shadow-lg"
-                        @click="handleCN(detail.orderNo)">
-                        คืนสินค้า
-                    </button> -->
                     <button 
                         :disabled="detail.status === '99'" 
                         :class="detail.status === '99' ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-500'" 
@@ -85,36 +78,30 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { useOrderStore, useBluetoothStore, useReceiptStore } from '../../stores'
+import { useCnStore, useBluetoothStore, useReceiptStore, useUtilityStore } from '../../stores'
 import LayoutSub from '../LayoutSub.vue'
 import ButtonBack from '../../components/ButtonBack.vue'
 import AlertBluetooth from '../../components/AlertBluetooth.vue'
 
-const router = useRouter();
-const orderStore = useOrderStore();
-const bluetooth = useBluetoothStore();
-const receipt = useReceiptStore();
+const router = useRouter()
+const cn = useCnStore()
+const util = useUtilityStore()
+const bluetooth = useBluetoothStore()
+const receipt = useReceiptStore()
 
-const detail = computed(() => orderStore.orderDetail);
-const detailList = computed(() => orderStore.orderDetailList);
+const detail = computed(() => cn.orderCnDetail);
+const detailList = computed(() => cn.orderCnDetailList);
 const showAlert = ref(false);
 
 
 const handlePrint = async () => {
-    const formattedData = receipt.formatReceiptData(detail.value);
+    const formattedData = receipt.formatReceiptData(detail.value)
     console.log('print', formattedData)
-    await bluetooth.print(formattedData)
+    // await bluetooth.print(formattedData)
     showAlert.value = false;
 };
 
-const handleCN = (orderNo) => {
-    console.log(orderNo)
-    // router.push('/cms/cn/addFromOrder')
-    // localStorage.setItem('orderCN', orderNo)
-};
-
 onMounted(() => {
-    // const orderNo = localStorage.getItem('orderNo')
-    orderStore.getCnOrderDetail(orderNo)
+    cn.getCnOrderDetail(util.orderCN)
 });
 </script>

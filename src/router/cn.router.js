@@ -13,6 +13,10 @@ const reportRoutes = [
         path: 'addFromOrder',
         component: () => import('../views/cn/CnAddFromOrder.vue'),
       },
+      {
+        path: 'detail',
+        component: () => import('../views/cn/CnDetail.vue'),
+      },
     ],
   },
 ];

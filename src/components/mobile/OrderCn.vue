@@ -29,10 +29,10 @@ const cn = useCnStore()
 const util = useUtilityStore()
 const CnList = computed(() => cn.orderCnMain)
 
-const viewOrderDetail = (orderNo) => {
-    console.log(orderNo)
-    // router.push('cn/detail')
-    // localStorage.setItem('orderNo', orderNo)
+const viewOrderDetail = (orderCn) => {
+    console.log(orderCn)
+    router.push('cn/detail')
+    localStorage.setItem('orderCn', orderCn)
 }
 
 const statusClass = (status) => {
