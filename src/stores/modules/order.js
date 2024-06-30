@@ -107,7 +107,7 @@ export const useOrderStore = defineStore('orders', {
       try {
         //   const token = JSON.parse(localStorage.getItem('token'));
         const response = await axios.post(
-          import.meta.env.VITE_API_BASE_URL + '/cms/saleProduct/addProductToCart', 
+          import.meta.env.VITE_API_BASE_URL + '/cms/saleProduct/addProductToCart',
           this.productData,
           // {
           //   headers: { Authorization: `Bearer ${token}` },
@@ -143,8 +143,8 @@ export const useOrderStore = defineStore('orders', {
         const response = await axios.post(
           import.meta.env.VITE_API_BASE_URL + '/cms/saleProduct/getCartToShow',
           {
-            area: area,
-            storeId: storeId,
+              area: area,
+              storeId: storeId,
           }
           // {
           //   headers: { Authorization: `Bearer ${token}` },

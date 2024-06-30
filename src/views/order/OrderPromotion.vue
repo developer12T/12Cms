@@ -82,52 +82,26 @@
 import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { Icon } from '@iconify/vue'
-import { useOrderStore, usePromotionStore } from '../../stores'
+import { useOrderStore, usePromotionStore, useUtilityStore } from '../../stores'
 import LayoutSub from '../LayoutSub.vue'
 import ButtonBack from '../../components/ButtonBack.vue'
-import Table from '../../components/Table.vue'
 import Alert from '../../components/Alert.vue'
 
 const router = useRouter()
-const order = useOrderStore()
 const reward = usePromotionStore()
-const orderCart = computed(() => {
-    return order.orderCart
-});
-const orderCartList = computed(() => {
-    return order.orderCartList
-});
+const util = useUtilityStore()
 const listFree = computed(() => {
     return reward.freeList
-});
+})
 const listDiscount = computed(() => {
     return reward.discountList
-});
-onMounted(() => {
-    order.getOrderCart()
-});
-onMounted(() => {
-    reward.getPromotionReward()
-});
+})
 
-const dataDiscount = computed(() => {
-    return store.orderCartList.map(item => ({
-        ...item,
-        qty: `${item.qty} ${item.unitTypeThai}`
-    }))
-});
-
-const tableFree = computed(() => {
-    return [
-        { id: 'proId', title: 'สินค้า' },
-        { id: 'qty', title: 'จำนวน' },
-        { id: 'summaryPrice', title: 'รวม' },
-        // { id: '', title: '*' },
-    ];
-});
+onMounted(() => {
+    reward.getPromotionReward(util.area,util.storeId)
+})
 
 const showAlert = ref(false)
-
 const selectedId = ref(null)
 const selectedUnitId = ref(null)
 
