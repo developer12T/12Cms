@@ -12,20 +12,20 @@
                     </div>
                 </div>
                 <div class="flex flex-col mt-4">
-                    <div class="ml-12 md:text-xl">
+                    <div class="ml-6 md:text-xl">
                         รหัส : {{ routeStore.storeId }}
                     </div>
-                    <div class="ml-12 md:text-xl">
+                    <div class="ml-6 md:text-xl">
                         ชื่อ : {{ routeStore.name }}
                     </div>
-                    <div class="ml-12 md:text-xl">
+                    <div class="ml-6 md:text-xl">
                         ที่อยู่ : {{ routeStore.address }}
                     </div>
                 </div>
                 <div class="flex justify-center mt-5">
                     <Table :columns="tableColumns" :data="routeStoreList"
-                        :thClass="'px-10 py-3 text-center sm:text-sm md:text-lg'"
-                        :tdClass="'px-6 py-2 sm:text-sm md:text-lg text-center'" :hTable="'sm:h-[450px] md:h-[650px]'" @row-click="handleClickDetail">
+                        :thClass="'px-8 py-3 text-center sm:text-sm md:text-lg'"
+                        :tdClass="'px-6 py-2 sm:text-sm md:text-lg text-center'" :hTable="'sm:h-[400px] md:h-[650px]'" @row-click="handleClickDetail">
                     </Table>
                 </div>
                 <div class="flex flex-row justify-center">

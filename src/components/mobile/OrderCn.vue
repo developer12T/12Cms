@@ -30,7 +30,7 @@ const util = useUtilityStore()
 const CnList = computed(() => cn.orderCnMain)
 
 const viewOrderDetail = (orderCn) => {
-    console.log(orderCn)
+    console.log('CnDetail', orderCn)
     router.push('cn/detail')
     localStorage.setItem('orderCn', orderCn)
 }

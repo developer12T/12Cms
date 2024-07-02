@@ -16,7 +16,7 @@
                         ของแถม
                     </div>
                     <div
-                        class="bg-white px-2 sha shadow-slate-300 shadow-md rounded-lg overflow-auto md:w-card sm:w-[360px] sm:h-[250px] md:h-[600px]">
+                        class="bg-white px-2 sha shadow-slate-300 shadow-md rounded-lg overflow-auto md:w-card sm:w-[360px] sm:h-[230px] md:h-[600px]">
                         <div class="flex flex-col p-4" v-for="free in listFree" :key="free.proId">
                             <div class="flex justify-between">
                                 <h2
@@ -44,7 +44,7 @@
                         ส่วนลด
                     </div>
                     <div
-                        class="bg-white px-2 sha shadow-slate-300 shadow-md rounded-lg overflow-auto md:w-card sm:w-[360px] sm:h-[250px] md:h-[600px]">
+                        class="bg-white px-2 sha shadow-slate-300 shadow-md rounded-lg overflow-auto md:w-card sm:w-[360px] sm:h-[230px] md:h-[600px]">
                         <div class="flex flex-col p-4" v-for="free in listFree" :key="free.proId">
                             <!-- <div class="flex justify-between">
                                 <h2

@@ -85,19 +85,20 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { useOrderStore, useBluetoothStore, useReceiptStore } from '../../stores'
+import { useOrderStore, useBluetoothStore, useReceiptStore, useUtilityStore } from '../../stores'
 import LayoutSub from '../LayoutSub.vue'
 import ButtonBack from '../../components/ButtonBack.vue'
 import AlertBluetooth from '../../components/AlertBluetooth.vue'
 
-const router = useRouter();
-const orderStore = useOrderStore();
-const bluetooth = useBluetoothStore();
-const receipt = useReceiptStore();
+const router = useRouter()
+const orderStore = useOrderStore()
+const util = useUtilityStore()
+const bluetooth = useBluetoothStore()
+const receipt = useReceiptStore()
 
-const detail = computed(() => orderStore.orderDetail);
-const detailList = computed(() => orderStore.orderDetailList);
-const showAlert = ref(false);
+const detail = computed(() => orderStore.orderDetail)
+const detailList = computed(() => orderStore.orderDetailList)
+const showAlert = ref(false)
 
 
 const handlePrint = async () => {
@@ -108,13 +109,12 @@ const handlePrint = async () => {
 };
 
 const handleCN = (orderNo) => {
-    console.log(orderNo)
+    console.log('cn',orderNo)
     router.push('/cms/cn/addFromOrder')
-    localStorage.setItem('orderCN', orderNo)
 };
 
 onMounted(() => {
-    const orderNo = localStorage.getItem('orderNo')
-    orderStore.getOrderDetail(orderNo)
+    // const orderNo = localStorage.getItem('orderNo')
+    orderStore.getOrderDetail(util.orderNo)
 });
 </script>

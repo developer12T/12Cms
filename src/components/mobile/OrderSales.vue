@@ -42,6 +42,6 @@ const statusClass = (status) => {
 }
 
 onMounted(() => {
-    store.getOrderMain();
+    store.getOrderMain()
 });
 </script>

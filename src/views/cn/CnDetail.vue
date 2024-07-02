@@ -95,13 +95,14 @@ const showAlert = ref(false);
 
 
 const handlePrint = async () => {
-    const formattedData = receipt.formatReceiptData(detail.value)
+    const formattedData = receipt.formatReceiptDataCn(detail.value)
     console.log('print', formattedData)
-    // await bluetooth.print(formattedData)
+    await bluetooth.print(formattedData)
     showAlert.value = false;
 };
 
 onMounted(() => {
-    cn.getCnOrderDetail(util.orderCN)
+    console.log('cnapi', util.orderCn)
+    cn.getCnOrderDetail(util.orderCn)
 });
 </script>

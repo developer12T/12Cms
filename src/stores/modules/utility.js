@@ -25,7 +25,7 @@ export const useUtilityStore = defineStore('utility', {
     longitude: localStorage.getItem('longitude'),
     routeId: localStorage.getItem('routeId'),
     orderNo: localStorage.getItem('orderNo'),
-    orderCN: localStorage.getItem('orderCN'),
+    orderCn: localStorage.getItem('orderCn'),
   }),
   getters: {
     // getArea: () => localStorage.getItem('area'),

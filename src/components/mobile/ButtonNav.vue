@@ -35,9 +35,9 @@ const buttons = ref([
     route: "order"
   },
   {
-    label: "จัดการ",
-    icon: "fluent:drawer-add-24-regular",
-    route: "manage"
+    label: "รายงาน",
+    icon: "mdi:report-finance",
+    route: "#"
   },
   {
     label: "ตั้งค่า",
