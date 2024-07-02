@@ -31,8 +31,8 @@ const CnList = computed(() => cn.orderCnMain)
 
 const viewOrderDetail = (orderCn) => {
     console.log('CnDetail', orderCn)
-    router.push('cn/detail')
     localStorage.setItem('orderCn', orderCn)
+    router.push('cn/detail')
 }
 
 const statusClass = (status) => {

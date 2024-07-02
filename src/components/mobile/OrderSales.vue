@@ -28,9 +28,10 @@ const store = useOrderStore()
 const orderList = computed(() => store.orderMain)
 
 const viewOrderDetail = (orderNo) => {
-    console.log(orderNo)
+    console.log('order',orderNo)
     router.push('order/detail')
     localStorage.setItem('orderNo', orderNo)
+    store.getOrderDetail(orderNo)
 }
 
 const statusClass = (status) => {
