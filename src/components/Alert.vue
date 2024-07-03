@@ -49,7 +49,7 @@ const onDismiss = () => {
 
 const alertClasses = computed(() => {
     return [
-        'p-4 mb-4 fixed top-0 left-0 right-0 z-50 w-full h-44 overflow-x-hidden overflow-y-auto rounded-lg',
+        'p-4 mb-4 fixed top-0 left-0 right-0 z-50 w-full overflow-x-hidden overflow-y-auto rounded-lg',
         props.color,
     ]
 })
