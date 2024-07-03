@@ -45,25 +45,15 @@
                     </div>
                     <div
                         class="bg-white px-2 sha shadow-slate-300 shadow-md rounded-lg overflow-auto md:w-card sm:w-[360px] sm:h-[230px] md:h-[600px]">
-                        <div class="flex flex-col p-4" v-for="free in listFree" :key="free.proId">
-                            <!-- <div class="flex justify-between">
-                                <h2
-                                    class="mb-2 sm:text-lg font-semibold tracking-tight overflow-hidden whitespace-nowrap truncate">
-                                    {{ free.listProduct[0].productName }}
-                                </h2>
-                                <button type="button" @click="handleClick()"
-                                    class="text-white bg-red-500 w-6 h-6 font-medium rounded-md sm:text-sm md:text-lg inline-flex flex-col items-center justify-center">
-                                    <Icon class="icon w-4 h-4" icon="ph:x-bold" />
-                                </button>
-                            </div>
+                        <div class="flex flex-col p-4" v-for="discount in listDiscount" :key="discount.proId">
                             <div class="flex justify-between">
                                 <p class="mb-3 justify-end font-normal text-gray-700">
-                                    {{ free.proName }}
+                                    {{ discount.proName }}
                                 </p>
                                 <p class="mb-3 justify-end font-normal text-gray-700">
-                                    {{ free.listProduct[0].qtyText }}
+                                    รวม {{ discount.discount }} บาท
                                 </p>
-                            </div> -->
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -82,7 +72,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { Icon } from '@iconify/vue'
-import { useOrderStore, usePromotionStore, useUtilityStore } from '../../stores'
+import { usePromotionStore, useUtilityStore } from '../../stores'
 import LayoutSub from '../LayoutSub.vue'
 import ButtonBack from '../../components/ButtonBack.vue'
 import Alert from '../../components/Alert.vue'
