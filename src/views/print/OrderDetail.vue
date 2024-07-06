@@ -86,14 +86,14 @@ const order = useOrderStore()
 const bluetooth = useBluetoothStore()
 const receipt = useReceiptStore()
 
-const detail = computed(() => order.orderDetail)
+const detail = computed(() => order.orderCADetail)
 const item = computed(() => order.orderItem)
 const customer = computed(() => order.orderCustomer)
 const showAlert = ref(false)
 const loading = ref(true)
 
 const handlePrint = async () => {
-    const formattedData = receipt.formatReceiptCA(detail.value);
+    const formattedData = receipt.formatReceiptCA(detail.value)
     console.log('print', formattedData)
     await bluetooth.print(formattedData)
     showAlert.value = false;
