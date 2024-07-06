@@ -9,6 +9,8 @@ import CnRouter from './cn.router'
 
 const routes = [
   { path: '/', component: () => import('../views/authentication/Login.vue'), meta: { disallowedRoute: true } },
+  { path: '/print', component: () => import('../views/print/Order.vue') },
+  { path: '/print/detail', component: () => import('../views/print/OrderDetail.vue') },
   {
     path: '/cms',
     component: LayoutMain,

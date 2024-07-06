@@ -38,6 +38,10 @@ export const useOrderStore = defineStore('orders', {
       flavour: [],
     },
     option: [],
+    orders: [],
+    orderCADetail: [],
+    orderItem: [],
+    orderCustomer: [],
   }),
   getter: {
     getProductDetail: (state) => state.productDetail,
@@ -143,8 +147,8 @@ export const useOrderStore = defineStore('orders', {
         const response = await axios.post(
           import.meta.env.VITE_API_BASE_URL + '/cms/saleProduct/getCartToShow',
           {
-              area: area,
-              storeId: storeId,
+            area: area,
+            storeId: storeId,
           }
           // {
           //   headers: { Authorization: `Bearer ${token}` },
@@ -249,6 +253,32 @@ export const useOrderStore = defineStore('orders', {
         console.log('detailList', this.orderDetailList);
       } catch (error) {
         console.error(error);
+      }
+    },
+    async getOrder(area) {
+      try {
+        const response = await axios.post(
+          import.meta.env.VITE_API_CA_BASE_URL + '/orders',
+          { area }
+        )
+        this.orders = response.data
+        console.log('order', this.orders)
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    async getCAOrderDetail(order) {
+      try {
+        const response = await axios.post(
+          import.meta.env.VITE_API_CA_BASE_URL + '/orderDetail',
+          { order }
+        )
+        this.orderCADetail = response.data[0]
+        this.orderItem = response.data[0].items
+        this.orderCustomer = response.data[0].customer
+        console.log('orderDetail', this.orderCADetail)
+      } catch (error) {
+        console.error(error)
       }
     },
   },
