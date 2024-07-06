@@ -149,7 +149,7 @@ ${leftRightText(`ชื่อลูกค้า ${data.customer.customername}`, 
 ที่อยู่ ${data.customer.address1} ${data.customer.address2} ${data.customer.address3}
 เลขที่ผู้เสียภาษี ${data.customer.taxno}
 
-รายการสินค้า                  ราคา    ส่วนลด  จำนวน     รวม
+${centerText('รายการสินค้า                  ราคา    ส่วนลด  จำนวน     รวม')}
 `;
 
       const formatItem = (name, price, discount, qty, total) => {
@@ -174,13 +174,16 @@ ${leftRightText(`ชื่อลูกค้า ${data.customer.customername}`, 
       const totalText = thaiNumberToWords(data.total);
 
       const footer = `
-ก่อนภาษี: ${parseFloat(data.ex_vat).toFixed(2).padStart(43)}
-รวมทั้งสิ้น: ${parseFloat(data.total).toFixed(2).padStart(43)}
-ภาษี: ${parseFloat(data.vat).toFixed(2).padStart(43)}
+${leftRightText('ก่อนภาษี:', `${parseFloat(data.ex_vat).toFixed(2)}`, 74)}
+${leftRightText('ส่วนลด:', '0.00', 74)}
+${leftRightText('ภาษีมูลค่าเพิ่ม 7%:', `${parseFloat(data.vat).toFixed(2)}`, 74)}
+${leftRightText('ส่วนลดท้ายบิล:', '0.00', 74)}
+${leftRightText('ส่วนลดร้านค้า:', '0.00', 74)}
+${leftRightText('จำนวนเงินรวมสุทธิ:', `${parseFloat(data.total).toFixed(2)}`, 74)}
 
-${leftRightText('', `(${totalText})`, 74)}
-${leftRightText('พนักงาน 24980', '................................................', 74)}
-${leftRightText('', 'ลายเซ็นลูกค้า', 70)}
+${centerText(`(${totalText})`)}
+${leftRightText(`พนักงาน ${data.OBSMCD}`, '......................................', 74)}
+${centerText('ลายเซ็นลูกค้า')}
       `;
 
       return header + items + footer;
