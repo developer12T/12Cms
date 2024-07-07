@@ -78,13 +78,13 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { useOrderStore, useBluetoothStore, useReceiptStore2 } from '../../stores'
+import { useOrderStore, useBluetoothStore, useReceiptStore } from '../../stores'
 import AlertBluetooth from '../../components/AlertBluetooth.vue'
 
 const router = useRouter()
 const order = useOrderStore()
 const bluetooth = useBluetoothStore()
-const receipt = useReceiptStore2()
+const receipt = useReceiptStore()
 
 const detail = computed(() => order.orderCADetail)
 const item = computed(() => order.orderItem)
@@ -93,7 +93,7 @@ const showAlert = ref(false)
 const loading = ref(true)
 
 const handlePrint = async () => {
-    const formattedData = receipt.formatReceiptCA(detail.value, customer.value, item.value)
+    const formattedData = receipt.formatReceiptCA(detail.value)
     console.log('print', formattedData)
     await bluetooth.print(formattedData)
     showAlert.value = false;
