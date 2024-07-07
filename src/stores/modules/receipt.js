@@ -126,13 +126,16 @@ ${centerText('ขอบคุณที่ใช้บริการ')}
     },
 
     formatReceiptCA(data) {
-      const paperWidth = 69; // ความกว้างของกระดาษในหน่วย character
+      const paperWidth = 72; 
       const centerText = (text, width = paperWidth) => {
         const leftPadding = Math.max(0, Math.floor((width - text.length) / 2));
         return ' '.repeat(leftPadding) + text;
       };
 
       const leftRightText = (left, right, width = paperWidth) => {
+        if (left.length + right.length > width) {
+          left = left.substring(0, width - right.length - 3) + '...'; // ตัดข้อความฝั่งซ้ายถ้ายาวเกินไป
+        }
         const space = Math.max(0, width - left.length - right.length);
         return left + ' '.repeat(space) + right;
       };
@@ -147,45 +150,46 @@ ${centerText('ออกใบกำกับภาษีโดยสำนัก
 ${centerText('(บิลเงินสด/ใบกำกับภาษี)')}
 ${centerText('เอกสารออกเป็นชุด')}
 ${leftRightText(`รหัสลูกค้า ${data.customer.customercode}`, `เลขที่ ${data.CUOR}`)}
-${leftRightText(`ชื่อลูกค้า ${data.customer.customername}`, `วันที่ ${data.OAORDT}`)}
+${leftRightText(`ชื่อลูกค้า ${data.customer.customername}`, `วันที่ ${data.OAORDT}`, paperWidth)}
 ที่อยู่ ${data.customer.address1} ${data.customer.address2} ${data.customer.address3}
 เลขที่ผู้เสียภาษี ${data.customer.taxno}
 
-รายการสินค้า                 ราคา   ส่วนลด  จำนวน    รวม
+รายการสินค้า                      จำนวน      ราคา     ส่วนลด       รวม
 `;
 
-      const formatItem = (name, price, discount, qty, total) => {
+      const formatItem = (name, qty, price, discount, total) => {
         return sprintf(
-          "%-25s %8s %8s %8s %8s",
-          name.substring(0, 25).padEnd(25),
-          price.padStart(8),
-          discount.padStart(8),
-          qty.toString().padStart(8),
-          total.padStart(8)
+          "%-26s %10s %10s %10s %10s",
+          name.substring(0, 26).padEnd(26), 
+          qty.toString().padStart(10),
+          price.padStart(10),
+          discount.padStart(10),
+          total.padStart(10)
         );
       };
 
       const items = data.items.map(item => formatItem(
         item.itemname,
+        item.OBORQA,
         parseFloat(item.OBSAPR).toFixed(2),
         '0.00',
-        item.OBORQA,
         parseFloat(item.itemamount).toFixed(2)
       )).join('\n');
 
       const totalText = thaiNumberToWords(data.total);
-
       const footer = `
-${leftRightText('ก่อนภาษี', `${parseFloat(data.ex_vat).toFixed(2)}`, paperWidth)}
-${leftRightText('ส่วนลด', '0.00', paperWidth)}
-${leftRightText('ภาษีมูลค่าเพิ่ม 7%', `${parseFloat(data.vat).toFixed(2)}`, paperWidth)}
+
+${leftRightText('รวมมูลค่าสินค้า', `${parseFloat(data.ex_vat).toFixed(2)}`, '73')}
+${leftRightText('ส่วนลด', '0.00', '70')}
+${leftRightText('ภาษีมูลค่าเพิ่ม 7%', `${parseFloat(data.vat).toFixed(2)}`, '74')}
 ${leftRightText('ส่วนลดท้ายบิล', '0.00', paperWidth)}
 ${leftRightText('ส่วนลดร้านค้า', '0.00', paperWidth)}
 ${leftRightText('จำนวนเงินรวมสุทธิ', `${parseFloat(data.total).toFixed(2)}`, paperWidth)}
 
-${leftRightText('', `(${totalText})`, paperWidth)}
+${leftRightText('  ', `(${totalText})`, paperWidth)}
+${leftRightText('', '', paperWidth)}
 ${leftRightText(`ผู้รับเงิน ${data.OBSMCD}`, '.........................', paperWidth)}
-${leftRightText('', 'ลายเซ็นลูกค้า', paperWidth)}
+${leftRightText('', 'ลายเซ็นลูกค้า', '63')}
       `;
 
       return header + items + footer;
