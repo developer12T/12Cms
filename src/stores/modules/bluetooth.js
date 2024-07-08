@@ -45,9 +45,10 @@ export const useBluetoothStore = defineStore('bluetooth', {
         return;
       }
       try {
-        const encodedData = cptable.utils.encode(874, data + '\n');
+        const encodedData = cptable.utils.encode(874, data);
         const escPosCommands = new Uint8Array([
           0x1B, 0x40,
+          0x1B, 0x4D, 0x00,
           0x1B, 0x74, 14,
           ...encodedData,
           0x0A
