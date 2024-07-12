@@ -151,7 +151,9 @@ ${centerText('(บิลเงินสด/ใบกำกับภาษี)')}
 ${centerText('เอกสารออกเป็นชุด')}
 ${leftRightText(`รหัสลูกค้า ${data.customer.customercode}`, `เลขที่ ${data.CUOR}`)}
 ${leftRightText(`ชื่อลูกค้า ${data.customer.customername}`, `วันที่ ${data.OAORDT}`, paperWidth)}
-ที่อยู่ ${data.customer.address1} ${data.customer.address2} ${data.customer.address3}
+ที่อยู่ ${data.customer.address1}
+${data.customer.address2} 
+${data.customer.address3} ${data.customer.postcode} 
 เลขที่ผู้เสียภาษี ${data.customer.taxno}
 
 รายการสินค้า                     จำนวน      ราคา     ส่วนลด       รวม
