@@ -132,12 +132,25 @@ ${centerText('ขอบคุณที่ใช้บริการ')}
         return ' '.repeat(leftPadding) + text;
       };
 
+      // const leftRightText = (left, right, width = paperWidth) => {
+      //   if (left.length + right.length > width) {
+      //     left = left.substring(0, width - right.length - 3) + '...'; 
+      //   }
+      //   const space = Math.max(0, width - left.length - right.length);
+      //   return left + ' '.repeat(space) + right;
+      // };
+
       const leftRightText = (left, right, width = paperWidth) => {
-        if (left.length + right.length > width) {
-          left = left.substring(0, width - right.length - 3) + '...'; 
-        }
         const space = Math.max(0, width - left.length - right.length);
         return left + ' '.repeat(space) + right;
+      };
+
+      const leftText = (text, width) => {
+        return text.padEnd(width);
+      };
+
+      const rightText = (text, width) => {
+        return text.padStart(width);
       };
 
   const header = `
@@ -156,33 +169,31 @@ ${data.customer.address2}
 ${data.customer.address3} ${data.customer.postcode} 
 เลขที่ผู้เสียภาษี ${data.customer.taxno}
 
-รายการสินค้า                   จำนวน      ราคา     ส่วนลด       รวม
+รายการสินค้า                        จำนวน     ราคา      ส่วนลด     รวม
 `;
 
   // const formatItem = (name, qty, price, discount, total) => {
   //   return `${name.substring(0, 32).padEnd(32)} ${qty.toString().padStart(1).padEnd(8)} ${price.padStart(1).padEnd(8)} ${discount.padEnd(8)} ${total.padEnd(10)}`;
   // };
 const formatItem = (name, qty, price, discount, total) => {
-  return sprintf(
-    "%-32s %8s %8s %8s %10s",
-    name.padEnd(32),
-    qty.padStart(-1).padEnd(8),
-    price.padEnd(8),
-    discount.padEnd(8),
-    total.padEnd(10)
-  );
+  const itemName = name;
+  const itemQty = leftText(qty.toString(), 6);
+  const itemPrice = rightText(price.toString(), 6);
+  const itemDiscount = rightText(discount.toString(), 6);
+  const itemTotal = rightText(total.toString(), 15);
+  return `${itemName} ${itemQty} ${itemPrice} ${itemDiscount} ${itemTotal}`;
 };
 
-  const items = data.items.map(item => formatItem(
-    item.itemname,
-    item.OBORQA,
-    parseFloat(item.OBSAPR).toFixed(2),
-    '0.00',
-    parseFloat(item.itemamount).toFixed(2)
-  )).join('\n');
+const items = data.items.map(item => formatItem(
+  item.itemname,
+  item.OBORQA,
+  parseFloat(item.OBSAPR).toFixed(2),
+  '0.00',
+  parseFloat(item.itemamount).toFixed(2)
+)).join('\n');
 
-  const totalText = thaiNumberToWords(data.total);
-  const footer = `
+const totalText = thaiNumberToWords(data.total);
+const footer = `
 
 ${leftRightText('รวมมูลค่าสินค้า', `${parseFloat(data.ex_vat).toFixed(2)}`, '73')}
 ${leftRightText('ส่วนลด', '0.00', '70')}
