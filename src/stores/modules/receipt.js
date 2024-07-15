@@ -156,12 +156,22 @@ ${data.customer.address2}
 ${data.customer.address3} ${data.customer.postcode} 
 เลขที่ผู้เสียภาษี ${data.customer.taxno}
 
-รายการสินค้า                     จำนวน      ราคา     ส่วนลด       รวม
+รายการสินค้า                   จำนวน      ราคา     ส่วนลด       รวม
 `;
 
-  const formatItem = (name, qty, price, discount, total) => {
-    return `${name.substring(0, 32).padEnd(32)} ${qty.toString().padEnd(10)} ${price.padEnd(10)} ${discount.padEnd(10)} ${total.padEnd(10)}`;
-  };
+  // const formatItem = (name, qty, price, discount, total) => {
+  //   return `${name.substring(0, 32).padEnd(32)} ${qty.toString().padStart(1).padEnd(8)} ${price.padStart(1).padEnd(8)} ${discount.padEnd(8)} ${total.padEnd(10)}`;
+  // };
+const formatItem = (name, qty, price, discount, total) => {
+  return sprintf(
+    "%-32s %8s %8s %8s %10s",
+    name.padEnd(32),
+    qty.padStart(-1).padEnd(8),
+    price.padEnd(8),
+    discount.padEnd(8),
+    total.padEnd(10)
+  );
+};
 
   const items = data.items.map(item => formatItem(
     item.itemname,
