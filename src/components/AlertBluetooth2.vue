@@ -23,13 +23,13 @@
                     @click="onConnect">
                     {{ connectText }}
                 </button>
-                <!-- <button type="button"
+                <button type="button"
                     class="text-white px-4 py-2 w-full rounded-lg flex items-center justify-center"
                     :class="{ 'bg-green-500': isConnected, 'bg-gray-500': !isConnected }"
                     :disabled="!isConnected"
                     @click="onPrint" aria-label="print">
                     {{ printText }}
-                </button> -->
+                </button>
                 <button type="button"
                     class="text-white px-4 py-2 w-full rounded-lg flex items-center justify-center"
                     :class="{ 'bg-green-500': isConnected, 'bg-gray-500': !isConnected }"
@@ -37,11 +37,11 @@
                     @click="onPrintCopy" aria-label="printCopy">
                     {{ printCopyText }}
                 </button>
-                <button type="button"
+                <!-- <button type="button"
                     class="text-white px-4 py-2 w-full rounded-lg flex items-center justify-center bg-green-500"
                     @click="onTest" aria-label="test">
                     {{ printTest }}
-                </button>
+                </button> -->
             </div>
         </div>
     </div>

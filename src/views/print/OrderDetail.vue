@@ -57,7 +57,7 @@
                 </div>
                 <div class="flex justify-between text-lg">
                     <span>ส่วนลดร้านค้า</span>
-                    <span>{{ detail.OAODAM }}</span>
+                    <span>{{ detail.totaldis }}</span>
                 </div>
                 <div class="flex justify-between text-lg font-bold">
                     <span>มูลค่ารวม</span>
@@ -100,14 +100,14 @@ const handlePrint = async () => {
 };
 
 const handlePrintCopy = async () => {
-    const formattedData = receipt.formatReceiptCA2(detail.value)
+    const formattedData = receipt.formatReceiptCopyCA(detail.value)
     console.log('printCopy', formattedData)
     await bluetooth.print(formattedData)
     showAlert.value = false;
 };
 
 const test = async () => {
-    const formattedData = receipt.formatReceiptCA2(detail.value)
+    const formattedData = receipt.formatReceiptCAtest(detail.value)
     console.log('test', formattedData)
     showAlert.value = false;
 };
