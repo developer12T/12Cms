@@ -71,7 +71,7 @@
                 พิมพ์ใบเสร็จ
             </button>
         </div>
-        <AlertBluetooth v-if="showAlert" :title="'เชื่อมต่อบลูทูธ'" @print="handlePrint" @dismiss="showAlert = false"
+        <AlertBluetooth v-if="showAlert" :title="'เชื่อมต่อบลูทูธ'" @print="handlePrint" @printCopy="handlePrintCopy" @test="test" @dismiss="showAlert = false"
             :color="'text-gray-600 border border-green-300 bg-green-100'" />
     </div>
 </template>
@@ -79,7 +79,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useOrderStore, useBluetoothStore, useReceiptStore } from '../../stores'
-import AlertBluetooth from '../../components/AlertBluetooth.vue'
+import AlertBluetooth from '../../components/AlertBluetooth2.vue'
 
 const router = useRouter()
 const order = useOrderStore()
@@ -96,6 +96,19 @@ const handlePrint = async () => {
     const formattedData = receipt.formatReceiptCA(detail.value)
     console.log('print', formattedData)
     await bluetooth.print(formattedData)
+    showAlert.value = false;
+};
+
+const handlePrintCopy = async () => {
+    const formattedData = receipt.formatReceiptCA2(detail.value)
+    console.log('printCopy', formattedData)
+    await bluetooth.print(formattedData)
+    showAlert.value = false;
+};
+
+const test = async () => {
+    const formattedData = receipt.formatReceiptCA2(detail.value)
+    console.log('test', formattedData)
     showAlert.value = false;
 };
 

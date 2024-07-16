@@ -209,6 +209,184 @@ ${leftRightText('', 'ลายเซ็นลูกค้า', '63')}
   `;
 
       return header + items + footer;
+    },
+
+    formatReceiptCopyCA(data) {
+      const paperWidth = 72;
+      const centerText = (text, width = paperWidth) => {
+        const leftPadding = Math.max(0, Math.floor((width - text.length) / 2));
+        return ' '.repeat(leftPadding) + text;
+      };
+
+      // const leftRightText = (left, right, width = paperWidth) => {
+      //   if (left.length + right.length > width) {
+      //     left = left.substring(0, width - right.length - 3) + '...'; 
+      //   }
+      //   const space = Math.max(0, width - left.length - right.length);
+      //   return left + ' '.repeat(space) + right;
+      // };
+
+      const leftRightText = (left, right, width = paperWidth) => {
+        const space = Math.max(0, width - left.length - right.length);
+        return left + ' '.repeat(space) + right;
+      };
+
+      const leftText = (text, width) => {
+        return text.padEnd(width);
+      };
+
+      const rightText = (text, width) => {
+        return text.padStart(width);
+      };
+
+  const header = `
+${centerText('บริษัท วันทูเทรดดิ้ง จำกัด')}
+${centerText('58/3 หมู่ที่ 6 ถ.พระประโทน-บ้านแพ้ว')}
+${centerText('ต.ตลาดจินดา อ.สามพราน จ.นครปฐม 73110')}
+${centerText('โทร.(034) 981-555')}
+${centerText('เลขประจำตัวผู้เสียภาษี 0105563063410')}
+${centerText('ออกใบกำกับภาษีโดยสำนักงานใหญ่')}
+${centerText('(สำเนาบิลเงินสด/ใบกำกับภาษี)')}
+${centerText('เอกสารออกเป็นชุด')}
+${leftRightText(`รหัสลูกค้า ${data.customer.customercode}`, `เลขที่ ${data.CUOR}`)}
+${leftRightText(`ชื่อลูกค้า ${data.customer.customername}`, `วันที่ ${data.OAORDT}`, paperWidth)}
+ที่อยู่ ${data.customer.address1}
+${data.customer.address2} 
+${data.customer.address3} ${data.customer.postcode} 
+เลขที่ผู้เสียภาษี ${data.customer.taxno}
+
+ลำดับ รายการสินค้า                     จำนวน     ราคา      ส่วนลด     รวม
+`;
+
+  const formatItem = (no, name, qty, price, discount, total) => {
+    return `${no.toString().padEnd(3)} ${name.substring(0, 32).padEnd(32)} ${qty.toString().padStart(1).padEnd(8)} ${price.padStart(1).padEnd(8)} ${discount.padEnd(8)} ${total.padEnd(8)}`;
+  };
+// const formatItem = (no, name, qty, price, discount, total) => {
+//   const itemNo = no;
+//   const itemName = name;
+//   const itemQty = leftText(qty.toString(), 6);
+//   const itemPrice = rightText(price.toString(), 6);
+//   const itemDiscount = rightText(discount.toString(), 6);
+//   const itemTotal = rightText(total.toString(), 15);
+//   return `${itemNo} ${itemName} ${itemQty} ${itemPrice} ${itemDiscount} ${itemTotal}`;
+// };
+
+const items = data.items.map(item => formatItem(
+  item.OBPONR,
+  item.itemname,
+  item.OBORQA,
+  parseFloat(item.OBSAPR).toFixed(2),
+  '0.00',
+  parseFloat(item.itemamount).toFixed(2)
+)).join('\n');
+
+const totalText = thaiNumberToWords(data.total);
+const footer = `
+
+${leftRightText('รวมมูลค่าสินค้า', `${parseFloat(data.ex_vat).toFixed(2)}`, '73')}
+${leftRightText('ส่วนลด', '0.00', '70')}
+${leftRightText('ภาษีมูลค่าเพิ่ม 7%', `${parseFloat(data.vat).toFixed(2)}`, '74')}
+${leftRightText('ส่วนลดท้ายบิล', '0.00', paperWidth)}
+${leftRightText('ส่วนลดร้านค้า', '0.00', paperWidth)}
+${leftRightText('จำนวนเงินรวมสุทธิ', `${parseFloat(data.total).toFixed(2)}`, paperWidth)}
+
+${leftRightText('  ', `(${totalText})`, paperWidth)}
+${leftRightText('', '', paperWidth)}
+${leftRightText(`ผู้รับเงิน ${data.OBSMCD}`, '.........................', paperWidth)}
+${leftRightText('', 'ลายเซ็นลูกค้า', '63')}
+  `;
+
+      return header + items + footer;
+    },
+
+    formatReceiptCA2(data) {
+      const paperWidth = 72; 
+      const centerText = (text, width = paperWidth) => {
+        const leftPadding = Math.max(0, Math.floor((width - text.length) / 2));
+        return ' '.repeat(leftPadding) + text;
+      };
+ 
+      const leftRightText = (left, right, width = paperWidth) => {
+        const space = Math.max(0, width - left.length - right.length);
+        return left + ' '.repeat(space) + right;
+      };
+ 
+      const leftText = (text, width) => {
+        return text.padEnd(width);
+      };
+
+      const leftText2 = (right, text, width) => {
+        const space = Math.max(0, width - right.length - text.length);
+        return right + ' '.repeat(space) + text;
+      };
+ 
+      const rightText = (left, text, width) => {
+        const space = Math.max(0, width - left.length - text.length);
+        return left + ' '.repeat(space) + text;
+      };
+ 
+      const header = `
+${centerText('บริษัท วันทูเทรดดิ้ง จำกัด')}
+${centerText('58/3 หมู่ที่ 6 ถ.พระประโทน-บ้านแพ้ว')}
+${centerText('ต.ตลาดจินดา อ.สามพราน จ.นครปฐม 73110')}
+${centerText('โทร.(034) 981-555')}
+${centerText('เลขประจำตัวผู้เสียภาษี 0105563063410')}
+${centerText('ออกใบกำกับภาษีโดยสำนักงานใหญ่')}
+${centerText('(บิลเงินสด/ใบกำกับภาษี)')}
+${centerText('เอกสารออกเป็นชุด')}
+${leftRightText(`รหัสลูกค้า ${data.customer.customercode}`, `เลขที่ ${data.CUOR}`)}
+${leftRightText(`ชื่อลูกค้า ${data.customer.customername}`, `วันที่ ${data.OAORDT}`, '78')}
+ที่อยู่ ${data.customer.address1}
+${data.customer.address2} 
+${data.customer.address3} ${data.customer.postcode} 
+เลขที่ผู้เสียภาษี ${data.customer.taxno}
+ 
+  รายการสินค้า                      จำนวน     ราคา      ส่วนลด     รวม
+`;
+ 
+      const formatItem = (no, name, qty, price, discount, total) => {
+        const itemNo = leftText(no,2);
+        const itemName = name.replace(' ','');
+        // const itemName = rightText(' ', name, 10);
+        const itemQty = rightText('', qty, 10);
+        const itemPrice = rightText('', price, 12);
+        const itemDiscount = rightText('', discount, 11);
+        
+        // const itemName = leftText2(name,'',35)
+        // const itemName = name
+        // const itemQty = qty.padStart(2).padEnd(4)
+        // const itemPrice = price.padEnd(4)
+        // const itemDiscount = discount.padStart(4)
+        const itemTotal = total.padStart(13)
+        return `${itemNo}${itemName}${itemQty}${itemPrice}${itemDiscount}${itemTotal}`;
+      };
+ 
+      const items = data.items.map(item => formatItem(
+        item.itemNo.toString(),
+        item.itemname.substring(0,25).padEnd(5),
+        item.OBORQA,
+        parseFloat(item.OBSAPR).toFixed(2),
+        '0.00',
+        parseFloat(item.itemamount).toFixed(2)
+      )).join('\n');
+ 
+      const totalText = thaiNumberToWords(data.total);
+      const footer = `
+ 
+${leftRightText('รวมมูลค่าสินค้า', `${parseFloat(data.ex_vat).toFixed(2)}`, '73')}
+${leftRightText('ส่วนลด', '0.00', '70')}
+${leftRightText('ภาษีมูลค่าเพิ่ม 7%', `${parseFloat(data.vat).toFixed(2)}`, '74')}
+${leftRightText('ส่วนลดท้ายบิล', '0.00', paperWidth)}
+${leftRightText('ส่วนลดร้านค้า', '0.00', paperWidth)}
+${leftRightText('จำนวนเงินรวมสุทธิ', `${parseFloat(data.total).toFixed(2)}`, paperWidth)}
+ 
+${leftRightText('  ', `(${totalText})`, paperWidth)}
+${leftRightText('', '', paperWidth)}
+${leftRightText(`ผู้รับเงิน ${data.OBSMCD}`, '.........................', paperWidth)}
+${leftRightText('', 'ลายเซ็นลูกค้า', paperWidth)}
+      `;
+ 
+      return header + items + footer;
     }
 
   }
