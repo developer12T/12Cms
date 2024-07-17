@@ -22,14 +22,14 @@ const tableColumns = computed(() => {
         return [
             { id: 'name', title: 'ชื่อร้าน' },
             { id: 'route', title: 'เส้นทาง' },
-            { id: 'distric', title: 'ที่อยู่' },
+            { id: 'district', title: 'ที่อยู่' },
         ]
     } else {
         return [
             { id: 'storeId', title: 'รหัสร้าน' },
             { id: 'name', title: 'ชื่อร้าน' },
             { id: 'route', title: 'เส้นทาง' },
-            { id: 'distric', title: 'ที่อยู่' },
+            { id: 'district', title: 'ที่อยู่' },
         ]
     }
 })

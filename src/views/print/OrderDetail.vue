@@ -107,7 +107,7 @@ const handlePrintCopy = async () => {
 };
 
 const test = async () => {
-    const formattedData = receipt.formatReceiptCAtest(detail.value)
+    const formattedData = receipt.formatReceiptCA(detail.value)
     console.log('test', formattedData)
     showAlert.value = false;
 };

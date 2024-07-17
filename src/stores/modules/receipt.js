@@ -204,27 +204,27 @@ ${data.customer.address3} ${data.customer.postcode}
         const itemDiscount = discount.padStart(8);
         const itemTotal = total.padStart(11);
 
-        return `${no} ${this.padThaiText(name, 35)} ${itemQty} ${itemPrice} ${itemDiscount} ${itemTotal}`;
+        return `${no} ${this.padThaiText(name, 34)} ${itemQty} ${itemPrice} ${itemDiscount} ${itemTotal}`;
       };
 
       const items = data.items.map((item) => formatItem(
         item.itemNo.toString(),
         item.itemname.replace(' ',''),
-        item.OBORQA.toString(),
-        parseFloat(item.OBSAPR).toFixed(2),
-        parseFloat(item.disamount).toFixed(2),
-        parseFloat(item.itemamount).toFixed(2)
+        item.OBORQA,
+        item.OBSAPR,
+        item.disamount,
+        item.itemamount
       )).join('\n');
-      const totalText = thaiNumberToWords(data.total);
+      const totalText = thaiNumberToWords(data.totaltext);
       const footer = `
 
-${this.leftRightText('รวมมูลค่าสินค้า', `${parseFloat(data.ex_vat).toFixed(2)}`, '73')}
+${this.leftRightText('รวมมูลค่าสินค้า', `${data.ex_vat}`, '73')}
 ${this.leftRightText('ส่วนลด', '0.00', '70')}
-${this.leftRightText('ภาษีมูลค่าเพิ่ม 7%', `${parseFloat(data.vat).toFixed(2)}`, '74')}
+${this.leftRightText('ภาษีมูลค่าเพิ่ม 7%', `${data.vat}`, '74')}
 ${this.leftRightText('ส่วนลดท้ายบิล', '0.00', paperWidth)}
-${this.leftRightText('ส่วนลดร้านค้า', `${parseFloat(data.totaldis).toFixed(2)}`, paperWidth)}
-${this.leftRightText('จำนวนเงินรวมสุทธิ', `${parseFloat(data.total).toFixed(2)}`, paperWidth)}
-${this.leftRightText(' ', `(${totalText})`, '75')}
+${this.leftRightText('ส่วนลดร้านค้า', `${data.totaldis}`, paperWidth)}
+${this.leftRightText('จำนวนเงินรวมสุทธิ', `${data.total}`, paperWidth)}
+${this.rightText(`(${totalText})`, paperWidth)}
 ${this.leftRightText('', '', '70')}
 ${this.leftRightText(`ผู้รับเงิน ${data.OBSMCD}`, '.........................', '70')}
 ${this.leftRightText('', 'ลายเซ็นลูกค้า', '63')}
@@ -272,7 +272,7 @@ ${data.customer.address3} ${data.customer.postcode}
         parseFloat(item.disamount).toFixed(2),
         parseFloat(item.itemamount).toFixed(2)
       )).join('\n');
-      const totalText = thaiNumberToWords(data.total);
+      const totalText = thaiNumberToWords(data.totaltext);
       const footer = `
 
 ${this.leftRightText('รวมมูลค่าสินค้า', `${parseFloat(data.ex_vat).toFixed(2)}`, '73')}
@@ -281,7 +281,7 @@ ${this.leftRightText('ภาษีมูลค่าเพิ่ม 7%', `${pars
 ${this.leftRightText('ส่วนลดท้ายบิล', '0.00', paperWidth)}
 ${this.leftRightText('ส่วนลดร้านค้า', `${parseFloat(data.totaldis).toFixed(2)}`, paperWidth)}
 ${this.leftRightText('จำนวนเงินรวมสุทธิ', `${parseFloat(data.total).toFixed(2)}`, paperWidth)}
-${this.leftRightText(' ', `(${totalText})`, '75')}
+${this.leftText(`(${totalText})`, paperWidth)}
 ${this.leftRightText('', '', '70')}
 ${this.leftRightText(`ผู้รับเงิน ${data.OBSMCD}`, '.........................', '70')}
 ${this.leftRightText('', 'ลายเซ็นลูกค้า', '63')}
@@ -341,7 +341,7 @@ ${data.customer.address3} ${data.customer.postcode}
         parseFloat(item.itemamount).toFixed(2)
       )).join('\n');
 
-      const totalText = thaiNumberToWords(data.total);
+      const totalText = thaiNumberToWords(data.totaltext);
       const footer = `
 ${this.leftRightText('รวมมูลค่าสินค้า', `${parseFloat(data.ex_vat).toFixed(2)}`, paperWidth)}
 ${this.leftRightText('ส่วนลด', '0.00', paperWidth)}
