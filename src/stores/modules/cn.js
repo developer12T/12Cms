@@ -7,6 +7,7 @@ export const useCnStore = defineStore('cn', {
     orderCnMain: [],
     orderCnDetail: [],
     orderCnDetailList: [],
+    noData: false,
   }),
   actions: {
     async addFromOrder(orderData) {
@@ -38,7 +39,12 @@ export const useCnStore = defineStore('cn', {
           //   headers: { Authorization: `Bearer ${token}` },
           // }
         );
-        this.orderCnMain = response.data;
+        if (response.status === 204) {
+          this.noData = true;
+        } else {
+          this.noData = false;
+          this.orderCnMain = response.data;
+        }
         console.log('orderCnMain', this.orderCnMain);
       } catch (error) {
         console.error(error);

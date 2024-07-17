@@ -42,6 +42,7 @@ export const useOrderStore = defineStore('orders', {
     orderCADetail: [],
     orderItem: [],
     orderCustomer: [],
+    noData: false,
   }),
   getter: {
     getProductDetail: (state) => state.productDetail,
@@ -155,7 +156,7 @@ export const useOrderStore = defineStore('orders', {
           // }
         );
         const result = response.data
-        const resultList = response.data.list
+        const resultList = response.data.list || []
         this.orderCart = result
         this.orderCartList = resultList
         this.orderCartAmount = resultList.length
@@ -229,8 +230,14 @@ export const useOrderStore = defineStore('orders', {
           //   headers: { Authorization: `Bearer ${token}` },
           // }
         );
-        this.orderMain = response.data;
+        if (response.status === 204) {
+          this.noData = true;
+        } else {
+          this.noData = false;
+          this.orderMain = response.data;
+        }
         console.log('orderMain', this.orderMain);
+        console.log('status', response.data);
       } catch (error) {
         console.error(error);
       }

@@ -10,7 +10,7 @@
     <div v-show="showBackdrop" @click="closeDrawer" class="fixed inset-0 bg-black bg-opacity-50"></div>
 
     <div v-if="showDrawer" :id="drawerId"
-        class="fixed bottom-0 left-0 right-0 z-40 w-full p-4 overflow-y-auto transition-transform  bg-white transform-none"
+        class="fixed bottom-0 left-0 right-0 z-40 w-full p-4 overflow-y-auto transition-transform bg-white transform-none"
         tabindex="-1" aria-labelledby="drawer-bottom-label">
         <div class="flex flex-col">
             <div>
@@ -102,7 +102,7 @@ export default {
         watch(() => uploadStore.imageName, (newVal) => {
             if (newVal !== null) {
                 UploadFinished.value = true;
-                closeDrawer(); 
+                closeDrawer();
             }
         });
 
