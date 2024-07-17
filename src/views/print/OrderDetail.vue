@@ -34,7 +34,7 @@
                                 ฿{{ list.itemamount }}
                             </p>
                             <p class="font-normal text-gray-700">
-                                {{ list.OBORQA }} {{ list.OBSPUN }}
+                                {{ list.qtytext }} 
                             </p>
                         </div>
                     </div>

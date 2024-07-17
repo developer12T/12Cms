@@ -4,7 +4,7 @@ import { sprintf } from 'sprintf-js';
 export const useReceiptStore = defineStore('receipt', {
   state: () => ({
     receiptData: null,
-    vowelAndToneMark: ['่', '้', '๊', '๋', 'ั', '็', 'ิ', 'ี', 'ุ', 'ู', 'ึ', 'ื', '์']
+    vowelAndToneMark: ['่', '้', '๊', '๋', 'ั', '็', 'ิ', 'ี', 'ุ', 'ู', 'ึ', 'ื', '์', '.']
   }),
   actions: {
     getNoOfUpperLowerChar(string) {
@@ -189,28 +189,28 @@ ${this.centerText('ออกใบกำกับภาษีโดยสำน�
 ${this.centerText('(บิลเงินสด/ใบกำกับภาษี)', paperWidth)}
 ${this.centerText('เอกสารออกเป็นชุด', paperWidth)}
 ${this.leftRightText(`รหัสลูกค้า ${data.customer.customercode}`, `เลขที่ ${data.CUOR}`, paperWidth)}
-${this.leftRightText(`ชื่อลูกค้า ${this.padThaiText(data.customer.customername,37)}`, `วันที่ ${data.OAORDT}`, paperWidth)}
+${this.leftRightText(`ชื่อลูกค้า ${this.padThaiText(data.customer.customername, 42)}`, `วันที่ ${data.OAORDT}`, paperWidth)}
 ที่อยู่ ${data.customer.address1}
 ${data.customer.address2} 
 ${data.customer.address3} ${data.customer.postcode} 
 เลขที่ผู้เสียภาษี ${data.customer.taxno}
 
-รายการสินค้า                         จำนวน   ราคา      ส่วนลด       รวม
+รายการสินค้า                         จำนวน    ราคา     ส่วนลด       รวม
 `;
 
       const formatItem = (no, name, qty, price, discount, total) => {
-        const itemQty = qty.padStart(1);
-        const itemPrice = price.padStart(8);
-        const itemDiscount = discount.padStart(8);
+        const itemQty = this.padThaiText(qty, 7);
+        const itemPrice = this.padThaiText(this.rightText(price, 6), 6);
+        const itemDiscount = discount.padStart(6);
         const itemTotal = total.padStart(11);
 
-        return `${no} ${this.padThaiText(name, 34)} ${itemQty} ${itemPrice} ${itemDiscount} ${itemTotal}`;
+        return `${no} ${this.padThaiText(name, 32)} ${itemQty} ${itemPrice} ${itemDiscount} ${itemTotal}`;
       };
 
       const items = data.items.map((item) => formatItem(
         item.itemNo.toString(),
         item.itemname.replace(' ',''),
-        item.OBORQA,
+        item.qtytext,
         item.OBSAPR,
         item.disamount,
         item.itemamount
@@ -234,6 +234,63 @@ ${this.leftRightText('', 'ลายเซ็นลูกค้า', '63')}
     },
 
     formatReceiptCopyCA(data) {
+      const paperWidth = 72;
+
+      const header = `
+${this.centerText('บริษัท วันทูเทรดดิ้ง จำกัด', paperWidth)}
+${this.centerText('58/3 หมู่ที่ 6 ถ.พระประโทน-บ้านแพ้ว', paperWidth)}
+${this.centerText('ต.ตลาดจินดา อ.สามพราน จ.นครปฐม 73110', paperWidth)}
+${this.centerText('โทร.(034) 981-555', paperWidth)}
+${this.centerText('เลขประจำตัวผู้เสียภาษี 0105563063410', paperWidth)}
+${this.centerText('ออกใบกำกับภาษีโดยสำนักงานใหญ่', paperWidth)}
+${this.centerText('(บิลเงินสด/ใบกำกับภาษี)', paperWidth)}
+${this.centerText('เอกสารออกเป็นชุด', paperWidth)}
+${this.leftRightText(`รหัสลูกค้า ${data.customer.customercode}`, `เลขที่ ${data.CUOR}`, paperWidth)}
+${this.leftRightText(`ชื่อลูกค้า ${this.padThaiText(data.customer.customername, 42)}`, `วันที่ ${data.OAORDT}`, paperWidth)}
+ที่อยู่ ${data.customer.address1}
+${data.customer.address2} 
+${data.customer.address3} ${data.customer.postcode} 
+เลขที่ผู้เสียภาษี ${data.customer.taxno}
+
+รายการสินค้า                         จำนวน    ราคา     ส่วนลด       รวม
+`;
+
+      const formatItem = (no, name, qty, price, discount, total) => {
+        const itemQty = this.padThaiText(qty, 7);
+        const itemPrice = this.padThaiText(this.rightText(price, 6), 6);
+        const itemDiscount = discount.padStart(6);
+        const itemTotal = total.padStart(11);
+
+        return `${no} ${this.padThaiText(name, 32)} ${itemQty} ${itemPrice} ${itemDiscount} ${itemTotal}`;
+      };
+
+      const items = data.items.map((item) => formatItem(
+        item.itemNo.toString(),
+        item.itemname.replace(' ',''),
+        item.qtytext,
+        item.OBSAPR,
+        item.disamount,
+        item.itemamount
+      )).join('\n');
+      const totalText = thaiNumberToWords(data.totaltext);
+      const footer = `
+
+${this.leftRightText('รวมมูลค่าสินค้า', `${data.ex_vat}`, '73')}
+${this.leftRightText('ส่วนลด', '0.00', '70')}
+${this.leftRightText('ภาษีมูลค่าเพิ่ม 7%', `${data.vat}`, '74')}
+${this.leftRightText('ส่วนลดท้ายบิล', '0.00', paperWidth)}
+${this.leftRightText('ส่วนลดร้านค้า', `${data.totaldis}`, paperWidth)}
+${this.leftRightText('จำนวนเงินรวมสุทธิ', `${data.total}`, paperWidth)}
+${this.rightText(`(${totalText})`, paperWidth)}
+${this.leftRightText('', '', '70')}
+${this.leftRightText(`ผู้รับเงิน ${data.OBSMCD}`, '.........................', '70')}
+${this.leftRightText('', 'ลายเซ็นลูกค้า', '63')}
+      `;
+
+      return header + items + footer;
+    },
+
+    formatReceiptCopyCAtest(data) {
       const paperWidth = 72;
 
       const header = `
