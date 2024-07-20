@@ -60,20 +60,20 @@
   const loading = ref(true)
   
   const tabs = ref([
-    { id: 1, label: 'BE811', area: 'BE811', href: '#', active: true },
-    { id: 2, label: 'BE812', area: 'BE812', href: '#', active: false },
-    { id: 3, label: 'BE813', area: 'BE813', href: '#', active: false },
-    { id: 4, label: 'BE814', area: 'BE814', href: '#', active: false },
+    { id: 1, label: 'BE811', warehouse: '217', href: '#', active: true },
+    { id: 2, label: 'BE812', warehouse: '218', href: '#', active: false },
+    { id: 3, label: 'BE813', warehouse: '216', href: '#', active: false },
+    { id: 4, label: 'BE814', warehouse: '215', href: '#', active: false },
   ])
   
   const setActiveTab = (tab) => {
     tabs.value.forEach(t => t.active = t.id === tab.id)
-    fetchOrders(tab.area)
+    fetchOrders(tab.warehouse)
   }
   
-  const fetchOrders = async (area) => {
+  const fetchOrders = async (warehouse) => {
     loading.value = true
-    await order.getOrder(area)
+    await order.getOrder(warehouse)
     loading.value = false
   }
   
@@ -87,6 +87,6 @@
   
   onMounted(() => {
     const activeTab = tabs.value.find(tab => tab.active)
-    fetchOrders(activeTab.area)
+    fetchOrders(activeTab.warehouse)
   })
   </script>

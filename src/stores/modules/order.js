@@ -262,11 +262,11 @@ export const useOrderStore = defineStore('orders', {
         console.error(error);
       }
     },
-    async getOrder(area) {
+    async getOrder(warehouse) {
       try {
         const response = await axios.post(
           import.meta.env.VITE_API_CA_BASE_URL + '/orders',
-          { area }
+          { warehouse }
         )
         this.orders = response.data
         console.log('order', this.orders)
