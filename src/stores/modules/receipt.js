@@ -207,8 +207,9 @@ ${data.customer.address3} ${data.customer.postcode}
         return `${no} ${this.padThaiText(name, 32)} ${itemQty} ${itemPrice} ${itemDiscount} ${itemTotal}`;
       };
 
-      const items = data.items.map((item) => formatItem(
-        item.itemNo.toString(),
+      const items = data.items.map((item,index) => formatItem(
+        // item.itemNo.toString(),
+        index+1,
         item.itemname.replace(' ',''),
         item.qtytext,
         item.OBSAPR,
@@ -264,8 +265,9 @@ ${data.customer.address3} ${data.customer.postcode}
         return `${no} ${this.padThaiText(name, 32)} ${itemQty} ${itemPrice} ${itemDiscount} ${itemTotal}`;
       };
 
-      const items = data.items.map((item) => formatItem(
-        item.itemNo.toString(),
+      const items = data.items.map((item, index) => formatItem(
+        // item.itemNo.toString(),
+        index+1,
         item.itemname.replace(' ',''),
         item.qtytext,
         item.OBSAPR,
