@@ -11,6 +11,7 @@ const routes = [
   { path: '/', component: () => import('../views/authentication/Login.vue'), meta: { disallowedRoute: true } },
   { path: '/print', component: () => import('../views/print/Order.vue') },
   { path: '/print/detail', component: () => import('../views/print/OrderDetail.vue') },
+  { path: '/print/return', component: () => import('../views/print/ReturnDetail.vue') },
   {
     path: '/cms',
     component: LayoutMain,

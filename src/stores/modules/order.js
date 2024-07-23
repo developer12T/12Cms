@@ -42,6 +42,11 @@ export const useOrderStore = defineStore('orders', {
     orderCADetail: [],
     orderItem: [],
     orderCustomer: [],
+    returns: [],
+    returnDetail: [],
+    saleItem: [],
+    returnItem: [],
+    returnCustomer: [],
     noData: false,
   }),
   getter: {
@@ -284,6 +289,33 @@ export const useOrderStore = defineStore('orders', {
         this.orderItem = response.data[0].items
         this.orderCustomer = response.data[0].customer
         console.log('orderDetail', this.orderCADetail)
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    async getReturn(warehouse) {
+      try {
+        const response = await axios.post(
+          import.meta.env.VITE_API_CA_BASE_URL + '/returns',
+          { warehouse }
+        )
+        this.returns = response.data
+        console.log('return', this.returns)
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    async getReturnDetail(CUOR) {
+      try {
+        const response = await axios.post(
+          import.meta.env.VITE_API_CA_BASE_URL + '/returnDetail',
+          { CUOR }
+        )
+        this.returnDetail = response.data
+        this.saleItem = response.data.saleItems
+        this.returnItem = response.data.returnItems
+        this.returnCustomer = response.data.customer
+        console.log('returnDetail', this.returnDetail)
       } catch (error) {
         console.error(error)
       }

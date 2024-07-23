@@ -422,6 +422,97 @@ ${this.leftRightText('', 'ลายเซ็นลูกค้า', '63')}
       `;
 
       return header + items + footer;
+    },
+    formatReceiptReturn(data) {
+      const paperWidth = 72;
+    
+      const header = `
+${this.centerText('บริษัท วันทูเทรดดิ้ง จำกัด', paperWidth)}
+${this.centerText('58/3 หมู่ที่ 6 ถ.พระประโทน-บ้านแพ้ว', paperWidth)}
+${this.centerText('ต.ตลาดจินดา อ.สามพราน จ.นครปฐม 73110', paperWidth)}
+${this.centerText('โทร.(034) 981-555', paperWidth)}
+${this.centerText('เลขประจำตัวผู้เสียภาษี 0105563063410', paperWidth)}
+${this.centerText('ออกใบกำกับภาษีโดยสำนักงานใหญ่', paperWidth)}
+${this.centerText('(บิลเงินสด/ใบกำกับภาษี)', paperWidth)}
+${this.centerText('เอกสารออกเป็นชุด', paperWidth)}
+${this.leftRightText(`รหัสลูกค้า ${data.customer.customercode}`, `เลขที่ ${data.CUOR}`, paperWidth)}
+${this.leftRightText(`ชื่อลูกค้า ${this.padThaiText(data.customer.customername, 40)}`, `วันที่ ${data.OAORDT}`, paperWidth)}
+ที่อยู่ ${data.customer.address1}
+${data.customer.address2} 
+${data.customer.address3} ${data.customer.postcode} 
+เลขที่ผู้เสียภาษี ${data.customer.taxno}
+    
+สินค้าที่รับมาจากร้านค้า
+---------------------------------------------------------------------------
+รายการสินค้า                         จำนวน     ราคา      ส่วนลด       รวม
+    `;
+    
+      const formatItem = (no, name, qty, price, discount, total) => {
+        const itemQty = this.padThaiText(qty, 12); 
+        const itemPrice = this.rightText(this.padThaiText(price, 6), 10);
+        const itemDiscount = this.rightText(this.padThaiText(discount, 6), 10);
+        const itemTotal = this.rightText(this.padThaiText(total, 6), 12); 
+    
+        return `${no} ${this.padThaiText(name, 33)} ${itemQty} ${itemPrice} ${itemDiscount} ${itemTotal}`;
+      };
+    
+      const items = data.items.map((item) => formatItem(
+        item.itemNo.toString(),
+        item.itemname.replace(' ',''),
+        item.qtytext,
+        parseFloat(item.OBSAPR).toFixed(2).toString(),
+        parseFloat(item.disamount).toFixed(2).toString(),
+        parseFloat(item.itemamount).toFixed(2).toString()
+      )).join('\n');
+    
+      const totalText = thaiNumberToWords(data.totaltext);
+      const footer = `
+    
+${this.leftRightText('รวมมูลค่าสินค้า', `${parseFloat(data.ex_vat).toFixed(2)}`, paperWidth)}
+${this.leftRightText('ส่วนลด', '0.00', paperWidth)}
+${this.leftRightText('ภาษีมูลค่าเพิ่ม 7%', `${parseFloat(data.vat).toFixed(2)}`, paperWidth)}
+${this.leftRightText('จำนวนเงินรวมสุทธิ', `${parseFloat(data.total).toFixed(2)}`, paperWidth)}
+${this.rightText(`(${totalText})`, paperWidth)}
+${this.leftRightText('', '', paperWidth)}
+${this.leftRightText(`ผู้รับเงิน ${data.OBSMCD}`, '.........................', paperWidth)}
+${this.leftRightText('', 'ลายเซ็นลูกค้า', paperWidth)}
+
+-------------------------------ตัดตามรอยปะ--------------------------------
+    
+${this.centerText('บริษัท วันทูเทรดดิ้ง จำกัด', paperWidth)}
+${this.centerText('58/3 หมู่ที่ 6 ถ.พระประโทน-บ้านแพ้ว', paperWidth)}
+${this.centerText('ต.ตลาดจินดา อ.สามพราน จ.นครปฐม 73110', paperWidth)}
+${this.centerText('โทร.(034) 981-555', paperWidth)}
+${this.centerText('เลขประจำตัวผู้เสียภาษี 0105563063410', paperWidth)}
+${this.centerText('ออกใบกำกับภาษีโดยสำนักงานใหญ่', paperWidth)}
+${this.centerText('(บิลเงินสด/ใบกำกับภาษี)', paperWidth)}
+${this.centerText('เอกสารออกเป็นชุด', paperWidth)}
+${this.leftRightText(`รหัสลูกค้า ${data.customer.customercode}`, `เลขที่ ${data.CUOR}`, paperWidth)}
+${this.leftRightText(`ชื่อลูกค้า ${this.padThaiText(data.customer.customername, 40)}`, `วันที่ ${data.OAORDT}`, paperWidth)}
+ที่อยู่ ${data.customer.address1}
+${data.customer.address2} 
+${data.customer.address3} ${data.customer.postcode} 
+เลขที่ผู้เสียภาษี ${data.customer.taxno}
+    
+สินค้าที่เปลี่ยนให้ร้านค้า
+---------------------------------------------------------------------------
+รายการสินค้า                         จำนวน     ราคา      ส่วนลด       รวม
+    ${items}
+    
+${this.leftRightText('รวมมูลค่าสินค้า', `${parseFloat(data.ex_vat).toFixed(2)}`, paperWidth)}
+${this.leftRightText('ส่วนลด', '0.00', paperWidth)}
+${this.leftRightText('ภาษีมูลค่าเพิ่ม 7%', `${parseFloat(data.vat).toFixed(2)}`, paperWidth)}
+${this.leftRightText('ส่วนลดท้ายบิล', '0.00', paperWidth)}
+${this.leftRightText('ส่วนลดร้านค้า', '0.00', paperWidth)}
+${this.leftRightText('จำนวนเงินรวมสุทธิ', `${parseFloat(data.total).toFixed(2)}`, paperWidth)}
+${this.leftRightText('ค่าส่วนต่างที่ต้องชำระ', `${parseFloat(data.totaldiff).toFixed(2)}`, paperWidth)}
+${this.rightText(`(${totalText})`, paperWidth)}
+${this.leftRightText('', '', paperWidth)}
+${this.leftRightText(`ผู้รับเงิน ${data.OBSMCD}`, '.........................', paperWidth)}
+${this.leftRightText('', 'ลายเซ็นลูกค้า', paperWidth)}
+          `;
+    
+      return header + items + footer;
     }
 
   }
