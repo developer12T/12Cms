@@ -204,13 +204,13 @@ ${data.customer.address3} ${data.customer.postcode}
         const itemDiscount = discount.padStart(6);
         const itemTotal = total.padStart(11);
 
-        return `${no} ${this.padThaiText(name, 32)} ${itemQty} ${itemPrice} ${itemDiscount} ${itemTotal}`;
+        return `${no} ${this.padThaiText(name, 31)} ${itemQty} ${itemPrice} ${itemDiscount} ${itemTotal}`;
       };
 
       const items = data.items.map((item,index) => formatItem(
         // item.itemNo.toString(),
         index+1,
-        item.itemname.replace(' ',''),
+        item.itemname.replace(' ','').substring(0,36),
         item.qtytext,
         item.OBSAPR,
         item.disamount,
@@ -264,13 +264,13 @@ ${data.customer.address3} ${data.customer.postcode}
         const itemDiscount = discount.padStart(6);
         const itemTotal = total.padStart(11);
 
-        return `${no} ${this.padThaiText(name, 32)} ${itemQty} ${itemPrice} ${itemDiscount} ${itemTotal}`;
+        return `${no} ${this.padThaiText(name, 31)} ${itemQty} ${itemPrice} ${itemDiscount} ${itemTotal}`;
       };
 
       const items = data.items.map((item, index) => formatItem(
         // item.itemNo.toString(),
         index+1,
-        item.itemname.replace(' ',''),
+        item.itemname.replace(' ','').substring(0,36),
         item.qtytext,
         item.OBSAPR,
         item.disamount,
