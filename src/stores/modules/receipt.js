@@ -230,6 +230,7 @@ ${this.leftRightText('', '', '70')}
 ${this.leftRightText(`ผู้รับเงิน ${data.OBSMCD}`, '.........................', '70')}
 ${this.leftRightText('', 'ลายเซ็นลูกค้า', '63')}
 
+
       `;
 
       return header + items + footer;
@@ -288,6 +289,7 @@ ${this.rightText(`(${totalText})`, paperWidth)}
 ${this.leftRightText('', '', '70')}
 ${this.leftRightText(`ผู้รับเงิน ${data.OBSMCD}`, '.........................', '70')}
 ${this.leftRightText('', 'ลายเซ็นลูกค้า', '63')}
+
 
       `;
 
