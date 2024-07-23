@@ -229,6 +229,7 @@ ${this.rightText(`(${totalText})`, paperWidth)}
 ${this.leftRightText('', '', '70')}
 ${this.leftRightText(`ผู้รับเงิน ${data.OBSMCD}`, '.........................', '70')}
 ${this.leftRightText('', 'ลายเซ็นลูกค้า', '63')}
+
       `;
 
       return header + items + footer;
@@ -244,7 +245,7 @@ ${this.centerText('ต.ตลาดจินดา อ.สามพราน จ
 ${this.centerText('โทร.(034) 981-555', paperWidth)}
 ${this.centerText('เลขประจำตัวผู้เสียภาษี 0105563063410', paperWidth)}
 ${this.centerText('ออกใบกำกับภาษีโดยสำนักงานใหญ่', paperWidth)}
-${this.centerText('(บิลเงินสด/ใบกำกับภาษี)', paperWidth)}
+${this.centerText('(สำเนาบิลเงินสด/ใบกำกับภาษี)', paperWidth)}
 ${this.centerText('เอกสารออกเป็นชุด', paperWidth)}
 ${this.leftRightText(`รหัสลูกค้า ${data.customer.customercode}`, `เลขที่ ${data.CUOR}`, paperWidth)}
 ${this.leftRightText(`ชื่อลูกค้า ${this.padThaiText(data.customer.customername, 42)}`, `วันที่ ${data.OAORDT}`, paperWidth)}
@@ -287,6 +288,7 @@ ${this.rightText(`(${totalText})`, paperWidth)}
 ${this.leftRightText('', '', '70')}
 ${this.leftRightText(`ผู้รับเงิน ${data.OBSMCD}`, '.........................', '70')}
 ${this.leftRightText('', 'ลายเซ็นลูกค้า', '63')}
+
       `;
 
       return header + items + footer;
