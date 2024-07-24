@@ -163,7 +163,7 @@ const handlePrintCopy = async () => {
 };
 
 const test = async () => {
-    const formattedData = receipt.formatReceiptReturn(detail.value)
+    const formattedData = receipt.formatReceiptReturnCopy(detail.value)
     console.log('test', formattedData)
     showAlert.value = false;
 };

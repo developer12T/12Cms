@@ -435,7 +435,7 @@ ${this.centerText('เลขประจำตัวผู้เสียภา�
 ${this.centerText('ออกใบกำกับภาษีโดยสำนักงานใหญ่', paperWidth)}
 ${this.centerText('(ใบลดหนี้)', paperWidth)}
 ${this.centerText('เอกสารออกเป็นชุด', paperWidth)}
-${this.leftRightText(`รหัสลูกค้า ${data.customer.customercode}`, `เลขที่ ${data.CUOR}`, paperWidth)}
+${this.leftRightText(`รหัสลูกค้า ${data.customer.customercode}`, `เลขที่ ${data.returnno}`, paperWidth)}
 ${this.leftRightText(`ชื่อลูกค้า ${this.padThaiText(data.customer.customername, 42)}`, `วันที่ ${data.OAORDT}`, paperWidth)}
 ที่อยู่ ${data.customer.address1}
 ${data.customer.address2} 
@@ -492,7 +492,7 @@ ${this.centerText('เลขประจำตัวผู้เสียภา�
 ${this.centerText('ออกใบกำกับภาษีโดยสำนักงานใหญ่', paperWidth)}
 ${this.centerText('(บิลเงินสด/ใบกำกับภาษี)', paperWidth)}
 ${this.centerText('เอกสารออกเป็นชุด', paperWidth)}
-${this.leftRightText(`รหัสลูกค้า ${data.customer.customercode}`, `เลขที่ ${data.CUOR}`, paperWidth)}
+${this.leftRightText(`รหัสลูกค้า ${data.customer.customercode}`, `เลขที่ ${data.saleno}`, paperWidth)}
 ${this.leftRightText(`ชื่อลูกค้า ${this.padThaiText(data.customer.customername, 42)}`, `วันที่ ${data.OAORDT}`, paperWidth)}
 ที่อยู่ ${data.customer.address1}
 ${data.customer.address2} 
@@ -556,7 +556,7 @@ ${this.centerText('เลขประจำตัวผู้เสียภา�
 ${this.centerText('ออกใบกำกับภาษีโดยสำนักงานใหญ่', paperWidth)}
 ${this.centerText('(สำเนาใบลดหนี้)', paperWidth)}
 ${this.centerText('เอกสารออกเป็นชุด', paperWidth)}
-${this.leftRightText(`รหัสลูกค้า ${data.customer.customercode}`, `เลขที่ ${data.CUOR}`, paperWidth)}
+${this.leftRightText(`รหัสลูกค้า ${data.customer.customercode}`, `เลขที่ ${data.returnno}`, paperWidth)}
 ${this.leftRightText(`ชื่อลูกค้า ${this.padThaiText(data.customer.customername, 42)}`, `วันที่ ${data.OAORDT}`, paperWidth)}
 ที่อยู่ ${data.customer.address1}
 ${data.customer.address2} 
@@ -613,7 +613,7 @@ ${this.centerText('เลขประจำตัวผู้เสียภา�
 ${this.centerText('ออกใบกำกับภาษีโดยสำนักงานใหญ่', paperWidth)}
 ${this.centerText('(สำเนาบิลเงินสด/ใบกำกับภาษี)', paperWidth)}
 ${this.centerText('เอกสารออกเป็นชุด', paperWidth)}
-${this.leftRightText(`รหัสลูกค้า ${data.customer.customercode}`, `เลขที่ ${data.CUOR}`, paperWidth)}
+${this.leftRightText(`รหัสลูกค้า ${data.customer.customercode}`, `เลขที่ ${data.saleno}`, paperWidth)}
 ${this.leftRightText(`ชื่อลูกค้า ${this.padThaiText(data.customer.customername, 42)}`, `วันที่ ${data.OAORDT}`, paperWidth)}
 ที่อยู่ ${data.customer.address1}
 ${data.customer.address2} 
