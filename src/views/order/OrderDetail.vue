@@ -114,7 +114,6 @@ const handleCN = (orderNo) => {
 };
 
 onMounted(() => {
-    // const orderNo = localStorage.getItem('orderNo')
     console.log('orderDetail',util.orderNo)
     orderStore.getOrderDetail(util.orderNo)
 });

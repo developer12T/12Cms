@@ -63,7 +63,6 @@ export const useUtilityStore = defineStore('utility', {
     },
     updateAddress(address) {
       Object.assign(this, address)
-      console.log('5555', address)
     },
     setSearchText(text) {
       this.searchText = text

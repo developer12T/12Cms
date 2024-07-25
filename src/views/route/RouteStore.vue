@@ -100,7 +100,8 @@ const handleClickCn = () => {
 const handleClickDetail = (row) => {
     order.getOrderDetail(row.orderId)
     router.push('/cms/order/detail')
-    console.log('order', row.orderId)
+    localStorage.setItem('orderNo', row.orderId)
+    // console.log('order', row.orderId)
 }
 
 const routeDay = localStorage.getItem('routeDay')
