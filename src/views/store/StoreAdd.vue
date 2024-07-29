@@ -27,7 +27,7 @@
                 v-model="vStoreName" :isRequired="true">
               </InputFeild>
               <div class="flex justify-end">
-                <span v-if="!vStoreName.trim()" class="text-sm font-light text-red-500">{{ utility.errorMessage }}</span>
+                <span v-if="!vStoreName.trim()" class="text-sm font-light text-red-500">{{ util.errorMessage }}</span>
                 <!-- <span v-else class="block text-sm font-light text-gray-900 dark:text-white">ไม่เกิน 36 ตัวอักษร</span> -->
               </div>
             </div>
@@ -145,7 +145,7 @@ import DrawerPolicy from '../../components/tablet/DrawerPolicy.vue'
 import DrawerPicture from '../../components/DrawerPicture.vue'
 
 const uploadStore = useUploadStore()
-const utility = useUtilityStore()
+const util = useUtilityStore()
 const location = useGeolocation()
 const store = useStoresStore()
 
@@ -201,11 +201,11 @@ const closeDrawer = () => {
 }
 const sendData = async () => {
   isLoading.value = true
-  const isValid = utility.validateInput(vStoreName.value)
+  const isValid = util.validateInput(vStoreName.value)
 
   if (!isValid) {
     isLoading.value = false
-    const errorMessage = utility.getValidate()
+    const errorMessage = util.getValidate()
     console.log('Invalid input. Error message:', errorMessage)
   } else {
     const dataStore = {
@@ -220,8 +220,8 @@ const sendData = async () => {
       province: vProvince.value,
       provinceCode: '10',
       postCode: vZipcode.value.toString(),
-      zone: "BE",
-      area: localStorage.getItem('area'),
+      zone: util.zone,
+      area: util.area,
       latitude: location.latitude.value.toString(),
       longtitude: location.longitude.value.toString(),
       lineId: vStoreLine.value,
@@ -235,7 +235,7 @@ const sendData = async () => {
       ],
       note: vStoreNote.value,
       typeNumberSeries: 'customer',
-      zoneNumberSeries: 'BE'
+      zoneNumberSeries: util.area
     }
     try {
       // const response = await store.addCustomerNew(dataStore)

@@ -28,11 +28,6 @@ export const useUtilityStore = defineStore('utility', {
     orderCn: localStorage.getItem('orderCn'),
   }),
   getters: {
-    // getArea: () => localStorage.getItem('area'),
-    // getStoreId: () => localStorage.getItem('routeStoreId'),
-    // getLat: () => localStorage.getItem('latitude'),
-    // getLong: () => localStorage.getItem('longitude'),
-    // getRouteId: () => localStorage.getItem('routeId'),
     filteredData(state) {
       const search = state.searchText.toLowerCase();
       if (!search) {

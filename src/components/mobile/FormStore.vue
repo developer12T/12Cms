@@ -50,7 +50,7 @@ import { useUtilityStore, useGeolocation, useStoresStore } from '../../stores'
 const currentStep = ref(0)
 const nextDisabled = ref(true) 
 const consent = ref(false) 
-const utility = useUtilityStore()
+const util = useUtilityStore()
 const location = useGeolocation()
 const store = useStoresStore()
 const isLoading = ref(false)
@@ -80,30 +80,30 @@ const dismissAlert = () => {
 
 const sendData = async () => {
   isLoading.value = true
-  const isValid = utility.validateInput(utility.storeName)
+  const isValid = util.validateInput(util.storeName)
 
   if (!isValid) {
     isLoading.value = false
-    const errorMessage = utility.getValidate()
+    const errorMessage = util.getValidate()
     console.log('การป้อนข้อมูลไม่ถูกต้อง. ข้อความผิดพลาด:', errorMessage)
   } else {
     const dataStore = {
-      taxId: utility.storeTax,
-      name: utility.storeName,
-      tel: utility.storePhone,
-      route: utility.storeRoute,
-      type: utility.storeType,
-      address: utility.storeAddress,
-      distric: utility.storeDistrict,
-      subDistric: utility.storeSubdistrict,
-      province: utility.storeProvince,
+      taxId: util.storeTax,
+      name: util.storeName,
+      tel: util.storePhone,
+      route: util.storeRoute,
+      type: util.storeType,
+      address: util.storeAddress,
+      distric: util.storeDistrict,
+      subDistric: util.storeSubdistrict,
+      province: util.storeProvince,
       provinceCode: '10',
-      postCode: utility.storeZipcode.toString(),
-      zone: "BE",
-      area: localStorage.getItem('area'),
+      postCode: util.storeZipcode.toString(),
+      zone: util.zone,
+      area: util.area,
       latitude: location.latitude.value,
       longtitude: location.longitude.value,
-      lineId: utility.storeLine,
+      lineId: '',
       policyConsent: consent.value ? 'Agree' : 'Disagree',
       imageList: [
         {
@@ -112,9 +112,9 @@ const sendData = async () => {
           descript: ''
         },
       ],
-      note: utility.storeNote,
+      note: '',
       typeNumberSeries: 'customer',
-      zoneNumberSeries: 'BE'
+      zoneNumberSeries: util.zone
     }
     try {
       const response = await store.addCustomerNew(dataStore)
