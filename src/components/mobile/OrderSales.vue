@@ -34,10 +34,10 @@ const store = useOrderStore()
 const orderList = computed(() => store.orderMain)
 const noData = computed(() => store.noData)
 
-const viewOrderDetail = (orderNo) => {
+const viewOrderDetail = async (orderNo) => {
     console.log('order', orderNo)
-    router.push('order/detail')
     localStorage.setItem('orderNo', orderNo)
+    await router.push('order/detail')
     store.getOrderDetail(orderNo)
 }
 

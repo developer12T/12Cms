@@ -55,23 +55,47 @@
       
 <script setup>
 import { ref, computed, onMounted, watchEffect } from 'vue'
-import { useProductStore } from '../../stores';
+import { useProductStore, useUtilityStore } from '../../stores'
 
-const store = useProductStore();
+const store = useProductStore()
+const util = useUtilityStore()
+
 const dataProduct = computed(() => {
     return store.productOption
 })
 
-const selectedGroup = ref('')
-const selectedBrand = ref('')
-const selectedSize = ref('')
-const selectedFlavour = ref('')
+const selectedGroup = ref(util.optionGroup)
+const selectedBrand = ref(util.optionBrand)
+const selectedSize = ref(util.optionSize)
+const selectedFlavour = ref(util.optionFlavour)
 
-// watchEffect( () => {
-//     if (selectedGroup.value) {
-//         store.getDataOpion(selectedGroup.value)
+watchEffect( () => {
+    if (selectedGroup.value) {
+        store.getDataOpion(selectedGroup.value)
+    }
+})
+
+// watchEffect(() => {
+//     if (vStoreProvince.value) {
+//         store.getDistrict(vStoreProvince.value)
+//     }
+//     if (vStoreProvince.value && vStoreDistrict.value) {
+//         store.getSubdistrict(vStoreProvince.value, vStoreDistrict.value)
+//     }
+//     if (vStoreProvince.value && vStoreDistrict.value && vStoreSubdistrict.value) {
+//         store.getZipcode(vStoreProvince.value, vStoreDistrict.value, vStoreSubdistrict.value)
 //     }
 // })
+
+// watch([selectedGroup, selectedBrand, selectedSize, selectedFlavour], () => {
+//     util.updateAddress({
+//         storeAddress: selectedGroup.value,
+//         storeProvince: selectedBrand.value,
+//         storeDistrict: selectedSize.value,
+//         storeSubdistrict: selectedFlavour.value
+//     })
+// })
+
 const emit = defineEmits(['update:data'])
 const emitData = () => {
   const optionProduct = {

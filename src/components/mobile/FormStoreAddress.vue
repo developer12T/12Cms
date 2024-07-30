@@ -67,13 +67,13 @@ import { ref, computed, onMounted, watchEffect, watch } from 'vue'
 import { useStoresStore, useUtilityStore } from '../../stores'
 import InputFeild from '../../components/mobile/InputFeild.vue'
 
-const utility = useUtilityStore()
+const util = useUtilityStore()
 
-const vStoreAddress = ref(utility.storeAddress)
-const vStoreProvince = ref(utility.storeProvince)
-const vStoreDistrict = ref(utility.storeDistrict)
-const vStoreSubdistrict = ref(utility.storeSubdistrict)
-const vStoreZipcode = ref(utility.storeZipcode)
+const vStoreAddress = ref(util.storeAddress)
+const vStoreProvince = ref(util.storeProvince)
+const vStoreDistrict = ref(util.storeDistrict)
+const vStoreSubdistrict = ref(util.storeSubdistrict)
+const vStoreZipcode = ref(util.storeZipcode)
 
 const store = useStoresStore()
 const dataProvince = computed(() => {
@@ -106,7 +106,7 @@ watchEffect(() => {
 })
 
 watch([vStoreAddress, vStoreProvince, vStoreDistrict, vStoreSubdistrict, vStoreZipcode], () => {
-    utility.updateAddress({
+    util.updateAddress({
         storeAddress: vStoreAddress.value,
         storeProvince: vStoreProvince.value,
         storeDistrict: vStoreDistrict.value,
