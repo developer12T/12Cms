@@ -21,11 +21,14 @@
                     <div class="ml-6 md:text-xl">
                         ที่อยู่ : {{ routeStore.address }}
                     </div>
+                    <div class="ml-6 md:text-xl">
+                        ประเภท : {{ routeStore.typeStore }}
+                    </div>
                 </div>
                 <div class="flex justify-center mt-5">
                     <Table :columns="tableColumns" :data="routeStoreList"
                         :thClass="'px-8 py-3 text-center sm:text-sm md:text-lg'"
-                        :tdClass="'px-6 py-2 sm:text-sm md:text-lg text-center'" :hTable="'sm:h-[400px] md:h-[650px]'" @row-click="handleClickDetail">
+                        :tdClass="'px-6 py-2 sm:text-sm md:text-lg text-center'" :hTable="'sm:h-[390px] md:h-[650px]'" @row-click="handleClickDetail">
                     </Table>
                 </div>
                 <div class="flex flex-row justify-center">

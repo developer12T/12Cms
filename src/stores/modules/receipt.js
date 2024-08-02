@@ -16,12 +16,12 @@ export const useReceiptStore = defineStore('receipt', {
       }
       return counter;
     },
-    leftRightText2(left, right, width) {
-      const leftLength = left.length + this.getNoOfUpperLowerChar(left);
-      const rightLength = right.length + this.getNoOfUpperLowerChar(right);
-      const space = Math.max(0, width - leftLength - rightLength);
-      return left + ' '.repeat(space) + right;
-    },
+    // leftRightText2(left, right, width) {
+    //   const leftLength = left.length + this.getNoOfUpperLowerChar(left);
+    //   const rightLength = right.length + this.getNoOfUpperLowerChar(right);
+    //   const space = Math.max(0, width - leftLength - rightLength);
+    //   return left + ' '.repeat(space) + right;
+    // },
     leftRightText(left, right, width) {
       const space = Math.max(0, width - left.length - right.length);
       return left + ' '.repeat(space) + right;
@@ -46,14 +46,14 @@ export const useReceiptStore = defineStore('receipt', {
       const lineSeparator = '---------------------------------------------------------------------';
 
       const centerText = (text) => {
-        const width = 66;
+        const width = 72;
         const leftPadding = Math.floor((width - text.length) / 2);
         return ' '.repeat(leftPadding) + text;
       };
 
       const header = `
 ${lineSeparator}
-${centerText('ใบรับสินค้า')}
+${centerText('ใบสั่งสินค้า')}
 ${lineSeparator}
 เลขที่: ${data.orderNo}
 วันที่: ${data.orderDate}
@@ -61,31 +61,24 @@ ${lineSeparator}
 ที่อยู่: ${data.address}
 ผู้ขาย: ${data.saleMan}
 ${lineSeparator}
-      `;
-
-      const itemsHeader = sprintf(
-        "%-25s %5s %10s %9s %9s",
-        "สินค้า", "ราคา", "ส่วนลด", "จำนวน", "รวม"
-      ) + `
+รายการสินค้า                         จำนวน    ราคา     ส่วนลด       รวม
 ${lineSeparator}
 `;
+      const formatItem = (no, name, qty, price, discount, total) => {
+        const itemQty = this.padThaiText(qty, 7);
+        const itemPrice = this.padThaiText(this.rightText(price, 6), 6);
+        const itemDiscount = discount.padStart(6);
+        const itemTotal = total.padStart(11);
 
-      const formatItem = (name, price, discount, qty, total) => {
-        return sprintf(
-          "%-25s %10s %10s %10s %10s",
-          name.padEnd(25),
-          price.padEnd(10),
-          discount.padEnd(10),
-          qty.padEnd(10),
-          total.padEnd(5)
-        );
+        return `${no} ${this.padThaiText(name, 31)} ${itemQty} ${itemPrice} ${itemDiscount} ${itemTotal}`;
       };
 
-      const items = data.list.map(item => formatItem(
-        item.name,
+      const items = data.list.map((item,index) => formatItem(
+        index+1,
+        item.name.replace(' ','').substring(0,36),
+        item.qtyText,
         parseFloat(item.pricePerQty).toFixed(2),
         parseFloat(item.itemDiscount).toFixed(2),
-        item.qtyText,
         parseFloat(item.summaryPrice).toFixed(2)
       )).join('\n');
 
@@ -97,10 +90,14 @@ ${lineSeparator}
 สถานะ: ${data.statusText.padStart(60)}
 ${lineSeparator}
 ${centerText('ขอบคุณที่ใช้บริการ')}
+
+
+
       `;
 
-      return header + itemsHeader + items + footer;
+      return header + items + footer;
     },
+
     formatReceiptDataCn(data) {
       const lineSeparator = '---------------------------------------------------------------------';
 

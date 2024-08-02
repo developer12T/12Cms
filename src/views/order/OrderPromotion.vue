@@ -17,42 +17,51 @@
                     </div>
                     <div
                         class="bg-white px-2 sha shadow-slate-300 shadow-md rounded-lg overflow-auto md:w-card sm:w-[360px] sm:h-[230px] md:h-[600px]">
-                        <div class="flex flex-col p-4" v-for="free in listFree" :key="free.proId">
-                            <div class="flex justify-between">
-                                <h2
-                                    class="mb-2 sm:text-lg font-semibold tracking-tight overflow-hidden whitespace-nowrap truncate">
-                                    {{ free.listProduct[0].productName }}
-                                </h2>
-                                <button type="button" @click="handleClick()"
-                                    class="text-white bg-red-500 w-6 h-6 font-medium rounded-md sm:text-sm md:text-lg inline-flex flex-col items-center justify-center">
-                                    <Icon class="icon w-4 h-4" icon="ph:x-bold" />
-                                </button>
-                            </div>
-                            <div class="flex justify-between">
-                                <p class="mb-3 justify-end font-normal text-gray-700">
-                                    {{ free.proName }}
-                                </p>
-                                <p class="mb-3 justify-end font-normal text-gray-700">
-                                    {{ free.listProduct[0].qtyText }}
-                                </p>
+                        <div v-if="loading">
+                            <Skeleton v-for="i in 9" :key="i" width="100%" height="1rem" class="mb-2" />
+                        </div>
+                        <div v-else>
+                            <div class="flex flex-col p-2" v-for="free in listFree" :key="free.proId">
+                                <div class="flex justify-between">
+                                    <h2
+                                        class="mb-2 sm:text-lg font-semibold tracking-tight overflow-hidden whitespace-nowrap truncate">
+                                        {{ free.listProduct[0].productName }}
+                                    </h2>
+                                    <button type="button" @click="handleClick()"
+                                        class="text-white bg-red-500 w-6 h-6 font-medium rounded-md sm:text-sm md:text-lg inline-flex flex-col items-center justify-center">
+                                        <Icon class="icon w-4 h-4" icon="ph:x-bold" />
+                                    </button>
+                                </div>
+                                <div class="flex justify-between">
+                                    <p class="mb-3 justify-end font-normal text-gray-700">
+                                        {{ free.proName }}
+                                    </p>
+                                    <p class="mb-3 justify-end font-normal text-gray-700">
+                                        {{ free.listProduct[0].qtyText }}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="flex flex-col items-center mt-5">
-                    <div>
-                        ส่วนลด
-                    </div>
+                    <div>ส่วนลด</div>
                     <div
-                        class="bg-white px-2 sha shadow-slate-300 shadow-md rounded-lg overflow-auto md:w-card sm:w-[360px] sm:h-[230px] md:h-[600px]">
-                        <div class="flex flex-col p-4" v-for="discount in listDiscount" :key="discount.proId">
-                            <div class="flex justify-between">
-                                <p class="mb-3 justify-end font-normal text-gray-700">
-                                    {{ discount.proName }}
-                                </p>
-                                <p class="mb-3 justify-end font-normal text-gray-700">
-                                    รวม {{ discount.discount }} บาท
-                                </p>
+                        class="bg-white px-2 shadow-slate-300 shadow-md rounded-lg overflow-auto md:w-card sm:w-[360px] sm:h-[230px] md:h-[600px]">
+                        <div v-if="loading">
+                            <Skeleton v-for="i in 9" :key="i" width="100%" height="1rem" class="mb-2" />
+                        </div>
+                        <div v-else>
+                            <div class="flex flex-col p-2 space-y-1" v-for="discount in listDiscount"
+                                :key="discount.proId">
+                                <div class="flex justify-between">
+                                    <p class="justify-end font-normal text-gray-700 leading-tight">
+                                        {{ discount.proName }}
+                                    </p>
+                                    <p class="justify-end font-normal text-gray-700 leading-tight">
+                                        รวม {{ discount.totalDiscount }} บาท
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -76,10 +85,13 @@ import { usePromotionStore, useUtilityStore } from '../../stores'
 import LayoutSub from '../LayoutSub.vue'
 import ButtonBack from '../../components/ButtonBack.vue'
 import Alert from '../../components/Alert.vue'
+import Skeleton from '../../components/Skeleton.vue'
 
 const router = useRouter()
 const reward = usePromotionStore()
 const util = useUtilityStore()
+const loading = ref(true)
+
 const listFree = computed(() => {
     return reward.freeList
 })
@@ -87,8 +99,16 @@ const listDiscount = computed(() => {
     return reward.discountList
 })
 
-onMounted(() => {
-    reward.getPromotionReward(util.area,util.storeId)
+// onMounted(() => {
+//     reward.getPromotionReward(util.area, util.storeId)
+// })
+
+onMounted(async () => {
+    try {
+        await reward.getPromotionReward(util.area, util.storeId)
+    } finally {
+        loading.value = false
+    }
 })
 
 const showAlert = ref(false)

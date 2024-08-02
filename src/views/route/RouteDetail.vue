@@ -12,19 +12,11 @@
         <div class="flex justify-center">
           <SearchBar />
         </div>
-        <!-- <div class="flex flex-row justify-between">
-          <div class="md:text-xl">
-            {{ routeDetail.day }}
-          </div>
-          <div class="md:text-xl">
-            {{ routeDetail.route }}
-          </div>
-        </div> -->
         <div class="flex justify-center">
           <Table :columns="tableColumns" :data="filteredData"
             :thClass="'py-3 px-10 sm:text-center sm:text-sm md:text-lg'"
             :tdClass="'py-2 sm:text-sm md:text-lg text-center'" :isLoading="isLoading"
-            :hTable="'sm:h-[550px] md:h-[690px]'" @row-click="handleClick">
+            :hTable="'sm:h-[420px] md:h-[690px]'" @row-click="handleClick">
             <template v-slot:statusText="{ item }">
               <span v-if="item.status === '0'"
                 class="bg-red-100 text-red-800 sm:text-sm md:text-md font-medium px-2.5 py-0.5 rounded">
