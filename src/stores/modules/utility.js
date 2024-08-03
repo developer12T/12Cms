@@ -23,6 +23,7 @@ export const useUtilityStore = defineStore('utility', {
     searchData: [],
     zone: localStorage.getItem('zone'),
     area: localStorage.getItem('area'),
+    warehouse: localStorage.getItem('warehouse'),
     saleCode: localStorage.getItem('saleCode'),
     storeId: localStorage.getItem('routeStoreId'),
     latitude: localStorage.getItem('latitude'),

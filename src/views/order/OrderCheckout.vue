@@ -167,11 +167,12 @@ const handleSave = async () => {
             storeId: util.storeId,
             saleCode: util.saleCode,
             idRoute: util.routeId,
+            warehouse: util.warehouse,
             latitude: lat.value,
             longitude: long.value,
         })
         showAlert.value = false
-        await router.push('/cms/order/detail')
+        await router.push('/cms/order')
     } catch (error) {
         console.error(error)
     }

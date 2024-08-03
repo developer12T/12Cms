@@ -11,7 +11,9 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { Icon } from '@iconify/vue'
+import { useAuthStore } from '../../stores'
 
+const auth = useAuthStore()
 const router = useRouter()
 const buttons = ref([
   {
@@ -39,9 +41,14 @@ const buttons = ref([
     icon: "mdi:report-finance",
     route: "#"
   },
+  // {
+  //   label: "ตั้งค่า",
+  //   icon: "pepicons-pop:dots-x",
+  // },
   {
-    label: "ตั้งค่า",
-    icon: "pepicons-pop:dots-x",
+    label: "ออกจากระบบ",
+    icon: "material-symbols:logout",
+    route: "logout"
   },
 ]);
 
@@ -68,11 +75,26 @@ const textClass = (index) => [
   "group-hover:text-blue-600",
 ]
 
+// const handleClick = (index) => {
+//   const route = buttons.value[index].route
+//   console.log("clicked:", buttons.value[index].label)
+//   if (route) {
+//     router.push({ path: route })
+//   }
+// }
 const handleClick = (index) => {
-  const route = buttons.value[index].route
-  console.log("clicked:", buttons.value[index].label)
-  if (route) {
-    router.push({ path: route })
+  const button = buttons.value[index]
+  if (button.route === "logout") {
+    handleLogout()
+  } else if (button.route) {
+    router.push({ path: button.route })
   }
 }
+
+const handleLogout = () => {
+  auth.logout();
+  router.push({ path: '/' })
+  console.log("User logged out")
+}
+
 </script>

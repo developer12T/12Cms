@@ -36,7 +36,7 @@ const orderRoutes = [
       {
         path: 'checkout',
         component: () => import('../views/order/OrderCheckout.vue'),
-        meta: { disallowedRoute: true }
+        // meta: { disallowedRoute: true }
       },
       {
         path: 'detail',
