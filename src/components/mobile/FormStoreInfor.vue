@@ -32,11 +32,17 @@
                             </option>
                         </select>
                     </form>
-                    <div class="mb-1 ml-2">
-                        <InputFeild :id="'storeRoute'" :label="'เส้นทาง'" :inputClass="'w-[100px] p-2.5'" :type="'text'"
-                            v-model="vStoreRoute">
-                        </InputFeild>
-                    </div>
+                    <form class="max-w-sm mx-auto">
+                        <label for="storeType"
+                            class="block mb-2 text-sm font-medium text-gray-900">ประเภทร้านค้า</label>
+                        <select v-model="vStoreRoute" id="storeType"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[100px] p-2.5">
+                            <option disabled value="">เลือกรูท</option>
+                            <option v-for="type in dataRouteOption" :key="type" :value="type">
+                                {{ type }}
+                            </option>
+                        </select>
+                    </form>
                 </div>
                 <div class="mb-1">
                     <InputFeild :id="'lineId'" :label="'Line ID'" :inputClass="'w-[300px] p-2.5'" :type="'text'"
@@ -56,25 +62,29 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
 import InputFeild from '../../components/tablet/InputFeild.vue'
-import { useUtilityStore, useStoresStore } from '../../stores'
+import { useUtilityStore, useStoresStore, useRouteStore } from '../../stores'
 
 const store = useStoresStore()
-const utility = useUtilityStore()
+const route = useRouteStore()
+const util = useUtilityStore()
 
 const dataStoreType = computed(() => {
-    return store.storeType;
+    return store.storeType
+})
+const dataRouteOption = computed(() => {
+    return route.routeOption
 })
 
-const vStoreName = ref(utility.storeName)
-const vStoreTax = ref(utility.storeTax)
-const vStorePhone = ref(utility.storePhone)
-const vStoreRoute = ref(utility.storeRoute)
-const vStoreType = ref(utility.storeType)
-const vStoreLine = ref(utility.storeLine)
-const vStoreNote = ref(utility.storeNote)
+const vStoreName = ref(util.storeName)
+const vStoreTax = ref(util.storeTax)
+const vStorePhone = ref(util.storePhone)
+const vStoreRoute = ref(util.storeRoute)
+const vStoreType = ref(util.storeType)
+const vStoreLine = ref(util.storeLine)
+const vStoreNote = ref(util.storeNote)
 
 watch([vStoreName, vStoreTax, vStorePhone, vStoreRoute, vStoreType, vStoreLine, vStoreNote], () => {
-    utility.updateStoreData({
+    util.updateStoreData({
         storeName: vStoreName.value,
         storeTax: vStoreTax.value,
         storePhone: vStorePhone.value,
@@ -87,6 +97,7 @@ watch([vStoreName, vStoreTax, vStorePhone, vStoreRoute, vStoreType, vStoreLine, 
 
 onMounted(() => {
     store.getStoreType()
+    route.getRouteOption(util.area)
 });
 
 </script>

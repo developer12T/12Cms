@@ -215,8 +215,8 @@ const sendData = async () => {
       route: vStoreRoute.value,
       type: vStoreType.value,
       address: vAddress.value,
-      distric: vDistrict.value,
-      subDistric: vSubdistrict.value,
+      district: vDistrict.value,
+      subDistrict: vSubdistrict.value,
       province: vProvince.value,
       provinceCode: '10',
       postCode: vZipcode.value.toString(),
@@ -251,8 +251,6 @@ const sendData = async () => {
       console.error('Error while sending data:', error)
       isLoading.value = false
     }
-
-
   }
 }
 onMounted(() => {

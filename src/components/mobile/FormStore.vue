@@ -94,8 +94,8 @@ const sendData = async () => {
       route: util.storeRoute,
       type: util.storeType,
       address: util.storeAddress,
-      distric: util.storeDistrict,
-      subDistric: util.storeSubdistrict,
+      district: util.storeDistrict,
+      subDistrict: util.storeSubdistrict,
       province: util.storeProvince,
       provinceCode: '10',
       postCode: util.storeZipcode.toString(),
@@ -107,12 +107,12 @@ const sendData = async () => {
       policyConsent: consent.value ? 'Agree' : 'Disagree',
       imageList: [
         {
-          name: 'test',
-          path: 'test',
+          name: '',
+          path: '',
           descript: ''
         },
       ],
-      note: '',
+      note: util.storeNote,
       typeNumberSeries: 'customer',
       zoneNumberSeries: util.zone
     }

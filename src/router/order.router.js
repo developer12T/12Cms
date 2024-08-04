@@ -24,6 +24,7 @@ const orderRoutes = [
       {
         path: 'product',
         component: () => import('../views/order/OrderProduct.vue'),
+        // meta: { disallowedRoute: true }
       },
       {
         path: 'cart',

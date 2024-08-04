@@ -8,6 +8,7 @@ export const useRouteStore = defineStore('routes', {
       routeDetailList: [],
       routeStore: [],
       routeStoreList: [],
+      routeOption: [],
     }),
     // getter: {
     //     getRouteMain: (state) => state.routeMain,
@@ -99,6 +100,25 @@ export const useRouteStore = defineStore('routes', {
           );
           const result = response.data
           console.log("visited", result)
+        } catch (error) {
+          console.error(error);
+        }
+      },
+      async getRouteOption(area) {
+        try {
+        //   const token = JSON.parse(localStorage.getItem("token"));
+          const response = await axios.post(
+            import.meta.env.VITE_API_BASE_URL +
+              "/cms/route/getRouteOption",
+            {
+              area
+            }
+            // {
+            //   headers: { Authorization: `Bearer ${token}` },
+            // }
+          );
+          this.routeOption = response.data
+          console.log("routeOption", this.routeOption)
         } catch (error) {
           console.error(error);
         }

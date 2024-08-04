@@ -1,6 +1,7 @@
 <template>
     <div ref="tableContainer" class="relative flex justify-center">
-        <Table :columns="tableColumns" :data="filteredData" :thClass="'py-3'" :tdClass="'py-2'" :sTable="tableHeight">
+        <Table :columns="tableColumns" :data="filteredData" :thClass="'py-3'" :tdClass="'py-2'" :sTable="tableHeight"
+        @row-click="handleClick">
             <template v-slot:approvedText="{ item }">
                 <span v-if="item.status === '19'"
                     class="bg-red-100 text-red-800 sm:text-sm md:text-md font-medium px-2.5 py-0.5 rounded">
@@ -21,11 +22,13 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { useDisplaySize } from '../../composable/DisplaySize'
 import { useStoresStore, useUtilityStore } from '../../stores'
 import Table from '../../components/Table.vue'
 
 const { isMobile, browserHeight } = useDisplaySize()
+const router = useRouter()
 const store = useStoresStore()
 const search = useUtilityStore()
 const customerNew = computed(() => store.storeNew)
@@ -47,6 +50,20 @@ const tableColumns = computed(() => {
         ]
     }
 })
+
+const handleClick = (row) => {
+  const store = row.storeId
+  const storeName = row.name
+  const storeRoute = row.idRoute
+  const storeDay = row.day
+  console.log('store',store)
+  console.log('storeRoute',storeName)
+  localStorage.setItem('routeStoreId', store)
+  localStorage.setItem('routeStoreName', storeName)
+  localStorage.setItem('routeId', storeRoute)
+  localStorage.setItem('routeDay', storeDay)
+  router.push('/cms/route/store')
+}
 
 const tableContainer = ref(null)
 const tableHeight = ref('')
