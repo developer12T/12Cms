@@ -132,15 +132,15 @@ export const useOrderStore = defineStore('orders', {
     async addNewOrder(orderData) {
       try {
           // const token = JSON.parse(localStorage.getItem('token'));
-        // const response = await axios.post(
-        //   import.meta.env.VITE_API_BASE_URL + '/cms/order/newOrder',
-        //   orderData
-        //   // {
-        //   //   headers: { Authorization: `Bearer ${token}` },
-        //   // }
-        // );
-        // const result = response.data;
-        // console.log('createOrder', result);
+        const response = await axios.post(
+          import.meta.env.VITE_API_BASE_URL + '/cms/order/newOrder',
+          orderData
+          // {
+          //   headers: { Authorization: `Bearer ${token}` },
+          // }
+        );
+        const result = response.data;
+        console.log('createOrder', result);
         // console.log('createOrder', orderData);
       } catch (error) {
         console.error(error);
