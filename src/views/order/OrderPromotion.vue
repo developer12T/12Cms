@@ -99,6 +99,7 @@ const listDiscount = computed(() => {
 
 
 onMounted(async () => {
+    loading.value = true
     try {
         await pro.getPromotionReward({
             area: util.area,
