@@ -149,12 +149,11 @@ const handleAdd = () => {
 };
 const handleCreate = async () => {
     try {
-        router.push('/cms/order/promotion');
         await pro.getPromotionReward({
             area: util.area,
             storeId: util.storeId,
         })
-         
+        await router.push('/cms/order/promotion');
     } catch (error) {
         console.error(error);
     }
