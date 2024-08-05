@@ -96,7 +96,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { Icon } from '@iconify/vue'
-import { useOrderStore } from '../../stores'
+import { useOrderStore, usePromotionStore, useUtilityStore } from '../../stores'
 import LayoutSub from '../LayoutSub.vue'
 import ButtonBack from '../../components/ButtonBack.vue'
 import Alert from '../../components/Alert.vue'
@@ -105,7 +105,9 @@ const router = useRouter()
 const storeId = localStorage.getItem('routeStoreId')
 const storeName = localStorage.getItem('routeStoreName')
 
-const store = useOrderStore();
+const store = useOrderStore()
+const pro = usePromotionStore()
+const util = useUtilityStore()
 const orderCart = computed(() => {
     return store.orderCart;
 });
@@ -145,8 +147,17 @@ const dismissAlert = () => {
 const handleAdd = () => {
     router.push('/cms/order/add')
 };
-const handleCreate = () => {
-    router.push('/cms/order/promotion')
+const handleCreate = async () => {
+    try {
+        router.push('/cms/order/promotion');
+        await pro.getPromotionReward({
+            area: util.area,
+            storeId: util.storeId,
+        })
+         
+    } catch (error) {
+        console.error(error);
+    }
 };
 
 onMounted(() => {

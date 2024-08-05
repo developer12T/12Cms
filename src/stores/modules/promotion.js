@@ -10,14 +10,11 @@ export const usePromotionStore = defineStore('promotion', {
 
     },
     actions: {
-        async getPromotionReward(area, store) {
+        async getPromotionReward(data) {
             try {
                 const response = await axios.post(
                     import.meta.env.VITE_API_BASE_URL + '/cms/saleProduct/summaryCompare',
-                    {
-                        area: area,
-                        storeId: store
-                    }
+                    data
                 );
                 this.freeList = response.data.listFree;
                 this.discountList = response.data.listDiscount;

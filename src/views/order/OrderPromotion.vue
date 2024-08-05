@@ -12,11 +12,9 @@
                     </div>
                 </div>
                 <div class="flex flex-col items-center mt-5">
-                    <div>
-                        ของแถม
-                    </div>
+                    <div>ของแถม</div>
                     <div
-                        class="bg-white px-2 sha shadow-slate-300 shadow-md rounded-lg overflow-auto md:w-card sm:w-[360px] sm:h-[230px] md:h-[600px]">
+                        class="bg-white px-2 shadow-slate-300 shadow-md rounded-lg overflow-auto md:w-card sm:w-[360px] sm:h-[370px] md:h-[600px]">
                         <div v-if="loading">
                             <Skeleton v-for="i in 9" :key="i" width="100%" height="1rem" class="mb-2" />
                         </div>
@@ -24,19 +22,19 @@
                             <div class="flex flex-col p-2" v-for="free in listFree" :key="free.proId">
                                 <div class="flex justify-between">
                                     <h2
-                                        class="mb-2 sm:text-lg font-semibold tracking-tight overflow-hidden whitespace-nowrap truncate">
+                                        class="mb-1 sm:text-lg font-semibold tracking-tight overflow-hidden whitespace-nowrap truncate w-3/4">
                                         {{ free.listProduct[0].productName }}
                                     </h2>
                                     <button type="button" @click="handleClick()"
-                                        class="text-white bg-red-500 w-6 h-6 font-medium rounded-md sm:text-sm md:text-lg inline-flex flex-col items-center justify-center">
+                                        class="text-white bg-red-500 w-6 h-6 font-medium rounded-md sm:text-sm md:text-lg inline-flex items-center justify-center">
                                         <Icon class="icon w-4 h-4" icon="ph:x-bold" />
                                     </button>
                                 </div>
-                                <div class="flex justify-between">
-                                    <p class="mb-3 justify-end font-normal text-gray-700">
+                                <div class="flex justify-between items-center">
+                                    <p class="mb-2 font-normal text-gray-700 w-3/4 break-words">
                                         {{ free.proName }}
                                     </p>
-                                    <p class="mb-3 justify-end font-normal text-gray-700">
+                                    <p class="mb-2 font-normal text-gray-700 text-right w-1/4">
                                         {{ free.listProduct[0].qtyText }}
                                     </p>
                                 </div>
@@ -47,7 +45,7 @@
                 <div class="flex flex-col items-center mt-5">
                     <div>ส่วนลด</div>
                     <div
-                        class="bg-white px-2 shadow-slate-300 shadow-md rounded-lg overflow-auto md:w-card sm:w-[360px] sm:h-[230px] md:h-[600px]">
+                        class="bg-white px-2 shadow-slate-300 shadow-md rounded-lg overflow-auto md:w-card sm:w-[360px] sm:h-[100px] md:h-[600px]">
                         <div v-if="loading">
                             <Skeleton v-for="i in 9" :key="i" width="100%" height="1rem" class="mb-2" />
                         </div>
@@ -55,10 +53,10 @@
                             <div class="flex flex-col p-2 space-y-1" v-for="discount in listDiscount"
                                 :key="discount.proId">
                                 <div class="flex justify-between">
-                                    <p class="justify-end font-normal text-gray-700 leading-tight">
+                                    <p class="font-normal text-gray-700 truncate w-3/4">
                                         {{ discount.proName }}
                                     </p>
-                                    <p class="justify-end font-normal text-gray-700 leading-tight">
+                                    <p class="font-normal text-gray-700 text-right w-1/4">
                                         รวม {{ discount.totalDiscount }} บาท
                                     </p>
                                 </div>
@@ -88,24 +86,24 @@ import Alert from '../../components/Alert.vue'
 import Skeleton from '../../components/Skeleton.vue'
 
 const router = useRouter()
-const reward = usePromotionStore()
+const pro = usePromotionStore()
 const util = useUtilityStore()
 const loading = ref(true)
 
 const listFree = computed(() => {
-    return reward.freeList
+    return pro.freeList
 })
 const listDiscount = computed(() => {
-    return reward.discountList
+    return pro.discountList
 })
 
-// onMounted(() => {
-//     reward.getPromotionReward(util.area, util.storeId)
-// })
 
 onMounted(async () => {
     try {
-        await reward.getPromotionReward(util.area, util.storeId)
+        await pro.getPromotionReward({
+            area: util.area,
+            storeId: util.storeId,
+        })
     } finally {
         loading.value = false
     }
