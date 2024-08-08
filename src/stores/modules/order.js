@@ -268,6 +268,23 @@ export const useOrderStore = defineStore('orders', {
         console.error(error);
       }
     },
+    async updateOrder(orderData) {
+      try {
+          // const token = JSON.parse(localStorage.getItem('token'));
+        const response = await axios.post(
+          import.meta.env.VITE_API_BASE_URL + '/cms/order/UpdateOrder',
+          orderData
+          // {
+          //   headers: { Authorization: `Bearer ${token}` },
+          // }
+        );
+        const result = response.data;
+        console.log('update', result);
+        // console.log('createOrder', orderData);
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async getOrder(warehouse) {
       try {
         const response = await axios.post(

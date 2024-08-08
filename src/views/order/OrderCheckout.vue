@@ -157,6 +157,7 @@ const long = ref(util.longitude);
 const vOrderNote = ref('');
 const loading = ref(true);
 const isSaving = ref(false);
+const showAlert = ref(false);
 
 const updateLocation = () => {
     if (latitude.value && longitude.value) {
@@ -177,8 +178,6 @@ onMounted(async () => {
 });
 
 watch([latitude, longitude], updateLocation);
-
-const showAlert = ref(false);
 
 const handleClick = () => {
     showAlert.value = true;
