@@ -60,19 +60,23 @@
                     </div>
                 </div>
                 <div class="flex gap-4 text-white text-xl">
-                    <button 
-                        :disabled="detail.status === '99'" 
-                        :class="detail.status === '99' ? 'bg-gray-300 cursor-not-allowed' : 'bg-red-500'" 
+                    <button :disabled="detail.status !== '10'"
+                        :class="detail.status === '10' ? 'bg-red-500' : 'bg-gray-300 cursor-not-allowed'"
+                        class="p-4 w-full rounded-lg flex items-center justify-center shadow-lg"
+                        @click="handleCancel(detail.orderNo)">
+                        ยกเลิก
+                    </button>
+                    <button :disabled="detail.status === '99'"
+                        :class="detail.status === '99' ? 'bg-gray-300 cursor-not-allowed' : 'bg-yellow-400'"
                         class="p-4 w-full rounded-lg flex items-center justify-center shadow-lg"
                         @click="handleCN(detail.orderNo)">
                         คืนสินค้า
                     </button>
-                    <button 
-                        :disabled="detail.status === '99'" 
-                        :class="detail.status === '99' ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-500'" 
+                    <button :disabled="detail.status === '99'"
+                        :class="detail.status === '99' ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-500'"
                         class="p-4 w-full rounded-lg flex items-center justify-center shadow-lg"
                         @click="showAlert = true">
-                        พิมพ์ใบเสร็จ
+                        พิมพ์
                     </button>
                 </div>
             </div>
@@ -109,12 +113,17 @@ const handlePrint = async () => {
 };
 
 const handleCN = (orderNo) => {
-    console.log('cn',orderNo)
+    console.log('cn', orderNo)
     router.push('/cms/cn/addFromOrder')
 };
 
+const handleCancel = (orderNo) => {
+    console.log('cancel', orderNo)
+    // router.push('/cms/cn/addFromOrder')
+};
+
 onMounted(() => {
-    console.log('orderDetail',util.orderNo)
+    console.log('orderDetail', util.orderNo)
     orderStore.getOrderDetail(util.orderNo)
 });
 </script>

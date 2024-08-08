@@ -10,6 +10,13 @@
                     <ButtonBack />
                     <span class="ml-2 text-xl font-bold">ยืนยันการสั่งซื้อ</span>
                 </div>
+                <div class="bg-white p-3 shadow-md rounded-md">
+                    <div class="mb-5">
+                        <InputFeild :id="'storeNote'" :label="'หมายเหตุ'" :inputClass="'w-full p-2.5'" :type="'text'"
+                            v-model="vOrderNote">
+                        </InputFeild>
+                    </div>
+                </div>
                 <div class="bg-white p-3 shadow-md rounded-md overflow-auto h-[125px]">
                     <div class="text-sm">
                         <div v-if="loading">
@@ -106,8 +113,6 @@
                         <span>บันทึกรายการ</span>
                     </button>
                 </div>
-
-                <!-- Spinner overlay -->
                 <div v-if="isSaving" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                     <div
                         class="relative p-6 bg-white border border-gray-100 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-800">
@@ -130,13 +135,14 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue';
-import { useRouter } from 'vue-router';
-import { useOrderStore, useGeolocation, useUtilityStore } from '../../stores';
-import LayoutSub from '../LayoutSub.vue';
-import ButtonBack from '../../components/ButtonBack.vue';
-import Alert from '../../components/Alert.vue';
-import Skeleton from '../../components/Skeleton.vue';
+import { computed, onMounted, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
+import { useOrderStore, useGeolocation, useUtilityStore } from '../../stores'
+import LayoutSub from '../LayoutSub.vue'
+import ButtonBack from '../../components/ButtonBack.vue'
+import Alert from '../../components/Alert.vue'
+import Skeleton from '../../components/Skeleton.vue'
+import InputFeild from '../../components/tablet/InputFeild.vue'
 
 const router = useRouter();
 const store = useOrderStore();
@@ -146,8 +152,9 @@ const checkoutList = computed(() => store.orderCheckoutList);
 const checkoutFree = computed(() => store.orderCheckoutFree);
 const { latitude, longitude, error } = useGeolocation();
 
-const lat = ref(null);
-const long = ref(null);
+const lat = ref(util.latitude);
+const long = ref(util.longitude);
+const vOrderNote = ref('');
 const loading = ref(true);
 const isSaving = ref(false);
 
@@ -191,9 +198,13 @@ const handleSave = async () => {
             saleCode: util.saleCode,
             idRoute: util.routeId,
             warehouse: util.warehouse,
+            note: vOrderNote.value,
             latitude: lat.value,
-            longitude: long.value,
+            longtitude: long.value,
         });
+        // console.log('note', vOrderNote.value);
+        // console.log('latitude', lat.value);
+        // console.log('longitude', long.value);
         showAlert.value = false;
         await router.push('/cms/order');
     } catch (error) {
