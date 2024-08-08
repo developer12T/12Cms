@@ -3,11 +3,11 @@
         <Table :columns="tableColumns" :data="filteredData" :thClass="'py-3'" :tdClass="'py-2'" :sTable="tableHeight"
         @row-click="handleClick">
             <template v-slot:approvedText="{ item }">
-                <span v-if="item.status === '19'"
+                <span v-if="item.status === '10'"
                     class="bg-red-100 text-red-800 sm:text-sm md:text-md font-medium px-2.5 py-0.5 rounded">
                     {{ item.approvedText }}
                 </span>
-                <span v-if="item.status === '1'"
+                <span v-if="item.status === '15'"
                     class="bg-green-100 text-green-800 sm:text-sm md:text-md font-medium px-2.5 py-0.5 rounded">
                     {{ item.approvedText }}
                 </span>
