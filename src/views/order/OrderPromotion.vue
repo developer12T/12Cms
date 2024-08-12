@@ -25,10 +25,9 @@
                                         class="mb-1 sm:text-lg font-semibold tracking-tight overflow-hidden whitespace-nowrap truncate w-3/4">
                                         {{ free.listProduct[0].productName }}
                                     </h2>
-                                    <button type="button" @click="handleClick()"
-                                        class="text-white bg-red-500 w-6 h-6 font-medium rounded-md sm:text-sm md:text-lg inline-flex items-center justify-center">
-                                        <Icon class="icon w-4 h-4" icon="ph:x-bold" />
-                                    </button>
+                                    <DrawerChange
+                                        :productData="{ proId: free.proId, proName: free.proName, productId: free.listProduct[0].productId, productName: free.listProduct[0].productName, qty: free.listProduct[0].qty }"
+                                        @updateComplete="refreshPromotion" />
                                 </div>
                                 <div class="flex justify-between items-center">
                                     <p class="mb-2 font-normal text-gray-700 w-3/4 break-words">
@@ -71,6 +70,7 @@
                     </button>
                 </div>
             </div>
+            <DrawerChange v-if="showDrawer" :productId="selectedProductId" @close="showDrawer = false" />
         </template>
     </LayoutSub>
 </template>
@@ -82,21 +82,32 @@ import { Icon } from '@iconify/vue'
 import { usePromotionStore, useUtilityStore } from '../../stores'
 import LayoutSub from '../LayoutSub.vue'
 import ButtonBack from '../../components/ButtonBack.vue'
-import Alert from '../../components/Alert.vue'
 import Skeleton from '../../components/Skeleton.vue'
+import DrawerChange from '../../components/mobile/DrawerChangePro.vue'
 
 const router = useRouter()
 const pro = usePromotionStore()
 const util = useUtilityStore()
 const loading = ref(true)
+const showDrawer = ref(false)
+const selectedProductId = ref(null)
 
-const listFree = computed(() => {
-    return pro.freeList
-})
+const listFree = computed(() => pro.freeList)
 const listDiscount = computed(() => {
     return pro.discountList
 })
 
+const refreshPromotion = async () => {
+    loading.value = true;
+    try {
+        await pro.getPromotionReward({
+            area: util.area,
+            storeId: util.storeId,
+        });
+    } finally {
+        loading.value = false;
+    }
+};
 
 onMounted(async () => {
     loading.value = true
@@ -109,25 +120,6 @@ onMounted(async () => {
         loading.value = false
     }
 })
-
-const showAlert = ref(false)
-const selectedId = ref(null)
-const selectedUnitId = ref(null)
-
-const handleClick = (id, unitId) => {
-    console.log(`item: ${id}`)
-    console.log(`unit: ${unitId}`)
-    selectedId.value = id
-    selectedUnitId.value = unitId
-    showAlert.value = true
-    // console.log(showAlert.value);
-    // store.deleteItemCart(id, unitId);
-}
-
-const dismissAlert = () => {
-    showAlert.value = false
-    console.log(showAlert.value)
-}
 
 const handleCheckout = () => {
     router.push('/cms/order/checkout')

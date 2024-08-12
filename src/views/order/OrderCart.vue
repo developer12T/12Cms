@@ -62,7 +62,7 @@
                     'p-4 w-full rounded-lg flex items-center justify-center shadow-lg': true,
                     'bg-green-500': orderCartList.length > 0,
                     'bg-gray-400': orderCartList.length === 0
-                }" @click="handleCreate" :disabled="orderCartList.length === 0">
+                }" @click="handleCreate" :disabled="orderCartList.length === 0 || isSaving">
                             สร้างรายการ
                         </button>
                     </div>
@@ -85,6 +85,12 @@
                                 {{ orderCart.totalAmount }}
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div v-if="isSaving" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-20">
+                    <div
+                        class="relative p-6">
+                        <Icon class="icon w-12 h-12" icon="line-md:loading-twotone-loop" />
                     </div>
                 </div>
             </div>
@@ -116,9 +122,10 @@ const orderCartList = computed(() => {
 });
 
 const showAlert = ref(false)
-const selectedId = ref(null);
-const selectedUnitId = ref(null);
-const selectedName = ref(null);
+const selectedId = ref(null)
+const selectedUnitId = ref(null)
+const selectedName = ref(null)
+const isSaving = ref(false)
 
 const handleClick = (id, unitId, name) => {
     // console.log(`item: ${id}`);
@@ -148,14 +155,17 @@ const handleAdd = () => {
     router.push('/cms/order/add')
 };
 const handleCreate = async () => {
+    isSaving.value = true
     try {
-        await pro.getPromotionReward({
+        await pro.getPromotionCompare({
             area: util.area,
             storeId: util.storeId,
         })
         await router.push('/cms/order/promotion');
     } catch (error) {
         console.error(error);
+    } finally {
+        isSaving.value = false
     }
 };
 
