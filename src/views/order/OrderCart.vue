@@ -30,7 +30,7 @@
                                 ยังไม่มีรายการสินค้าที่เลือก
                             </div>
                         </div>
-                        <div class="flex flex-col p-4" v-for="cart in orderCartList" :key="cart.id">
+                        <div class="flex flex-col px-3 py-2" v-for="cart in orderCartList" :key="cart.id">
                             <div class="flex justify-between">
                                 <h2
                                     class="mb-2 sm:text-lg font-semibold tracking-tight overflow-hidden whitespace-nowrap truncate">
@@ -42,10 +42,10 @@
                                 </button>
                             </div>
                             <div class="flex justify-between">
-                                <p class="mb-3 justify-end font-normal text-gray-700">
+                                <p class="mb-2 justify-end font-normal text-gray-700">
                                     ฿{{ cart.summaryPrice }}
                                 </p>
-                                <p class="mb-3 justify-end font-normal text-gray-700">
+                                <p class="mb- justify-end font-normal text-gray-700">
                                     {{ cart.qtyText }}
                                 </p>
                             </div>
