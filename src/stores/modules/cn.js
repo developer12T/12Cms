@@ -137,8 +137,7 @@ export const useCnStore = defineStore('cn', {
       try {
         //   const token = JSON.parse(localStorage.getItem('token'));
         const response = await axios.post(
-          import.meta.env.VITE_API_BASE_URL +
-          '/cms/cnOrder/addCnOrderFromOrder',
+          import.meta.env.VITE_API_BASE_URL + '/cms/cnOrder/addCnOrderFromOrder',
           orderData
           // {
           //   headers: { Authorization: `Bearer ${token}` },

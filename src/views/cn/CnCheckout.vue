@@ -143,6 +143,7 @@ onMounted(async () => {
     try {
         await store.getOrderCheckout()
         await option.getReason(reasonType)
+        console.log('store', util.storeId);
     } finally {
         updateLocation()
         loading.value = false
