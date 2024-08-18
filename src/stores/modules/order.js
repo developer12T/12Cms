@@ -3,9 +3,6 @@ import axios from 'axios'
 
 export const useOrderStore = defineStore('orders', {
   state: () => ({
-    productId: '',
-    productDetail: [],
-    productUnit: [],
     orderCart: [],
     orderCartList: [],
     orderCartAmount: 0,
@@ -15,11 +12,6 @@ export const useOrderStore = defineStore('orders', {
     orderMain: [],
     orderDetail: [],
     orderDetailList: [],
-    productUnitDetail: {
-      id: '',
-      unitId: '',
-      qty: 1,
-    },
     productData: {
       area: '',
       storeId: '',
@@ -31,13 +23,6 @@ export const useOrderStore = defineStore('orders', {
         unitId: '',
       },
     },
-    productOption: {
-      group: [],
-      brand: [],
-      size: [],
-      flavour: [],
-    },
-    option: [],
     orders: [],
     orderCADetail: [],
     orderItem: [],
@@ -49,70 +34,16 @@ export const useOrderStore = defineStore('orders', {
     returnCustomer: [],
     noData: false,
   }),
-  getter: {
-    getProductDetail: (state) => state.productDetail,
-    getProductUnitDetail: (state) => state.productUnitDetail,
-  },
   actions: {
-    resetProduct() {
-      (this.productUnitDetail.unitId = ''), (this.productUnitDetail.qty = 1);
-    },
-    setProduct(id) {
-      localStorage.setItem('productId', id);
-      this.productId = id;
-      this.productUnitDetail.id = id;
-    },
-    async updateProductData(data) {
-      this.productUnitDetail = data;
-      await this.getSaleProductDetailUnit();
-    },
     async addProductData(data) {
-      this.productData = data;
-      await this.addProductToCart();
+      this.productData = data
+      await this.addProductToCart()
     },
     // async addOrderData(data) {
     //   this.addOrder = data;
     //   console.log('add', this.addOrder);
     //   await this.addNewOrder();
     // },
-    async getDataOpion() {
-      try {
-        const response = await axios.get(
-          import.meta.env.VITE_API_BASE_URL + '/cms/saleProduct/getDataOption'
-        );
-        const result = response.data;
-        this.productOption.group = result.group
-        this.productOption.brand = result.brand
-        this.productOption.size = result.size
-        this.productOption.flavour = result.flavour
-        this.option = result
-      } catch (error) {
-        console.error(error)
-      }
-    },
-    async getSaleProductDetailUnit() {
-      try {
-        //   const token = JSON.parse(localStorage.getItem('token'));
-        const localProductId = localStorage.getItem('productId');
-        if (!localProductId) return;
-        this.productUnitDetail.id = localProductId;
-        const response = await axios.post(
-          import.meta.env.VITE_API_BASE_URL + '/cms/saleProduct/getProductDetailUnit',
-          this.productUnitDetail
-
-          // {
-          //   headers: { Authorization: `Bearer ${token}` },
-          // }
-        );
-        const result = response.data;
-        const resultList = response.data.unitList;
-        this.productDetail = result;
-        this.productUnit = resultList;
-        console.log('productDetail', this.productDetail);
-      } catch (error) {
-        console.error(error);
-      }
-    },
     async addProductToCart() {
       try {
         //   const token = JSON.parse(localStorage.getItem('token'));

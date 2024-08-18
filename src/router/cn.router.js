@@ -10,6 +10,21 @@ const reportRoutes = [
         component: () => import('../views/cn/CnAdd.vue'),
       },
       {
+        path: 'product',
+        component: () => import('../views/cn/CnProduct.vue'),
+        // meta: { disallowedRoute: true }
+      },
+      {
+        path: 'cart',
+        component: () => import('../views/cn/CnCart.vue'),
+        // meta: { disallowedRoute: true }
+      },
+      {
+        path: 'checkout',
+        component: () => import('../views/cn/CnCheckout.vue'),
+        // meta: { disallowedRoute: true }
+      },
+      {
         path: 'addFromOrder',
         component: () => import('../views/cn/CnAddFromOrder.vue'),
       },

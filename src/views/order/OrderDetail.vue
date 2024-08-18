@@ -69,8 +69,9 @@
                         @click="showAlertCancel = true">
                         ยกเลิก
                     </button>
-                    <button :disabled="detail.status === '99'"
-                        :class="detail.status === '99' ? 'bg-gray-300 cursor-not-allowed' : 'bg-yellow-400'"
+                    <!-- <button :disabled="detail.status === '99'"  -->
+                    <button :disabled="true" 
+                        :class="true ? 'bg-gray-300' : 'bg-yellow-400'"
                         class="p-4 w-full rounded-lg flex items-center justify-center shadow-lg"
                         @click="handleCN(detail.orderNo)">
                         คืน

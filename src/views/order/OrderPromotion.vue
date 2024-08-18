@@ -98,14 +98,14 @@ const listDiscount = computed(() => {
 })
 
 const refreshPromotion = async () => {
-    loading.value = true;
+    loading.value = true
     try {
         await pro.getPromotionReward({
             area: util.area,
             storeId: util.storeId,
         });
     } finally {
-        loading.value = false;
+        loading.value = false
     }
 };
 

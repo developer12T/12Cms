@@ -22,11 +22,12 @@
                 <div>
                     <MobileOptionProduct v-if="isMobile" @update:data="updateOption" />
                     <TabletOptionProduct v-else @update:data="updateOption" />
-                        
+
                 </div>
                 <div class="flex justify-center mt-5">
-                    <Table :columns="tableColumns" :data="dataProducts" :thClass="'px-10 py-3 text-center sm:text-sm md:text-lg'" :tdClass="'px-6 py-2 sm:text-sm md:text-lg text-start'"
-                        :hTable="'sm:h-[390px] md:h-[600px]'">
+                    <Table :columns="tableColumns" :data="dataProducts"
+                        :thClass="'px-10 py-3 text-center sm:text-sm md:text-lg'"
+                        :tdClass="'px-6 py-2 sm:text-sm md:text-lg text-start'" :hTable="'sm:h-[390px] md:h-[600px]'">
                         <template v-slot:button="{ rowData }">
                             <button type="button"
                                 class="text-white bg-green-500 w-6 h-6 font-medium rounded-md text-md inline-flex flex-col items-center justify-center"
@@ -38,7 +39,7 @@
                 </div>
                 <div class="flex justify-end mt-3 mr-5">
                     <router-link to="/cms/order/cart">
-                        <ButtonCart :icon="'bytesize:cart'"  :cart="dataCartAmount"/>
+                        <ButtonCart :icon="'bytesize:cart'" :cart="dataCartAmount" />
                     </router-link>
                 </div>
             </div>
@@ -60,13 +61,13 @@ import Table from '../../components/Table.vue'
 import ButtonCart from '../../components/ButtonCircle.vue'
 
 const { isMobile } = useDisplaySize()
-const store = useOrderStore()
+const order = useOrderStore()
 const product = useProductStore()
 const dataProducts = computed(() => {
     return product.productList
 })
 const dataCartAmount = computed(() => {
-    return store.orderCartAmount
+    return order.orderCartAmount
 })
 const storeId = localStorage.getItem('routeStoreId')
 const storeName = localStorage.getItem('routeStoreName')
@@ -86,31 +87,25 @@ const tableColumns = computed(() => {
     }
 })
 
-const vGpoup = ref('')
-const vBrand = ref('')
-const vSize = ref('')
-const vFlavour = ref('')
-
 const updateOption = (optionProduct) => {
-    vGpoup.value = optionProduct.selectedGroup
-    vBrand.value = optionProduct.selectedBrand
-    vSize.value = optionProduct.selectedSize
-    vFlavour.value = optionProduct.selectedFlavour
-
-    // console.log('group', vGpoup.value)
-    product.getSaleProduct(optionProduct.selectedGroup, optionProduct.selectedBrand, optionProduct.selectedSize, optionProduct.selectedFlavour)
+    product.updateSelectedOptions(
+        optionProduct.selectedGroup,
+        optionProduct.selectedBrand,
+        optionProduct.selectedSize,
+        optionProduct.selectedFlavour
+    )
+    product.getProduct()
 }
 
 const router = useRouter()
 const handleClick = (id) => {
-    store.setProduct(id);
+    product.setProduct(id)
     router.push('/cms/order/product')
-    // console.log(`item: ${id}`);
 }
 
 onMounted(() => {
-    product.getSaleProduct();
-    store.getOrderCart();
+    product.getProduct()
+    order.getOrderCart()
 })
 
 </script>

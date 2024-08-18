@@ -136,7 +136,7 @@ const handleClick = () => {
             showAlert.value = true;
         }
     console.log(selectedReason.value)
-};
+}
 
 const dismissAlert = () => {
     showAlert.value = false;
@@ -153,7 +153,7 @@ const handleSave = async () => {
             orderNo: util.orderNo,
             saleCode: util.saleCode,
             zone: util.zone,
-            noteCnOrder: selectedReason.value
+            note: selectedReason.value
         })
         showAlert.value = false
         await router.push('/cms/order')

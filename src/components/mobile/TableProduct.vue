@@ -83,7 +83,7 @@ export default {
         });
 
         onMounted(() => {
-            store.getSaleProduct()
+            store.getProduct()
             store.getDataOpion();
         });
 

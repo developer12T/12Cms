@@ -14,7 +14,7 @@
                         </div>
                     </div>
                     <div class="text-right">
-                        <div class="text-md font-bold text-gray-900">฿{{ cn.totalPrice }}</div>
+                        <div class="text-md font-bold text-gray-900">฿{{ cn.totalAmount }}</div>
                         <button @click="viewOrderDetail(cn.number)"
                             class="text-green-500 bg-green-100 px-1 py-1 rounded-md">รายละเอียด</button>
                     </div>

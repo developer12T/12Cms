@@ -37,7 +37,7 @@
                     </Table>
                 </div>
                 <div class="flex justify-end mt-3 mr-5">
-                    <router-link to="/cms/order/cart">
+                    <router-link to="/cms/cn/cart">
                         <ButtonCart :icon="'bytesize:cart'"  :cart="dataCartAmount"/>
                     </router-link>
                 </div>
@@ -49,7 +49,7 @@
 <script setup>
 import { Icon } from '@iconify/vue'
 import { ref, computed, onMounted, watch } from 'vue'
-import { useOrderStore, useProductStore } from '../../stores'
+import { useCnStore, useProductStore } from '../../stores'
 import { useRouter } from 'vue-router'
 import { useDisplaySize } from '../../composable/DisplaySize'
 import LayoutSub from '../LayoutSub.vue'
@@ -60,13 +60,13 @@ import Table from '../../components/Table.vue'
 import ButtonCart from '../../components/ButtonCircle.vue'
 
 const { isMobile } = useDisplaySize()
-const store = useOrderStore()
+const order = useCnStore()
 const product = useProductStore()
 const dataProducts = computed(() => {
     return product.productList
 })
 const dataCartAmount = computed(() => {
-    return store.orderCartAmount
+    return order.cnCartAmount
 })
 const storeId = localStorage.getItem('routeStoreId')
 const storeName = localStorage.getItem('routeStoreName')
@@ -97,20 +97,18 @@ const updateOption = (optionProduct) => {
     vSize.value = optionProduct.selectedSize
     vFlavour.value = optionProduct.selectedFlavour
 
-    // console.log('group', vGpoup.value)
-    product.getSaleProduct(optionProduct.selectedGroup, optionProduct.selectedBrand, optionProduct.selectedSize, optionProduct.selectedFlavour)
+    product.getProduct(optionProduct.selectedGroup, optionProduct.selectedBrand, optionProduct.selectedSize, optionProduct.selectedFlavour)
 }
 
 const router = useRouter()
 const handleClick = (id) => {
-    store.setProduct(id);
-    router.push('/cms/order/product')
-    // console.log(`item: ${id}`);
+    product.setProduct(id);
+    router.push('/cms/cn/product')
 }
 
 onMounted(() => {
-    product.getSaleProduct();
-    store.getOrderCart();
+    product.getProduct();
+    order.getCnCart();
 })
 
 </script>

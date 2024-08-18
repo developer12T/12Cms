@@ -39,11 +39,7 @@
                     <div class="bg-white p-4 rounded-md shadow-md space-y">
                         <div class="flex justify-between text-lg">
                             <span>ยอดรวม</span>
-                            <span>{{ detail.totalPrice }}</span>
-                        </div>
-                        <div class="flex justify-between text-lg">
-                            <span>ส่วนลดท้ายบิล</span>
-                            <span>{{ detail.totalDiscount }}</span>
+                            <span>{{ detail.totalAmount }}</span>
                         </div>
                         <div class="flex justify-between text-lg">
                             <span>ราคาไม่รวมภาษี (Vat)</span>
@@ -55,7 +51,7 @@
                         </div>
                         <div class="flex justify-between text-lg font-bold">
                             <span>มูลค่ารวม</span>
-                            <span>{{ detail.totalPrice }}</span>
+                            <span>{{ detail.totalAmount }}</span>
                         </div>
                     </div>
                 </div>

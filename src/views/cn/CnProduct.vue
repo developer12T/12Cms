@@ -33,7 +33,7 @@
                     <div class="flex flex-nowrap gap-4 font-mono text-white md:text-2xl rounded-lg">
                         <button class="p-4 w-full rounded-lg flex items-center justify-center bg-green-500 shadow-lg"
                             v-for="item in productUnit" :key="item.id"
-                            @click="() => { updatePrice(item.pricePerUnitSale); handleClick(item.id); }">
+                            @click="() => { updatePrice(item.pricePerUnitRefund); handleClick(item.id); }">
                             {{ item.nameThai }}
                         </button>
                     </div>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="flex flex-row justify-between">
                     <div class="flex justify-start md:text-2xl ml-7 mt-3">
-                        รวมราคา : {{ productDetail.sumSale }} บาท
+                        รวมราคา : {{ productDetail.sumCn }} บาท
                     </div>
                     <div class="flex justify-end mr-7 mt-2">
                         <InputCounter @increment="handleQty" @decrement="handleQty"></InputCounter>
@@ -70,25 +70,25 @@
 import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { Icon } from '@iconify/vue'
-import { useOrderStore, useProductStore } from '../../stores'
+import { useCnStore, useProductStore } from '../../stores'
 import LayoutSub from '../LayoutSub.vue'
 import ButtonBack from '../../components/ButtonBack.vue'
 import InputCounter from '../../components/tablet/InputCounter.vue'
 
 
 const router = useRouter()
-const order = useOrderStore()
+const order = useCnStore()
 const product = useProductStore()
 const productDetail = computed(() => product.productDetail)
 const productUnit = computed(() => product.productUnit)
 
 onMounted(() => {
     product.getProductDetail()
-    const localProductId = localStorage.getItem('productId');
+    const localProductId = localStorage.getItem('productId')
     if (localProductId) {
         product.productId = localProductId;
     }
-});
+})
 
 const selectedPrice = ref('')
 const selectedUnitId = ref(null)
@@ -125,22 +125,22 @@ const handleSubmit = async () => {
                 list: {
                     id: product.productId,
                     name: productDetail.value.name,
-                    pricePerUnitSale: selectedPrice.value,
+                    pricePerUnitRefund: selectedPrice.value,
                     qty: selectedQty.value,
                     unitId: selectedUnitId.value
                 }
             });
-            await router.push('/cms/order/add');
+            await router.push('/cms/cn/add')
         } catch (error) {
             console.error(error);
         }
     } else {
-        console.log('กรุณาเลือกจำนวนสินค้า');
+        console.log('กรุณาเลือกจำนวนสินค้า')
     }
 }
 
 router.beforeEach((to, from, next) => {
-    product.resetProduct();
+    product.resetProduct()
     next();
 });
 </script>
