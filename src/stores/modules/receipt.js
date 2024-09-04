@@ -102,7 +102,7 @@ ${centerText('ขอบคุณที่ใช้บริการ')}
       const lineSeparator = '---------------------------------------------------------------------';
 
       const centerText = (text) => {
-        const width = 66;
+        const width = 72;
         const leftPadding = Math.floor((width - text.length) / 2);
         return ' '.repeat(leftPadding) + text;
       };
