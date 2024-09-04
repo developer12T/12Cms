@@ -120,33 +120,27 @@ ${lineSeparator}
       `;
 
       const itemsHeader = sprintf(
-        "%-25s %5s %9s %9s",
-        "สินค้า", "ราคา", "จำนวน", "รวม"
+        "%-25s %9s",
+        "สินค้า", "จำนวน"
       ) + `
 ${lineSeparator}
 `;
 
-      const formatItem = (name, price, qty, total) => {
+      const formatItem = (name, qty) => {
         return sprintf(
-          "%-25s %10s %10s %10s %10s",
+          "%-25s %10s",
           name.padEnd(25),
-          price.padEnd(10),
           qty.padEnd(10),
-          total.padEnd(5)
         );
       };
 
       const items = data.list.map(item => formatItem(
         item.name,
-        parseFloat(item.pricePerQty).toFixed(2),
         item.qtyText,
-        parseFloat(item.summaryPrice).toFixed(2)
       )).join('\n');
 
       const footer = `
 ${lineSeparator}
-รวมทั้งสิ้น: ${parseFloat(data.totalAmount).toFixed(2).padStart(57)}
-ก่อนภาษี: ${parseFloat(data.totalExVat).toFixed(2).padStart(58)}
 สถานะ: ${data.statusText.padStart(60)}
 ${lineSeparator}
 ${centerText('ขอบคุณที่ใช้บริการ')}
