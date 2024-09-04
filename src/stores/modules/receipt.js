@@ -99,7 +99,7 @@ ${centerText('ขอบคุณที่ใช้บริการ')}
     },
 
     formatReceiptDataCn(data) {
-      const lineSeparator = '---------------------------------------------------------------------';
+      const lineSeparator = '--------------------------------------------------------------------------';
 
       const centerText = (text) => {
         const width = 72;
@@ -117,26 +117,18 @@ ${lineSeparator}
 ที่อยู่: ${data.address}
 ผู้ขาย: ${data.saleMan}
 ${lineSeparator}
-      `;
-
-      const itemsHeader = sprintf(
-        "%-25s %9s",
-        "สินค้า", "จำนวน"
-      ) + `
+รายการสินค้า                               จำนวน
 ${lineSeparator}
 `;
-
-      const formatItem = (name, qty) => {
-        return sprintf(
-          "%-25s %10s",
-          name.padEnd(25),
-          qty.padEnd(10),
-        );
+      const formatItem = (no, name, qty) => {
+        const itemQty = this.padThaiText(qty, 7);
+        return `${no} ${this.padThaiText(name, 40)} ${itemQty}`;
       };
 
-      const items = data.list.map(item => formatItem(
-        item.name,
-        item.qtyText,
+      const items = data.list.map((item,index) => formatItem(
+        index+1,
+        item.name.replace(' ','').substring(0,40),
+        item.qtyText
       )).join('\n');
 
       const footer = `
@@ -144,10 +136,61 @@ ${lineSeparator}
 สถานะ: ${data.statusText.padStart(60)}
 ${lineSeparator}
 ${centerText('ขอบคุณที่ใช้บริการ')}
+
       `;
 
-      return header + itemsHeader + items + footer;
+      return header + items + footer;
     },
+//     formatReceiptDataCn(data) {
+//       const lineSeparator = '---------------------------------------------------------------------';
+
+//       const centerText = (text) => {
+//         const width = 72;
+//         const leftPadding = Math.floor((width - text.length) / 2);
+//         return ' '.repeat(leftPadding) + text;
+//       };
+
+//       const header = `
+// ${lineSeparator}
+// ${centerText('ใบคืนสินค้า')}
+// ${lineSeparator}
+// เลขที่: ${data.orderNo}
+// วันที่: ${data.orderDate}
+// ลูกค้า: ${data.name}
+// ที่อยู่: ${data.address}
+// ผู้ขาย: ${data.saleMan}
+// ${lineSeparator}
+//       `;
+
+//       const itemsHeader = sprintf(
+//         "%-45s %10s",
+//         "สินค้า", "จำนวน"
+//       ) + `
+// ${lineSeparator}
+// `;
+
+//       const formatItem = (name, qty) => {
+//         return sprintf(
+//           "%-45s %10s",
+//           name.padEnd(50),
+//           qty.padEnd(10),
+//         );
+//       };
+
+//       const items = data.list.map(item => formatItem(
+//         item.name,
+//         item.qtyText,
+//       )).join('\n');
+
+//       const footer = `
+// ${lineSeparator}
+// สถานะ: ${data.statusText.padStart(60)}
+// ${lineSeparator}
+// ${centerText('ขอบคุณที่ใช้บริการ')}
+//       `;
+
+//       return header + itemsHeader + items + footer;
+//     },
 
     formatReceiptCA(data) {
       const paperWidth = 72;
