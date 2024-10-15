@@ -38,13 +38,45 @@
                         </button>
                     </div>
                 </div>
-                <div class="flex flex-grow justify-center z-40">
-                    <div class="bg-white h-full sm:w-[360px] md:w-card rounded-md shadow">
-                        <div class="ml-2 mt-2 md:text-xl">
-                            รายละเอียดสินค้า/โปรโมชัน
+                <div class="flex justify-center items-center z-40 bg-gray-100">
+                    <div class="bg-white w-full sm:w-[360px] md:w-card rounded-lg shadow-lg p-4">
+                        <h2 class="text-lg font-semibold text-gray-800 mb-2">
+                            รายละเอียดสินค้า
+                        </h2>
+                        <div class="mb-4">
+                            <label for="datepicker-title" class="block text-gray-600 mb-2 font-medium">
+                                วันที่หมดอายุ:
+                            </label>
+                            <div class="relative max-w-sm">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                                    </svg>
+                                </div>
+                                <input id="datepicker-title" type="text"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="เลือกวันที่" 
+                                    @blur="(event) => fetchProductLot(event.target.value)">
+                            </div>
+                            <label for="datepicker-title" class="block text-gray-600 mt-4 font-medium">
+                                ล็อตสินค้า:
+                            </label>
+                            <div class="relative max-w-sm">
+                                <select v-model="selectedLot"
+                                    class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
+                                   >
+                                    <option value="" disabled selected>เลือกล็อต</option>
+                                    <option v-for="item in productLot" :key="item.Lot" :value="item.Lot">
+                                        {{ item.Lot }}
+                                    </option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
+
                 <div class="flex flex-row justify-between">
                     <div class="flex justify-start md:text-2xl ml-7 mt-3">
                         รวมราคา : {{ productDetail.sumCn }} บาท
@@ -81,6 +113,7 @@ const order = useCnStore()
 const product = useProductStore()
 const productDetail = computed(() => product.productDetail)
 const productUnit = computed(() => product.productUnit)
+const productLot = computed(() => order.productLot)
 
 onMounted(() => {
     product.getProductDetail()
@@ -90,9 +123,22 @@ onMounted(() => {
     }
 })
 
+onMounted(() => {
+    const datepickerEl = document.getElementById('datepicker-title')
+    if (datepickerEl) {
+        new window.Datepicker(datepickerEl, {
+            minDate: new Date(new Date().getFullYear() - 3, 0, 1),
+            maxDate: new Date(new Date().getFullYear() + 3, 0, 1),
+            autohide: true
+        })
+    }
+})
+
 const selectedPrice = ref('')
 const selectedUnitId = ref(null)
 const selectedQty = ref(1)
+const selectedLot = ref('')
+const lotData = ref([])
 
 const updatePrice = (price) => {
     selectedPrice.value = price
@@ -114,6 +160,29 @@ const handleQty = (counterValue) => {
         unitId: selectedUnitId.value,
         qty: selectedQty.value
     })
+}
+
+const fetchProductLot = async (selectedDate) => {
+    const productId = product.productId;
+
+    if (productId && selectedDate) {
+        try {
+            const response = await order.getProductLot({
+                itemNo: productId,
+                itemExp: selectedDate
+            });
+
+            lotData.value = response.data;
+
+            if (lotData.value.length > 0) {
+                selectedLot.value = lotData.value[0].Lot;
+            } else {
+                selectedLot.value = '';
+            }
+        } catch (error) {
+            console.error('Error fetching product lot:', error);
+        }
+    }
 }
 
 const handleSubmit = async () => {
@@ -141,6 +210,6 @@ const handleSubmit = async () => {
 
 router.beforeEach((to, from, next) => {
     product.resetProduct()
-    next();
-});
+    next()
+})
 </script>

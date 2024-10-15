@@ -13,6 +13,7 @@ export const useCnStore = defineStore('cn', {
     orderCnDetail: [],
     orderCnDetailList: [],
     noData: false,
+    productLot: [],
     productData: {
       area: '',
       storeId: '',
@@ -207,6 +208,23 @@ export const useCnStore = defineStore('cn', {
         );
         this.reason = response.data
         console.log('reason', this.reason);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getProductLot(product) {
+      try {
+        //   const token = JSON.parse(localStorage.getItem('token'));
+        const response = await axios.post(
+          import.meta.env.VITE_API_ERP_BASE_URL +
+          '/product/getProductLot',
+          product
+          // {
+          //   headers: { Authorization: `Bearer ${token}` },
+          // }
+        );
+        this.productLot = response.data
+        console.log('lot', this.productLot);
       } catch (error) {
         console.error(error);
       }
