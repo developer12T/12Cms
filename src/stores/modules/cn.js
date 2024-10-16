@@ -14,29 +14,32 @@ export const useCnStore = defineStore('cn', {
     orderCnDetailList: [],
     noData: false,
     productLot: [],
-    productData: {
-      area: '',
-      storeId: '',
-      list: {
-        id: '',
-        name: '',
-        pricePerUnitSale: 0.0,
-        qty: 1,
-        unitId: '',
-      },
-    },
+    // productData: {
+    //   area: '',
+    //   storeId: '',
+    //   list: {
+    //     id: '',
+    //     name: '',
+    //     pricePerUnitSale: 0.0,
+    //     qty: 1,
+    //     unitId: '',
+    //     lot: '',
+    //     exp: '',
+    //   },
+    // },
   }),
   actions: {
-    async addProductData(data) {
-      this.productData = data
-      await this.addProductToCart()
-    },
-    async addProductToCart() {
+    // async addProductData(data) {
+    //   this.productData = data
+    //   console.log('1234',this.productData)
+    //   // await this.addProductToCart()
+    // },
+    async addProductToCart(data) {
       try {
         //   const token = JSON.parse(localStorage.getItem('token'));
         const response = await axios.post(
           import.meta.env.VITE_API_BASE_URL + '/cms/cnOrder/addProductToCart',
-          this.productData,
+          data,
           // {
           //   headers: { Authorization: `Bearer ${token}` },
           // }

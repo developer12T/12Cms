@@ -12,8 +12,7 @@
                     </div>
                 </div>
                 <div class="flex flex-col items-center mt-5">
-                    <div
-                        class="flex flex-col items-center p-2 bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl md:h-52 sm:flex-row sm:max-w-xl sm:h-32">
+                    <div class="flex flex-col items-center p-2 bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl md:h-52 sm:flex-row sm:max-w-xl sm:h-32">
                         <img class="object-cover rounded-t-lg h-auto md:w-48 md:rounded-none md:rounded-s-lg sm:w-28"
                             src="https://flowbite.com/docs/images/carousel/carousel-2.svg" alt="">
                         <div class="flex flex-col justify-between p-4 leading-normal">
@@ -29,7 +28,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="relative rounded-t-xl overflow-auto p-8">
+                <div class="relative rounded-t-xl overflow-auto p-3">
                     <div class="flex flex-nowrap gap-4 font-mono text-white md:text-2xl rounded-lg">
                         <button class="p-4 w-full rounded-lg flex items-center justify-center bg-green-500 shadow-lg"
                             v-for="item in productUnit" :key="item.id"
@@ -138,6 +137,7 @@ const selectedPrice = ref('')
 const selectedUnitId = ref(null)
 const selectedQty = ref(1)
 const selectedLot = ref('')
+const selectExp = ref('')
 const lotData = ref([])
 
 const updatePrice = (price) => {
@@ -162,25 +162,26 @@ const handleQty = (counterValue) => {
     })
 }
 
-const fetchProductLot = async (selectedDate) => {
-    const productId = product.productId;
-
-    if (productId && selectedDate) {
+const fetchProductLot = async (expDate) => {
+    const productId = product.productId
+    selectExp.value = expDate
+    console.log(expDate)
+    if (productId && expDate) {
         try {
             const response = await order.getProductLot({
                 itemNo: productId,
-                itemExp: selectedDate
+                itemExp: expDate
             });
 
-            lotData.value = response.data;
+            lotData.value = response
 
-            if (lotData.value.length > 0) {
-                selectedLot.value = lotData.value[0].Lot;
+            if (lotData.value) {
+                selectedLot.value = lotData.value[0].Lot
             } else {
-                selectedLot.value = '';
+                selectedLot.value = ''
             }
         } catch (error) {
-            console.error('Error fetching product lot:', error);
+            console.error('Error fetching product lot:', error)
         }
     }
 }
@@ -188,7 +189,7 @@ const fetchProductLot = async (selectedDate) => {
 const handleSubmit = async () => {
     if (selectedQty.value !== null && selectedQty.value !== 0 && selectedUnitId.value !== null) {
         try {
-            await order.addProductData({
+            await order.addProductToCart({
                 area: localStorage.getItem("area"),
                 storeId: localStorage.getItem('routeStoreId'),
                 list: {
@@ -196,10 +197,13 @@ const handleSubmit = async () => {
                     name: productDetail.value.name,
                     pricePerUnitRefund: selectedPrice.value,
                     qty: selectedQty.value,
-                    unitId: selectedUnitId.value
+                    unitId: selectedUnitId.value,
+                    lot: selectedLot.value,
+                    exp: selectExp.value,
                 }
             });
             await router.push('/cms/cn/add')
+
         } catch (error) {
             console.error(error);
         }
