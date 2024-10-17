@@ -67,6 +67,10 @@
                                     </option>
                                 </select>
                             </div>
+                            <div>
+                                <div v-if="!selectedLot && validateLot===true" class="flex flex-col items-end text-red-600 text-sm">*กรุณาเลือกล็อต</div>
+                                <div v-else></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -137,6 +141,7 @@ const selectedQty = ref(1)
 const selectedLot = ref('')
 const selectExp = ref('')
 const lotData = ref([])
+const validateLot = ref(false)
 
 const updatePrice = (price) => {
     selectedPrice.value = price
@@ -185,7 +190,7 @@ const fetchProductLot = async (expDate) => {
 }
 
 const handleSubmit = async () => {
-    if (selectedQty.value !== null && selectedQty.value !== 0 && selectedUnitId.value !== null) {
+    if (selectedQty.value !== null && selectedQty.value !== 0 && selectedUnitId.value !== null && selectedLot.value) {
         try {
             await order.addProductToCart({
                 area: localStorage.getItem("area"),
@@ -206,7 +211,7 @@ const handleSubmit = async () => {
             console.error(error);
         }
     } else {
-        console.log('กรุณาเลือกจำนวนสินค้า')
+        validateLot.value = true
     }
 }
 
