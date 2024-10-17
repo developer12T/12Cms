@@ -14,7 +14,11 @@
                     <form class="max-w-sm mx-auto">
                         <select v-model="selectedReason"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                            <option value="" disabled selected>กรุณาเลือกสาเหตุ</option>
+                            <option value="" disabled selected>
+                                <div v-if="!selectedReason && validateReason === true"> <span
+                                        class="text-red-600 text-sm">*กรุณาเลือกสาเหตุการคืน</span>
+                                    </div>
+                            </option>
                             <option v-for="reason in dataReason" :key="reason.id" :value="reason.name">
                                 {{ reason.name }}
                             </option>
@@ -48,13 +52,21 @@
                                         </h2>
                                     </div>
                                     <div class="flex justify-between">
-                                    <p class="font-normal text-gray-700">
-                                        ฿{{ checkout.amount }}
-                                    </p>
-                                    <p class="font-normal text-gray-700">
-                                        {{ checkout.qtyText }}
-                                    </p>
-                                </div>
+                                        <p class="font-normal text-sm text-gray-700">
+                                            Exp : {{ checkout.exp }}
+                                        </p>
+                                        <p class="font-medium text-gray-700">
+                                            {{ checkout.qtyText }}
+                                        </p>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <p class="font-normal text-sm text-gray-700">
+                                            Lot : {{ checkout.lot }}
+                                        </p>
+                                        <p class="font-medium text-gray-700">
+                                            ฿{{ checkout.amount }}
+                                        </p>
+                                    </div>
                                 </div>
                             </template>
                         </div>
@@ -92,8 +104,7 @@
                     </button>
                 </div>
                 <div v-if="isSaving" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-20">
-                    <div
-                        class="relative p-6">
+                    <div class="relative p-6">
                         <Icon class="icon w-12 h-12" icon="line-md:loading-twotone-loop" />
                     </div>
                 </div>
@@ -128,6 +139,7 @@ const loading = ref(true)
 const isSaving = ref(false)
 const showAlert = ref(false)
 const selectedReason = ref('')
+const validateReason = ref(false)
 const reasonType = ('CN')
 
 const updateLocation = () => {
@@ -154,11 +166,11 @@ watch([latitude, longitude], updateLocation)
 
 const handleClick = () => {
     if (!selectedReason.value) {
-            alert('กรุณาเลือกสาเหตุการคืนสินค้า');
-            return;
-        } else {
-            showAlert.value = true;
-        }
+        alert('กรุณาเลือกสาเหตุการคืนสินค้า');
+        return;
+    } else {
+        showAlert.value = true;
+    }
     console.log(selectedReason.value)
 }
 
@@ -169,24 +181,28 @@ const dismissAlert = () => {
 
 const handleSave = async () => {
     isSaving.value = true
-    try {
-        await store.addCnOrder({
-            zone: util.zone,
-            area: util.area,
-            storeId: util.storeId,
-            saleCode: util.saleCode,
-            warehouse: util.warehouse,
-            note: selectedReason.value,
-            latitude: lat.value,
-            longtitude: long.value,
-            refOrder: ""
-        })
-        showAlert.value = false
-        await router.push('/cms/order')
-    } catch (error) {
-        console.error(error)
-    } finally {
-        isSaving.value = false
+    if (selectedReason.value) {
+        try {
+            await store.addCnOrder({
+                zone: util.zone,
+                area: util.area,
+                storeId: util.storeId,
+                saleCode: util.saleCode,
+                warehouse: util.warehouse,
+                note: selectedReason.value,
+                latitude: lat.value,
+                longtitude: long.value,
+                refOrder: ""
+            })
+            showAlert.value = false
+            await router.push('/cms/order')
+        } catch (error) {
+            console.error(error)
+        } finally {
+            isSaving.value = false
+        }
+    } else {
+        validateReason.value = true
     }
 }
 </script>
