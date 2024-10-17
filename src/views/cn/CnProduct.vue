@@ -12,7 +12,8 @@
                     </div>
                 </div>
                 <div class="flex flex-col items-center mt-5">
-                    <div class="flex flex-col items-center p-2 bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl md:h-52 sm:flex-row sm:max-w-xl sm:h-32">
+                    <div
+                        class="flex flex-col items-center p-2 bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl md:h-52 sm:flex-row sm:max-w-xl sm:h-32">
                         <img class="object-cover rounded-t-lg h-auto md:w-48 md:rounded-none md:rounded-s-lg sm:w-28"
                             src="https://flowbite.com/docs/images/carousel/carousel-2.svg" alt="">
                         <div class="flex flex-col justify-between p-4 leading-normal">
@@ -28,7 +29,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="relative rounded-t-xl overflow-auto p-3">
+                <div class="relative rounded-t-xl p-3 mt-2">
                     <div class="flex flex-nowrap gap-4 font-mono text-white md:text-2xl rounded-lg">
                         <button class="p-4 w-full rounded-lg flex items-center justify-center bg-green-500 shadow-lg"
                             v-for="item in productUnit" :key="item.id"
@@ -37,7 +38,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="flex justify-center items-center z-40 bg-gray-100">
+                <div class="flex justify-center items-center z-40 bg-gray-100 mt-2">
                     <div class="bg-white w-full sm:w-[360px] md:w-card rounded-lg shadow-lg p-4">
                         <h2 class="text-lg font-semibold text-gray-800 mb-2">
                             รายละเอียดสินค้า
@@ -47,25 +48,19 @@
                                 วันที่หมดอายุ:
                             </label>
                             <div class="relative max-w-sm">
-                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                    <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                                    </svg>
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none">
+                                    <Icon icon="mingcute:calendar-fill" style="color: #c0bfbf" width="30" />
                                 </div>
                                 <input id="datepicker-title" type="text"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="เลือกวันที่" 
-                                    @blur="(event) => fetchProductLot(event.target.value)">
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
+                                    placeholder="เลือกวันที่" @blur="(event) => fetchProductLot(event.target.value)">
                             </div>
                             <label for="datepicker-title" class="block text-gray-600 mt-4 font-medium">
                                 ล็อตสินค้า:
                             </label>
                             <div class="relative max-w-sm">
                                 <select v-model="selectedLot"
-                                    class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
-                                   >
+                                    class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5">
                                     <option value="" disabled selected>เลือกล็อต</option>
                                     <option v-for="item in productLot" :key="item.Lot" :value="item.Lot">
                                         {{ item.Lot }}
@@ -75,16 +70,19 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="flex flex-row justify-between">
-                    <div class="flex justify-start md:text-2xl ml-7 mt-3">
-                        รวมราคา : {{ productDetail.sumCn }} บาท
-                    </div>
-                    <div class="flex justify-end mr-7 mt-2">
-                        <InputCounter @increment="handleQty" @decrement="handleQty"></InputCounter>
+                <div class="flex justify-center items-center z-40 bg-gray-100 mt-5">
+                    <div class="bg-white w-full sm:w-[360px] md:w-card rounded-lg shadow-lg p-4">
+                        <div class="flex flex-row justify-between">
+                            <div class="flex justify-start md:text-2xl ml-1 mt-3">
+                                รวม : {{ productDetail.sumCn }} บาท
+                            </div>
+                            <div class="flex justify-end mr-2 mt-2">
+                                <InputCounter @increment="handleQty" @decrement="handleQty"></InputCounter>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="relative rounded-t-xl overflow-auto p-8">
+                <div class="relative rounded-t-xl p-3 mt-2">
                     <div class="flex flex-nowrap gap-4 font-mono text-white md:text-2xl leading-6 rounded-lg">
                         <button class="p-4 w-full rounded-lg flex items-center justify-center bg-green-500 shadow-lg"
                             @click="handleSubmit">

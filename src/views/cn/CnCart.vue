@@ -52,7 +52,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="relative rounded-t-xl overflow-auto p-4">
+                <div class="relative rounded-t-xl p-3">
                     <div class="flex flex-nowrap gap-4 font-mono text-white md:text-2xl rounded-lg">
                         <button class="p-4 w-full rounded-lg flex items-center justify-center bg-blue-800 shadow-lg"
                             @click="handleAdd">
