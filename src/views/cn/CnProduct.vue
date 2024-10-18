@@ -51,7 +51,7 @@
                                 <div class="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none">
                                     <Icon icon="mingcute:calendar-fill" style="color: #c0bfbf" width="30" />
                                 </div>
-                                <input id="datepicker-title" type="text"
+                                <input id="datepickerExp" type="text"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
                                     placeholder="เลือกวันที่" @blur="(event) => fetchProductLot(event.target.value)">
                             </div>
@@ -124,8 +124,16 @@ onMounted(() => {
     }
 })
 
+const openDatePicker = () => {
+    const datepickerEl = document.getElementById('datepickerExp')
+    const datepicker = new Datepicker(datepickerEl, {
+        autohide: true,
+    })
+    datepicker.show()
+}
+
 onMounted(() => {
-    const datepickerEl = document.getElementById('datepicker-title')
+    const datepickerEl = document.getElementById('datepickerExp')
     if (datepickerEl) {
         new window.Datepicker(datepickerEl, {
             minDate: new Date(new Date().getFullYear() - 3, 0, 1),
