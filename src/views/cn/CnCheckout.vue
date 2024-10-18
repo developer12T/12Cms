@@ -1,8 +1,7 @@
 <template>
     <LayoutSub>
         <template v-slot>
-            <div class="flex flex-col md:h-full space-y-4 p-4 relative">
-                <!-- Content -->
+            <div class="flex flex-col md:h-full space-y-2 p-4 relative">
                 <Alert v-if="showAlert" :title="'สร้างรายการคืน'" :content="'ยืนยันการสร้างรายการคืนสินค้า'"
                     @confirm="handleSave" @dismiss="dismissAlert"
                     :color="'text-gray-600 border border-green-300 bg-green-100'" />
@@ -11,19 +10,20 @@
                     <span class="ml-2 text-xl font-bold">ยืนยันการคืนสินค้า</span>
                 </div>
                 <div class="bg-white p-3 shadow-md rounded-md">
-                    <form class="max-w-sm mx-auto">
-                        <select v-model="selectedReason"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                            <option value="" disabled selected>
-                                <div v-if="!selectedReason && validateReason === true"> <span
-                                        class="text-red-600 text-sm">*กรุณาเลือกสาเหตุการคืน</span>
-                                    </div>
-                            </option>
-                            <option v-for="reason in dataReason" :key="reason.id" :value="reason.name">
-                                {{ reason.name }}
-                            </option>
-                        </select>
-                    </form>
+                    <!-- <form class="max-w-sm mx-auto"> -->
+                    <select v-model="selectedReason"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        <option value="" disabled selected>เลือกสาเหตุการคืน</option>
+                        <option v-for="reason in dataReason" :key="reason.id" :value="reason.name">
+                            {{ reason.name }}
+                        </option>
+                    </select>
+                    <div v-if="!selectedReason && validateReason === true">
+                        <p class="flex flex-col items-end text-red-600 text-sm">*กรุณาเลือกสาเหตุการคืน</p>
+                    </div>
+                    <div v-else>
+                    </div>
+                    <!-- </form> -->
                 </div>
                 <div class="bg-white p-3 shadow-md rounded-md overflow-auto h-[125px]">
                     <div class="text-sm">
@@ -98,7 +98,7 @@
                     </div>
                 </div>
                 <div class="flex gap-4 text-white text-xl">
-                    <button class="p-4 w-full rounded-lg flex items-center justify-center bg-green-500 shadow-lg"
+                    <button class="p-4 w-full rounded-lg flex items-center justify-center bg-green-500 shadow-lg mt-2"
                         @click="handleClick" :disabled="isSaving">
                         <span>บันทึกรายการ</span>
                     </button>
@@ -166,12 +166,11 @@ watch([latitude, longitude], updateLocation)
 
 const handleClick = () => {
     if (!selectedReason.value) {
-        alert('กรุณาเลือกสาเหตุการคืนสินค้า');
-        return;
+        validateReason.value = true
     } else {
-        showAlert.value = true;
+        showAlert.value = true
     }
-    console.log(selectedReason.value)
+    // console.log(selectedReason.value)
 }
 
 const dismissAlert = () => {
@@ -181,28 +180,24 @@ const dismissAlert = () => {
 
 const handleSave = async () => {
     isSaving.value = true
-    if (selectedReason.value) {
-        try {
-            await store.addCnOrder({
-                zone: util.zone,
-                area: util.area,
-                storeId: util.storeId,
-                saleCode: util.saleCode,
-                warehouse: util.warehouse,
-                note: selectedReason.value,
-                latitude: lat.value,
-                longtitude: long.value,
-                refOrder: ""
-            })
-            showAlert.value = false
-            await router.push('/cms/order')
-        } catch (error) {
-            console.error(error)
-        } finally {
-            isSaving.value = false
-        }
-    } else {
-        validateReason.value = true
+    try {
+        await store.addCnOrder({
+            zone: util.zone,
+            area: util.area,
+            storeId: util.storeId,
+            saleCode: util.saleCode,
+            warehouse: util.warehouse,
+            note: selectedReason.value,
+            latitude: lat.value,
+            longtitude: long.value,
+            refOrder: ""
+        })
+        showAlert.value = false
+        await router.push('/cms/order')
+    } catch (error) {
+        console.error(error)
+    } finally {
+        isSaving.value = false
     }
 }
 </script>
