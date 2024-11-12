@@ -55,7 +55,7 @@
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
                                     placeholder="เลือกวันที่" @blur="(event) => fetchProductLot(event.target.value)">
                             </div>
-                            <label for="datepicker-title" class="block text-gray-600 mt-4 font-medium">
+                            <label for="datepicker-title" class="block text-gray-600 mt-2 mb-2 font-medium">
                                 ล็อตสินค้า:
                             </label>
                             <div class="relative max-w-sm">
@@ -68,8 +68,18 @@
                                 </select>
                             </div>
                             <div>
-                                <div v-if="!selectedLot && validateLot===true" class="flex flex-col items-end text-red-600 text-sm">*กรุณาเลือกล็อต</div>
+                                <div v-if="!selectedLot && validateLot === true"
+                                    class="flex flex-col items-end text-red-600 text-sm">*กรุณาเลือกล็อต</div>
                                 <div v-else></div>
+                            </div>
+
+                            <label for="datepicker-title" class="block text-gray-600 mt-2 font-medium">
+                                หมายเหตุ:
+                            </label>
+                            <div class="relative max-w-sm">
+                                <InputFeild :id="'CnNote'" :inputClass="'w-full p-2.5'" :type="'text'"
+                                    v-model="vCnNote">
+                                </InputFeild>
                             </div>
                         </div>
                     </div>
@@ -107,7 +117,7 @@ import { useCnStore, useProductStore } from '../../stores'
 import LayoutSub from '../LayoutSub.vue'
 import ButtonBack from '../../components/ButtonBack.vue'
 import InputCounter from '../../components/tablet/InputCounter.vue'
-
+import InputFeild from '../../components/tablet/InputFeild.vue'
 
 const router = useRouter()
 const order = useCnStore()
@@ -148,6 +158,7 @@ const selectedUnitId = ref(null)
 const selectedQty = ref(1)
 const selectedLot = ref('')
 const selectExp = ref('')
+const vCnNote = ref('')
 const lotData = ref([])
 const validateLot = ref(false)
 
@@ -211,6 +222,7 @@ const handleSubmit = async () => {
                     unitId: selectedUnitId.value,
                     lot: selectedLot.value,
                     exp: selectExp.value,
+                    note: vCnNote.value
                 }
             });
             await router.push('/cms/cn/add')

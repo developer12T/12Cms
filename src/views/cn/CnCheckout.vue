@@ -186,7 +186,7 @@ const handleSave = async () => {
             area: util.area,
             storeId: util.storeId,
             saleCode: util.saleCode,
-            warehouse: util.warehouse,
+            warehouse: '915',
             note: selectedReason.value,
             latitude: lat.value,
             longtitude: long.value,
